@@ -178,16 +178,44 @@
       text-align: center;
     }
     .hero-badge::before,
-    .hero-badge::after {
-      content: "";
+    .hero-badge::after { display: none; }
+    .hero-orbit {
+      --orbit-size: 310px;
+      --orbit-squash: .42;
+      --orbit-tilt: -18deg;
       position: absolute;
-      inset: 50% auto auto 50%;
+      left: 50%;
+      top: 50%;
+      width: var(--orbit-size);
+      height: var(--orbit-size);
       border: 1px solid rgba(255,255,255,.22);
       border-radius: 50%;
-      transform: translate(-50%,-50%) rotate(-18deg);
+      transform: translate(-50%,-50%) rotate(var(--orbit-tilt)) scaleY(var(--orbit-squash));
+      pointer-events: none;
     }
-    .hero-badge::before { width: 310px; height: 130px; }
-    .hero-badge::after { width: 130px; height: 310px; transform: translate(-50%,-50%) rotate(32deg); }
+    .hero-orbit-b { --orbit-tilt: 72deg; }
+    .hero-orbit-spinner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      animation: hero-dot-orbit 6.8s linear infinite;
+    }
+    .hero-orbit-b .hero-orbit-spinner { animation-duration: 9.2s; animation-direction: reverse; }
+    .hero-orbit-dot {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      transform: translate(-50%,-50%) scaleY(2.38);
+      background: #55dfda;
+      box-shadow: 0 0 18px rgba(85,223,218,.82);
+    }
+    .hero-orbit-b .hero-orbit-dot {
+      background: #ffd56c;
+      box-shadow: 0 0 18px rgba(255,213,108,.82);
+    }
     .hero-badge > div {
       position: relative;
       z-index: 2;
@@ -202,17 +230,6 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.26), 0 30px 80px rgba(0,0,0,.22);
       backdrop-filter: blur(20px);
     }
-    .hero-badge > div::before,
-    .hero-badge > div::after {
-      content: "";
-      position: absolute;
-      width: 13px; height: 13px;
-      border-radius: 50%;
-      background: #55dfda;
-      box-shadow: 0 0 18px rgba(85,223,218,.8);
-    }
-    .hero-badge > div::before { top: 5px; left: 58px; }
-    .hero-badge > div::after { right: -12px; bottom: 70px; background: #ffd56c; box-shadow: 0 0 18px rgba(255,213,108,.8); }
     .hero-badge strong {
       display: block;
       margin-bottom: 8px;
@@ -667,11 +684,10 @@
     body.high-contrast .scientists,
     body.high-contrast .notice { color: #fff; border-color: #fff; background: #000; }
 
+    @keyframes hero-dot-orbit { to { transform: rotate(360deg); } }
     @media (prefers-reduced-motion: no-preference) {
-      .hero-badge::before { animation: orbit-a 18s linear infinite; }
-      .hero-badge::after { animation: orbit-b 24s linear infinite reverse; }
-      @keyframes orbit-a { to { transform: translate(-50%,-50%) rotate(342deg); } }
-      @keyframes orbit-b { to { transform: translate(-50%,-50%) rotate(392deg); } }
+      .hero-badge > div { animation: hero-badge-breathe 4.8s ease-in-out infinite; }
+      @keyframes hero-badge-breathe { 50% { transform: translateY(-5px); } }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
@@ -683,8 +699,7 @@
       .hero { grid-template-columns: 1fr; min-height: 0; }
       .hero-badge { min-height: 250px; }
       .hero-badge > div { width: 185px; }
-      .hero-badge::before { width: 260px; height: 105px; }
-      .hero-badge::after { width: 105px; height: 260px; }
+      .hero-orbit { --orbit-size: 260px; }
       .year-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .sim-grid { grid-template-columns: 1fr; }
       .detail-head { grid-template-columns: 1fr; }
@@ -711,6 +726,110 @@
       .control-row output { justify-self: start; }
     }
   
+    /* Short entrance animation */
+    body.intro-active { overflow: hidden; }
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(85,223,218,.18), transparent 16rem),
+        radial-gradient(circle at 22% 115%, rgba(80,105,255,.32), transparent 30rem),
+        linear-gradient(135deg, #09142d 0%, #132b59 58%, #174271 100%);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .52s ease, visibility .52s ease;
+    }
+    .intro-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .intro-screen.is-closing { opacity: 0; visibility: hidden; }
+    .intro-content {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      text-align: center;
+      animation: intro-rise .8s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .intro-emblem {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 220px;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255,255,255,.19), rgba(255,255,255,.055));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 28px 70px rgba(0,0,0,.24);
+      backdrop-filter: blur(16px);
+    }
+    .intro-emblem strong {
+      font-size: 6rem;
+      line-height: 1;
+      letter-spacing: -.08em;
+      background: linear-gradient(180deg,#fff,#bfd4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .intro-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 50%;
+      transform: translate(-50%,-50%) rotate(-18deg) scaleY(.42);
+    }
+    .intro-ring-b { transform: translate(-50%,-50%) rotate(72deg) scaleY(.42); }
+    .intro-ring > i {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      animation: hero-dot-orbit 1.9s linear infinite;
+    }
+    .intro-ring-b > i { animation-duration: 2.6s; animation-direction: reverse; }
+    .intro-ring > i::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      transform: translate(-50%,-50%) scaleY(2.38);
+      background: #55dfda;
+      box-shadow: 0 0 19px rgba(85,223,218,.9);
+    }
+    .intro-ring-b > i::before { background: #ffd56c; box-shadow: 0 0 19px rgba(255,213,108,.9); }
+    .intro-title { margin: 0; font-size: clamp(1.15rem,4vw,1.55rem); font-weight: 900; letter-spacing: -.025em; }
+    .intro-subtitle { margin: -8px 0 0; color: #cbd9f1; font-size: .88rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+    @keyframes intro-rise {
+      from { opacity: 0; transform: translateY(20px) scale(.94); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 600px) {
+      .intro-emblem { width: 168px; }
+      .intro-emblem strong { font-size: 4.8rem; }
+      .intro-ring { width: 232px; height: 232px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .intro-content, .intro-ring > i, .hero-orbit-spinner, .hero-badge > div { animation: none !important; }
+    }
+
     /* Touch-first direct manipulation edition */
     .sim-grid { grid-template-columns: minmax(0, 1fr); max-width: 1040px; margin-inline: auto; gap: 28px; }
     .sim-card { border-radius: 28px; }
@@ -771,7 +890,18 @@
   </style>
 
 </head>
-<body>
+<body class="intro-active">
+  <div class="intro-screen" id="introScreen" aria-hidden="true">
+    <div class="intro-content">
+      <div class="intro-emblem">
+        <span class="intro-ring"><i></i></span>
+        <span class="intro-ring intro-ring-b"><i></i></span>
+        <strong>21</strong>
+      </div>
+      <p class="intro-title">21년의 과학 기록</p>
+      <p class="intro-subtitle">Science Stories for Everyone</p>
+    </div>
+  </div>
   <a class="skip-link" href="#main">본문으로 바로가기</a>
   <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
@@ -788,6 +918,8 @@
         </div>
       </div>
       <div class="hero-badge" aria-label="21년 과학 기록">
+        <span class="hero-orbit hero-orbit-a" aria-hidden="true"><span class="hero-orbit-spinner"><span class="hero-orbit-dot"></span></span></span>
+        <span class="hero-orbit hero-orbit-b" aria-hidden="true"><span class="hero-orbit-spinner"><span class="hero-orbit-dot"></span></span></span>
         <div><strong>21</strong><span data-i18n="yearsRecord">년의 과학 기록</span></div>
       </div>
     </section>
@@ -1390,7 +1522,7 @@
     const startContinuous=async()=>{try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){announce(tr('notSupported'));return;}audioCtx||=new AC();if(audioCtx.state==='suspended')await audioCtx.resume();const now=audioCtx.currentTime;toneOsc=audioCtx.createOscillator();toneGain=audioCtx.createGain();toneOsc.type='sine';toneOsc.frequency.setValueAtTime(freq(),now);toneGain.gain.setValueAtTime(.0001,now);toneGain.gain.exponentialRampToValueAtTime(.075,now+.04);toneOsc.connect(toneGain).connect(audioCtx.destination);toneOsc.start(now);continuous=true;setContinuousButton();}catch(e){announce(tr('notSupported'));}};
     const stopContinuous=()=>{continuous=false;setContinuousButton();if(toneOsc&&toneGain&&audioCtx){const now=audioCtx.currentTime,osc=toneOsc,g=toneGain;try{g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(Math.max(.0001,g.gain.value),now);g.gain.exponentialRampToValueAtTime(.0001,now+.06);osc.stop(now+.08);}catch(e){}toneOsc=null;toneGain=null;}};
     const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'물높이↑ → 공기 공간↓ → 음높이↑ (250~700Hz)':'Water level ↑ → air space ↓ → pitch ↑ (250–700 Hz)',W);ctx.strokeStyle=P.line;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(360,80);ctx.lineTo(360,135);ctx.quadraticCurveTo(290,165,300,420);ctx.quadraticCurveTo(450,500,600,420);ctx.quadraticCurveTo(610,165,540,135);ctx.lineTo(540,80);ctx.closePath();ctx.stroke();ctx.save();ctx.beginPath();ctx.moveTo(310,160);ctx.lineTo(590,160);ctx.lineTo(590,420);ctx.quadraticCurveTo(450,485,310,420);ctx.closePath();ctx.clip();ctx.fillStyle='rgba(55,155,255,.60)';ctx.fillRect(300,level,310,500-level);ctx.restore();ctx.strokeStyle=P.primary;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(320,level);ctx.lineTo(580,level);ctx.stroke();drawDragHalo(ctx,450,level,48);
-      const top=100,bottom=level-8,L=Math.max(50,bottom-top);ctx.strokeStyle=P.accent;ctx.lineWidth=6;ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.sin(Math.PI*u)*45,x=450+Math.sin(phase+u*Math.PI*2)*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?'마디':'node',470,top+12);ctx.fillText(lang==='ko'?'배':'antinode',505,top+L/2);ctx.fillText(`${freq()} Hz`,65,160);updateContinuous();setState(id,c,lang==='ko'?`현재 ${freq()}Hz입니다. ${continuous?'연속음이 켜져 있어 물높이를 움직이면 음높이가 바로 변합니다.':'소리 계속 듣기를 켜면 물높이 변화에 따른 음높이를 연속해서 들을 수 있습니다.'}`:`Current pitch ${freq()} Hz. ${continuous?'Continuous sound is on, so pitch changes as the water moves.':'Turn on continuous sound to hear pitch change while moving the water.'}`);};
+      const top=96,bottom=level-8,L=Math.max(50,bottom-top),time=Math.sin(phase);ctx.save();ctx.setLineDash([7,7]);ctx.lineWidth=2.5;ctx.strokeStyle='rgba(244,183,64,.30)';[-1,1].forEach(side=>{ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.cos(Math.PI*u/2)*47,x=450+side*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();});ctx.restore();ctx.strokeStyle=P.accent;ctx.lineWidth=6;ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.cos(Math.PI*u/2)*47,x=450+time*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?'배':'antinode',505,top+18);ctx.fillText(lang==='ko'?'마디':'node',500,bottom-10);ctx.fillText(`${freq()} Hz`,65,160);updateContinuous();setState(id,c,lang==='ko'?`현재 ${freq()}Hz입니다. 병 입구는 공기 진동이 가장 큰 배, 물 표면은 진동이 작은 마디로 단순화해 표시했습니다. ${continuous?'연속음이 켜져 있어 물높이를 움직이면 음높이가 바로 변합니다.':'소리 계속 듣기를 켜면 물높이 변화에 따른 음높이를 연속해서 들을 수 있습니다.'}`:`Current pitch ${freq()} Hz. The bottle opening is shown as a displacement antinode and the water surface as a node in this simplified model. ${continuous?'Continuous sound is on, so pitch changes as the water moves.':'Turn on continuous sound to hear pitch change while moving the water.'}`);};
     installPointer(c,p=>Math.abs(p.y-level)<60&&p.x>300&&p.x<600,p=>{level=clamp(p.y,185,420);draw();});$(`#${id}-play`).addEventListener('click',()=>safeTone(freq(),.85,.14,'sine'));$(`#${id}-continuous`).addEventListener('click',()=>continuous?stopContinuous():startContinuous());$(`#${id}-reset`).addEventListener('click',()=>{level=360;draw();});const loop=()=>{phase+=.11;draw();raf=requestAnimationFrame(loop)};animations.push(()=>{cancelAnimationFrame(raf);stopContinuous();});loop();
   }
   function initShadow(id,type){
@@ -1506,6 +1638,22 @@
   $('#textDown').addEventListener('click',()=>{fontScale=Math.max(.9,fontScale-.1);document.documentElement.style.setProperty('--font-scale',fontScale);});
   $('#stopSpeech').addEventListener('click',()=>{if('speechSynthesis' in window)speechSynthesis.cancel();});
   $('#levelSelect').addEventListener('change',e=>{level=e.target.value;stopAll();renderDetail();announce(e.target.options[e.target.selectedIndex].text);});
+
+  const introScreen=$('#introScreen');
+  if(introScreen){
+    let introClosed=false;
+    const closeIntro=()=>{
+      if(introClosed)return;
+      introClosed=true;
+      introScreen.classList.add('is-closing');
+      document.body.classList.remove('intro-active');
+      setTimeout(()=>introScreen.remove(),560);
+    };
+    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.addEventListener('load',()=>setTimeout(closeIntro,reduced?180:1750),{once:true});
+    introScreen.addEventListener('pointerdown',closeIntro,{once:true});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' ')closeIntro();},{once:true});
+  }
 
   applyStaticTranslations();renderYears();renderDetail();
 })();
