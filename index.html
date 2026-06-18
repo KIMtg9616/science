@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>모두의 과학 이야기 · 21년 과학 아카이브 · Touch Lab</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-2: #f0f4fa;
+      --surface-3: #e7edf7;
+      --text: #111827;
+      --muted: #5d6878;
+      --primary: #315ee7;
+      --primary-2: #17378f;
+      --primary-soft: #eaf0ff;
+      --cyan: #21bfc1;
+      --accent: #f4b740;
+      --success: #087d5b;
+      --danger: #b42318;
+      --border: #dbe2ec;
+      --border-strong: #c5cfdd;
+      --focus: #ff7a00;
+      --shadow-sm: 0 8px 24px rgba(20, 35, 64, .07);
+      --shadow: 0 24px 70px rgba(20, 35, 64, .12);
+      --radius-sm: 14px;
+      --radius: 24px;
+      --radius-lg: 36px;
+      --font-scale: 1;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: calc(16px * var(--font-scale)); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 8% 5%, rgba(49,94,231,.12), transparent 26rem),
+        radial-gradient(circle at 92% 18%, rgba(33,191,193,.10), transparent 25rem),
+        linear-gradient(180deg, #eef3fb 0, var(--bg) 38rem, #f7f9fc 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .24;
+      background-image:
+        linear-gradient(rgba(26,42,76,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,42,76,.035) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, #000 0, transparent 54rem);
+    }
+    button, input, select { font: inherit; }
+    button, select, input[type="range"] { min-height: 44px; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
+    ::selection { color: #fff; background: var(--primary); }
+
+    .skip-link {
+      position: fixed; left: 16px; top: -90px; z-index: 9999;
+      padding: 13px 20px; border-radius: 999px; color: #fff; background: #111827;
+      box-shadow: var(--shadow-sm);
+    }
+    .skip-link:focus { top: 16px; }
+    .sr-only {
+      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    .wrap { width: min(1240px, calc(100% - 32px)); margin-inline: auto; }
+
+    header { padding: 24px 0 0; }
+    .hero {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr);
+      gap: clamp(30px, 6vw, 76px);
+      align-items: center;
+      min-height: 500px;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 76px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-lg);
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 24%, rgba(63,223,218,.23), transparent 17rem),
+        radial-gradient(circle at 12% 110%, rgba(80,105,255,.35), transparent 32rem),
+        linear-gradient(135deg, #0c1530 0%, #122653 53%, #173b6f 100%);
+      box-shadow: 0 36px 90px rgba(12,24,54,.24);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .30;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(90deg, #000, transparent 76%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 560px; height: 560px;
+      right: -250px; bottom: -310px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 50%;
+      box-shadow: 0 0 0 72px rgba(255,255,255,.03), 0 0 0 150px rgba(255,255,255,.025);
+      z-index: -1;
+    }
+    .hero-copy { position: relative; z-index: 2; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 20px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 999px;
+      color: #dbe6ff;
+      background: rgba(255,255,255,.08);
+      font-size: .88rem;
+      font-weight: 800;
+      letter-spacing: .055em;
+      backdrop-filter: blur(10px);
+    }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #55dfda; box-shadow: 0 0 0 5px rgba(85,223,218,.14); }
+    h1 {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(2.65rem, 6.7vw, 5.55rem);
+      line-height: 1.03;
+      letter-spacing: -.065em;
+      text-wrap: balance;
+    }
+    .hero p:not(.eyebrow) {
+      max-width: 730px;
+      margin: 24px 0 0;
+      color: #d4deef;
+      font-size: clamp(1.02rem, 1.5vw, 1.19rem);
+      line-height: 1.78;
+    }
+    .hero-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 30px;
+    }
+    .hero-feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      color: #f5f8ff;
+      background: rgba(255,255,255,.075);
+      font-size: .86rem;
+      font-weight: 750;
+      backdrop-filter: blur(8px);
+    }
+    .hero-feature::before { content: "✓"; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; color: #07152d; background: #55dfda; font-size: .72rem; font-weight: 950; }
+
+    .hero-badge {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 330px;
+      text-align: center;
+    }
+    .hero-badge::before,
+    .hero-badge::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+      transform: translate(-50%,-50%) rotate(-18deg);
+    }
+    .hero-badge::before { width: 310px; height: 130px; }
+    .hero-badge::after { width: 130px; height: 310px; transform: translate(-50%,-50%) rotate(32deg); }
+    .hero-badge > div {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 224px;
+      aspect-ratio: 1;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,.26);
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255,255,255,.20), rgba(255,255,255,.06));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.26), 0 30px 80px rgba(0,0,0,.22);
+      backdrop-filter: blur(20px);
+    }
+    .hero-badge > div::before,
+    .hero-badge > div::after {
+      content: "";
+      position: absolute;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      background: #55dfda;
+      box-shadow: 0 0 18px rgba(85,223,218,.8);
+    }
+    .hero-badge > div::before { top: 5px; left: 58px; }
+    .hero-badge > div::after { right: -12px; bottom: 70px; background: #ffd56c; box-shadow: 0 0 18px rgba(255,213,108,.8); }
+    .hero-badge strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(4.7rem, 9vw, 7.2rem);
+      line-height: .82;
+      letter-spacing: -.08em;
+      background: linear-gradient(180deg, #fff 0%, #bcd1ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-badge span { display: block; max-width: 130px; color: #dce6f8; font-weight: 800; line-height: 1.35; }
+
+    .toolbar {
+      position: sticky;
+      top: 12px;
+      z-index: 30;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin: 18px 0 32px;
+      padding: 10px;
+      border: 1px solid rgba(197,207,221,.86);
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 16px 40px rgba(20,35,64,.10);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+    .tool-btn, .toolbar select {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 9px 13px;
+      color: #273247;
+      background: transparent;
+      font-size: .91rem;
+      font-weight: 780;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .tool-btn:hover, .toolbar select:hover { border-color: var(--border); background: #f3f6fb; }
+    .tool-btn:active { transform: translateY(1px); }
+    .tool-btn[aria-pressed="true"] { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: 0 7px 18px rgba(49,94,231,.23); }
+    .toolbar .spacer { flex: 1; }
+    .toolbar label { color: var(--muted); font-size: .85rem; font-weight: 800; }
+    .toolbar select { padding-right: 34px; border-color: var(--border); background-color: #fff; }
+
+    main { padding-bottom: 88px; }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin: 0 0 18px;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.4rem);
+      line-height: 1.2;
+      letter-spacing: -.035em;
+    }
+    .section-title p { margin: 7px 0 0; color: var(--muted); }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
+    }
+    .year-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 190px;
+      overflow: hidden;
+      padding: 18px;
+      text-align: left;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 9px 28px rgba(20,35,64,.055);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+      backdrop-filter: blur(10px);
+    }
+    .year-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      opacity: .9;
+      background: linear-gradient(90deg, var(--primary), var(--cyan));
+    }
+    .year-card.is-empty::before { background: linear-gradient(90deg, #9aa6b7, #c8d0dc); }
+    .year-card::after {
+      content: "";
+      position: absolute;
+      width: 100px; height: 100px;
+      right: -48px; bottom: -50px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      transition: transform .25s ease;
+    }
+    .year-card:hover {
+      transform: translateY(-6px);
+      border-color: #aebfea;
+      box-shadow: 0 20px 45px rgba(20,35,64,.12);
+    }
+    .year-card:hover::after { transform: scale(1.25); }
+    .year-card[aria-current="true"] {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(145deg, #163375 0%, #315ee7 72%, #287da1 100%);
+      box-shadow: 0 22px 50px rgba(30,70,172,.28);
+    }
+    .year-card[aria-current="true"]::before { background: linear-gradient(90deg, #84f2e9, #ffe08a); }
+    .year-card[aria-current="true"]::after { background: rgba(255,255,255,.09); }
+    .year-card-top, .year-card-footer { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .year-card-footer { margin-top: auto; padding-top: 16px; }
+    .year-card .round {
+      color: var(--primary);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .035em;
+    }
+    .year-card[aria-current="true"] .round { color: #cfe0ff; }
+    .status-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 5px rgba(33,191,193,.13); }
+    .is-empty .status-dot { background: #9ba7b7; box-shadow: 0 0 0 5px rgba(155,167,183,.12); }
+    .year-card .year {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin: 14px 0 5px;
+      font-size: 1.82rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+    .year-title {
+      position: relative;
+      z-index: 1;
+      display: -webkit-box;
+      min-height: 2.8em;
+      overflow: hidden;
+      color: #364256;
+      font-size: .94rem;
+      font-weight: 720;
+      line-height: 1.42;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .year-card[aria-current="true"] .year-title { color: #eff4ff; }
+    .sim-count {
+      display: inline-flex;
+      padding: 6px 9px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: #f7f9fc;
+      font-size: .73rem;
+      font-weight: 780;
+    }
+    .year-card[aria-current="true"] .sim-count { color: #fff; border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.10); }
+    .year-arrow { position: relative; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%; color: var(--primary); background: var(--primary-soft); font-weight: 900; }
+    .year-card[aria-current="true"] .year-arrow { color: #15326c; background: #fff; }
+
+    .detail {
+      position: relative;
+      overflow: hidden;
+      margin-top: 36px;
+      padding: clamp(22px, 4.2vw, 48px);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background: rgba(255,255,255,.94);
+      box-shadow: var(--shadow);
+    }
+    .detail::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--cyan), var(--accent));
+    }
+    .detail::after {
+      content: "";
+      position: absolute;
+      width: 360px; height: 360px;
+      right: -190px; top: -220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(49,94,231,.11), transparent 67%);
+      pointer-events: none;
+    }
+    .detail-head {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      color: var(--primary);
+      font-size: .84rem;
+      font-weight: 850;
+      letter-spacing: .04em;
+    }
+    .detail-kicker::before { content: ""; width: 22px; height: 2px; background: var(--primary); }
+    .detail h2 {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(2rem, 4.6vw, 3.75rem);
+      line-height: 1.13;
+      letter-spacing: -.05em;
+      text-wrap: balance;
+    }
+    .detail-summary {
+      max-width: 850px;
+      margin: 17px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.8;
+    }
+    .speak-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #2448b5);
+      box-shadow: 0 10px 24px rgba(49,94,231,.22);
+      font-size: .91rem;
+      font-weight: 850;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .speak-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(49,94,231,.28); }
+    .detail > h3:not(.sim-heading) { margin: 27px 0 11px; font-size: .88rem; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+    .keyword-list { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; padding: 0; list-style: none; }
+    .keyword-list li {
+      border: 1px solid #cbd7f6;
+      border-radius: 999px;
+      padding: 8px 13px;
+      color: #24438f;
+      background: var(--primary-soft);
+      font-size: .88rem;
+      font-weight: 800;
+    }
+    .scientists {
+      position: relative;
+      margin: 18px 0 0;
+      padding: 17px 18px 17px 54px;
+      border: 1px solid #f0d999;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #fff9e8, #fffdf7);
+      color: #594414;
+    }
+    .scientists::before {
+      content: "✦";
+      position: absolute;
+      left: 18px; top: 50%;
+      display: grid;
+      place-items: center;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      color: #fff;
+      background: #d69a16;
+      transform: translateY(-50%);
+      font-size: .72rem;
+    }
+    .scientists strong { font-size: .82rem; letter-spacing: .02em; }
+    .sim-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 40px 0 18px;
+      font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+      letter-spacing: -.025em;
+    }
+    .sim-heading::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+    .sim-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .sim-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 23px;
+      background: #fff;
+      box-shadow: 0 13px 34px rgba(20,35,64,.075);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .sim-card:hover { transform: translateY(-3px); box-shadow: 0 20px 45px rgba(20,35,64,.11); }
+    .sim-top { position: relative; padding: 21px 21px 14px 72px; }
+    .sim-number {
+      position: absolute;
+      left: 20px; top: 21px;
+      display: grid;
+      place-items: center;
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      color: var(--primary);
+      background: var(--primary-soft);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+    .sim-top h3 { margin: 0 0 6px; font-size: 1.25rem; line-height: 1.3; letter-spacing: -.02em; }
+    .sim-top p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.65; }
+    .sim-stage {
+      position: relative;
+      min-height: 248px;
+      overflow: hidden;
+      margin: 0 16px;
+      border: 1px solid #d9e1ed;
+      border-radius: 17px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(49,94,231,.08), transparent 14rem),
+        linear-gradient(180deg, #f8faff, #eef3fa);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .sim-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255,255,255,.38); }
+    .sim-stage canvas { width: 100%; height: 248px; display: block; }
+    .controls { display: grid; gap: 12px; padding: 17px 20px 20px; }
+    .control-row {
+      display: grid;
+      grid-template-columns: minmax(112px, .82fr) 1.55fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 45px;
+    }
+    .control-row label { color: #354054; font-size: .88rem; font-weight: 800; }
+    .control-row output {
+      min-width: 70px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      color: #24438f;
+      background: var(--primary-soft);
+      text-align: center;
+      font-size: .78rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 850;
+    }
+    .control-row input[type="range"] { width: 100%; accent-color: var(--primary); }
+    .control-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); }
+    .control-row select { width: 100%; border: 1px solid var(--border-strong); border-radius: 10px; padding: 8px 10px; background: #fff; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .action-btn {
+      border: 1px solid #aebfea;
+      border-radius: 11px;
+      padding: 9px 14px;
+      color: var(--primary);
+      background: #fff;
+      font-size: .86rem;
+      font-weight: 850;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    .action-btn:hover { transform: translateY(-1px); background: var(--primary-soft); }
+    .action-btn.primary { color: #fff; border-color: var(--primary); background: var(--primary); box-shadow: 0 8px 18px rgba(49,94,231,.20); }
+    .action-btn.primary:hover { background: #244fd1; }
+    .state-box {
+      position: relative;
+      min-height: 48px;
+      padding: 12px 13px 12px 38px;
+      border: 1px solid #b5dece;
+      border-radius: 12px;
+      color: #155f48;
+      background: #edf9f4;
+      font-size: .84rem;
+      font-weight: 730;
+    }
+    .state-box::before { content: "●"; position: absolute; left: 15px; top: 12px; color: var(--success); font-size: .7rem; }
+    .notice {
+      position: relative;
+      margin-top: 25px;
+      padding: 38px 24px;
+      overflow: hidden;
+      border: 1px dashed #b9c4d3;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #f7f9fc, #eef3f9);
+      text-align: center;
+    }
+    .notice::before { content: "· · ·"; display: block; margin-bottom: 12px; color: #9aa7b8; font-size: 1.25rem; letter-spacing: .25em; }
+    .notice strong { display: block; margin-bottom: 7px; font-size: 1.2rem; }
+    .notice span { color: var(--muted); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 34px 0 52px;
+      color: var(--muted);
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+    }
+    footer strong { color: var(--text); }
+    footer p { max-width: 890px; margin-bottom: 0; }
+
+    body.easy-mode .hero { min-height: 0; grid-template-columns: 1fr; }
+    body.easy-mode .hero-badge { display: none; }
+    body.easy-mode .hero-features { display: none; }
+    body.easy-mode .detail-summary, body.easy-mode .sim-top p { max-width: 56ch; font-size: 1.13rem; }
+    body.easy-mode .year-grid, body.easy-mode .sim-grid { grid-template-columns: 1fr; }
+    body.easy-mode .year-card { min-height: 150px; }
+    body.easy-mode .year-card .year-title { font-size: 1.08rem; }
+    body.easy-mode .control-row { grid-template-columns: 1fr; }
+    body.easy-mode .control-row output { text-align: left; }
+
+    body.high-contrast {
+      --bg: #000; --surface: #000; --surface-2: #111; --surface-3: #111;
+      --text: #fff; --muted: #fff; --primary: #ffe600; --primary-2: #ffe600;
+      --primary-soft: #000; --cyan: #00ffff; --accent: #00ffff;
+      --border: #fff; --border-strong: #fff; --focus: #ff4d00;
+      color: #fff;
+      background: #000;
+    }
+    body.high-contrast::before { display: none; }
+    body.high-contrast .hero,
+    body.high-contrast .toolbar,
+    body.high-contrast .detail,
+    body.high-contrast .year-card,
+    body.high-contrast .sim-card,
+    body.high-contrast footer { color: #fff; border-color: #fff; background: #000; box-shadow: none; }
+    body.high-contrast .hero::before,
+    body.high-contrast .hero::after,
+    body.high-contrast .detail::after,
+    body.high-contrast .year-card::after { display: none; }
+    body.high-contrast .hero-badge > div { border: 3px solid #fff; background: #000; box-shadow: none; }
+    body.high-contrast .hero-badge strong { color: #fff; background: none; }
+    body.high-contrast .hero p:not(.eyebrow),
+    body.high-contrast .year-title,
+    body.high-contrast .detail-summary,
+    body.high-contrast .sim-top p,
+    body.high-contrast .toolbar label { color: #fff; }
+    body.high-contrast .year-card[aria-current="true"],
+    body.high-contrast .tool-btn[aria-pressed="true"],
+    body.high-contrast .speak-btn,
+    body.high-contrast .action-btn.primary { color: #000; background: #ffe600; border-color: #ffe600; }
+    body.high-contrast .year-card[aria-current="true"] .year-title,
+    body.high-contrast .year-card[aria-current="true"] .round { color: #000; }
+    body.high-contrast .tool-btn,
+    body.high-contrast .toolbar select,
+    body.high-contrast .action-btn,
+    body.high-contrast .control-row select { color: #fff; border-color: #fff; background: #000; }
+    body.high-contrast .keyword-list li,
+    body.high-contrast .sim-count,
+    body.high-contrast .sim-number,
+    body.high-contrast .control-row output { color: #fff; border-color: #fff; background: #000; }
+    body.high-contrast .year-arrow { color: #000; background: #fff; }
+    body.high-contrast .sim-stage,
+    body.high-contrast .state-box,
+    body.high-contrast .scientists,
+    body.high-contrast .notice { color: #fff; border-color: #fff; background: #000; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-badge::before { animation: orbit-a 18s linear infinite; }
+      .hero-badge::after { animation: orbit-b 24s linear infinite reverse; }
+      @keyframes orbit-a { to { transform: translate(-50%,-50%) rotate(342deg); } }
+      @keyframes orbit-b { to { transform: translate(-50%,-50%) rotate(392deg); } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
+    @media (max-width: 1040px) {
+      .year-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-badge { min-height: 250px; }
+      .hero-badge > div { width: 185px; }
+      .hero-badge::before { width: 260px; height: 105px; }
+      .hero-badge::after { width: 105px; height: 260px; }
+      .year-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sim-grid { grid-template-columns: 1fr; }
+      .detail-head { grid-template-columns: 1fr; }
+      .speak-btn { justify-self: start; }
+      .toolbar .spacer { display: none; }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: min(100% - 20px, 1240px); }
+      header { padding-top: 10px; }
+      .hero { padding: 30px 22px; border-radius: 26px; }
+      .hero-badge { min-height: 215px; }
+      .toolbar { position: static; border-radius: 15px; }
+      .tool-btn, .toolbar select { flex: 1 1 auto; }
+      .toolbar label { width: 100%; }
+      .year-grid { grid-template-columns: 1fr; }
+      .year-card { min-height: 158px; }
+      .section-title { align-items: start; }
+      .detail { padding: 26px 18px; border-radius: 25px; }
+      .detail h2 { font-size: clamp(1.9rem, 10vw, 2.75rem); }
+      .sim-top { padding-left: 65px; }
+      .sim-stage { margin-inline: 10px; }
+      .controls { padding-inline: 14px; }
+      .control-row { grid-template-columns: 1fr; gap: 6px; }
+      .control-row output { justify-self: start; }
+    }
+  
+    /* Touch-first direct manipulation edition */
+    .sim-grid { grid-template-columns: minmax(0, 1fr); max-width: 1040px; margin-inline: auto; gap: 28px; }
+    .sim-card { border-radius: 28px; }
+    .sim-top { padding: 25px 25px 18px 78px; }
+    .sim-stage { min-height: 0; margin: 0 20px; border-radius: 22px; box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 12px 30px rgba(30,55,100,.08); }
+    .sim-stage canvas { display:block; width:100%; height:auto; aspect-ratio: 5 / 3; touch-action:none; user-select:none; -webkit-user-select:none; cursor:grab; }
+    .sim-stage canvas:active { cursor:grabbing; }
+    .controls { gap: 14px; padding: 18px 22px 24px; }
+    .interaction-guide { display:flex; align-items:center; gap:12px; min-height:58px; padding:12px 15px; border:1px solid #c9d7f3; border-radius:16px; color:#294269; background:linear-gradient(135deg,#f3f7ff,#edf9fa); font-size:.92rem; font-weight:760; }
+    .gesture-mark { display:grid; place-items:center; width:38px; height:38px; flex:none; border-radius:12px; color:#fff; background:linear-gradient(135deg,var(--primary),#1da7aa); box-shadow:0 7px 18px rgba(49,94,231,.22); font-size:1.15rem; }
+    .experiment-actions { align-items:center; }
+    .choice-group { display:inline-flex; flex-wrap:wrap; gap:8px; padding:5px; border:1px solid var(--border); border-radius:14px; background:var(--surface-2); }
+    .choice-btn { min-height:42px; border:1px solid transparent; border-radius:10px; padding:8px 13px; color:#40506a; background:transparent; font-size:.85rem; font-weight:850; }
+    .choice-btn[aria-pressed="true"] { color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--primary),#2449b4); box-shadow:0 7px 16px rgba(49,94,231,.22); }
+    .state-box { border-radius:16px; padding:13px 15px; font-size:.91rem; }
+    body.high-contrast .interaction-guide, body.high-contrast .choice-group { color:#fff; border-color:#fff; background:#000; }
+    body.high-contrast .choice-btn { color:#fff; border-color:#fff; }
+    body.high-contrast .choice-btn[aria-pressed="true"] { color:#000; background:#0ff; }
+    @media (max-width: 720px) {
+      .sim-card { border-radius:20px; }
+      .sim-top { padding:19px 16px 14px 64px; }
+      .sim-number { left:15px; top:18px; }
+      .sim-stage { margin:0 10px; border-radius:16px; }
+      .sim-stage canvas { aspect-ratio: 4 / 3; }
+      .controls { padding:14px 12px 18px; }
+      .interaction-guide { align-items:flex-start; font-size:.88rem; }
+      .experiment-actions, .choice-group { width:100%; }
+      .experiment-actions > button, .choice-btn { flex:1 1 130px; }
+    }
+
+
+    /* Refined mobile result panel: prevent icon/text overlap */
+    .state-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 0;
+      overflow: visible;
+      padding: 13px 16px;
+      line-height: 1.55;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .state-box::before {
+      position: static;
+      flex: 0 0 auto;
+      margin-top: .28em;
+      line-height: 1;
+    }
+    .state-box .state-text { min-width: 0; flex: 1 1 auto; }
+    .action-btn[aria-pressed="true"] { color:#fff; border-color:var(--primary); background:var(--primary); }
+    .mini-note { margin:0; color:var(--muted); font-size:.82rem; line-height:1.5; }
+    @media (max-width: 520px) {
+      .state-box { padding: 12px 13px; font-size: .88rem; word-break: normal; }
+      .state-box::before { margin-top: .32em; }
+    }
+
+  </style>
+
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+  <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <header class="wrap">
+    <section class="hero" aria-labelledby="site-title">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="archiveEyebrow">2006–2026 · 제1회–제21회</p>
+        <h1 id="site-title" data-i18n="archiveTitle">모두의 과학 이야기</h1>
+        <p data-i18n="archiveIntro">해마다 이어진 과학 공연의 주제와 원리를 한곳에서 만나고, 직접 움직이며 탐구하는 접근성 중심 과학 아카이브입니다.</p>
+        <div class="hero-features" aria-label="웹사이트 주요 특징">
+          <span class="hero-feature" data-i18n="featureLanguage">한국어·English</span>
+          <span class="hero-feature" data-i18n="featureVoice">음성 안내</span>
+          <span class="hero-feature" data-i18n="featureAccess">모두를 위한 접근성</span>
+        </div>
+      </div>
+      <div class="hero-badge" aria-label="21년 과학 기록">
+        <div><strong>21</strong><span data-i18n="yearsRecord">년의 과학 기록</span></div>
+      </div>
+    </section>
+
+    <nav class="toolbar" aria-label="접근성 및 언어 설정">
+      <button class="tool-btn" id="langBtn" type="button" aria-label="언어를 영어로 변경">English</button>
+      <button class="tool-btn" id="easyBtn" type="button" aria-pressed="false" data-i18n="easyMode">쉬운 화면</button>
+      <button class="tool-btn" id="contrastBtn" type="button" aria-pressed="false" data-i18n="contrast">고대비</button>
+      <button class="tool-btn" id="textDown" type="button" aria-label="글자 작게">A−</button>
+      <button class="tool-btn" id="textUp" type="button" aria-label="글자 크게">A+</button>
+      <button class="tool-btn" id="stopSpeech" type="button" data-i18n="stopVoice">음성 중지</button>
+      <span class="spacer"></span>
+      <label for="levelSelect" data-i18n="levelLabel">설명 수준</label>
+      <select id="levelSelect">
+        <option value="easy" data-i18n="levelEasy">쉬움</option>
+        <option value="basic" selected data-i18n="levelBasic">기본</option>
+        <option value="deep" data-i18n="levelDeep">깊이 보기</option>
+      </select>
+    </nav>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <section aria-labelledby="year-heading">
+      <div class="section-title">
+        <div>
+          <h2 id="year-heading" data-i18n="chooseYear">연도·회차를 선택하세요</h2>
+          <p data-i18n="chooseHint">키보드의 Tab과 Enter로도 선택할 수 있습니다.</p>
+        </div>
+      </div>
+      <div id="yearGrid" class="year-grid"></div>
+    </section>
+
+    <article id="detail" class="detail" aria-labelledby="detailTitle"></article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong data-i18n="footerTitle">모두를 위한 과학 아카이브</strong>
+      <p data-i18n="footerText">색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.</p>
+    </div>
+  </footer>
+
+<script>
+(() => {
+  'use strict';
+
+  const I18N = {
+    ko: {
+      archiveEyebrow: '2006–2026 · 제1회–제21회', archiveTitle: '모두의 과학 이야기',
+      archiveIntro: '해마다 이어진 과학 공연의 주제와 원리를 한곳에서 만나고, 직접 움직이며 탐구하는 접근성 중심 과학 아카이브입니다.',
+      featureLanguage: '한국어·English', featureVoice: '음성 안내', featureAccess: '모두를 위한 접근성',
+      yearsRecord: '년의 과학 기록', easyMode: '쉬운 화면', contrast: '고대비', stopVoice: '음성 중지',
+      levelLabel: '설명 수준', levelEasy: '쉬움', levelBasic: '기본', levelDeep: '깊이 보기',
+      chooseYear: '연도·회차를 선택하세요', chooseHint: '키보드의 Tab과 Enter로도 선택할 수 있습니다.',
+      footerTitle: '모두를 위한 과학 아카이브', footerText: '색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.',
+      round: '제{n}회', keywords: '과학 키워드', simulations: '가상 실험', listen: '이 페이지 듣기',
+      noKeywordTitle: '등록된 과학 키워드가 없습니다.', noKeywordText: '제공된 기록에 과학 키워드가 없어 가상 실험을 만들지 않았습니다. 이후 자료가 확인되면 추가할 수 있습니다.',
+      preparingTitle: '제21회 주제 준비 중', preparingText: '2026년 행사 제목과 과학 키워드가 아직 제공되지 않았습니다. 현재는 기록 자리만 마련했습니다.',
+      notSupported: '이 브라우저에서는 음성 읽기를 지원하지 않습니다.', experimentState: '현재 상태', scientists: '함께 알아볼 과학자',
+      start: '시작', stop: '정지', reset: '처음으로', playTone: '소리 듣기', observe: '관찰하기', release: '놓기',
+      simCount: '{n}개의 가상 실험', noSim: '가상 실험 없음'
+    },
+    en: {
+      archiveEyebrow: '2006–2026 · Editions 1–21', archiveTitle: 'Science Stories for Everyone',
+      archiveIntro: 'An accessibility-first science archive where everyone can explore yearly performance themes, scientific ideas, and interactive experiments.',
+      featureLanguage: 'Korean · English', featureVoice: 'Voice guidance', featureAccess: 'Accessible for everyone',
+      yearsRecord: 'years of science', easyMode: 'Simple screen', contrast: 'High contrast', stopVoice: 'Stop voice',
+      levelLabel: 'Explanation level', levelEasy: 'Easy', levelBasic: 'Standard', levelDeep: 'Explore deeper',
+      chooseYear: 'Choose a year and edition', chooseHint: 'You can also use Tab and Enter on a keyboard.',
+      footerTitle: 'A science archive for everyone', footerText: 'Information is never conveyed by color alone. Every interaction includes text feedback and optional speech. Voice uses the browser Web Speech API.',
+      round: 'Edition {n}', keywords: 'Science keywords', simulations: 'Virtual experiments', listen: 'Read this page aloud',
+      noKeywordTitle: 'No science keywords are recorded.', noKeywordText: 'No simulation was added because the supplied record did not include science keywords. It can be expanded when more information is available.',
+      preparingTitle: 'Edition 21 is being prepared', preparingText: 'The 2026 title and science keywords were not supplied, so this page is reserved as a placeholder.',
+      notSupported: 'Speech synthesis is not supported in this browser.', experimentState: 'Current state', scientists: 'Scientists to meet',
+      start: 'Start', stop: 'Stop', reset: 'Reset', playTone: 'Play sound', observe: 'Observe', release: 'Release',
+      simCount: '{n} virtual experiments', noSim: 'No simulation'
+    }
+  };
+
+  const topics = [
+    {year:2006, round:1, title:{ko:'전화는 내 운명', en:'The Telephone Is My Destiny'},
+      keywords:{ko:['스피커·마이크 원리','전자기 유도'], en:['Speaker and microphone','Electromagnetic induction']},
+      scientists:{ko:'조지프 헨리 · 새뮤얼 모스 · 알렉산더 그레이엄 벨', en:'Joseph Henry · Samuel Morse · Alexander Graham Bell'},
+      summary:{
+        easy:{ko:'소리는 떨림입니다. 마이크는 떨림을 전기 신호로 바꾸고, 스피커는 다시 소리로 바꿉니다.', en:'Sound is vibration. A microphone changes vibration into an electrical signal, and a speaker changes it back into sound.'},
+        basic:{ko:'전화기는 소리의 진동을 전기 신호로 바꾸어 전달한 뒤, 전자석과 진동판으로 다시 소리를 만듭니다.', en:'A telephone converts sound vibration into an electrical signal, carries it, and recreates sound with an electromagnet and diaphragm.'},
+        deep:{ko:'마이크와 스피커는 진동판, 코일, 자석의 상호작용을 이용합니다. 자속이 변하면 유도 기전력이 생기고, 전류가 흐르는 코일은 자기력을 받아 진동합니다.', en:'Microphones and speakers use a diaphragm, coil, and magnet. Changing magnetic flux induces voltage, while a current-carrying coil experiences magnetic force and vibrates.'}
+      }, sims:['phone','induction']},
+    {year:2007, round:2, title:{ko:'꼬꼬마와 무지개의 행방불명', en:'Little One and the Missing Rainbow'},
+      keywords:{ko:['빛','반사','굴절','분산'], en:['Light','Reflection','Refraction','Dispersion']},
+      summary:{
+        easy:{ko:'빛은 거울에서 튕기고, 물이나 유리를 지나면 꺾이며, 여러 색으로 나뉠 수 있습니다.', en:'Light bounces from mirrors, bends in water or glass, and can split into many colors.'},
+        basic:{ko:'빛은 경계면에서 반사되거나 굴절됩니다. 흰빛은 색마다 굴절되는 정도가 달라 무지개처럼 분산됩니다.', en:'Light reflects or refracts at a boundary. White light disperses because each color bends by a different amount.'},
+        deep:{ko:'반사각은 입사각과 같고, 굴절은 두 매질의 굴절률과 스넬 법칙으로 설명됩니다. 굴절률의 파장 의존성이 분산을 만듭니다.', en:'The angle of reflection equals the angle of incidence. Refraction follows Snell’s law, and wavelength-dependent refractive index produces dispersion.'}
+      }, sims:['optics','prism']},
+    {year:2008, round:3, title:{ko:'한스와 엘리스의 모험', en:'The Adventure of Hans and Alice'},
+      keywords:{ko:['자석','나침반','전자기 유도'], en:['Magnet','Compass','Electromagnetic induction']},
+      summary:{
+        easy:{ko:'자석은 다른 자석을 밀거나 당깁니다. 나침반 바늘은 자석처럼 움직여 방향을 알려 줍니다.', en:'Magnets can push or pull. A compass needle acts like a tiny magnet and shows direction.'},
+        basic:{ko:'자석 주변에는 자기장이 있고 나침반은 그 방향을 가리킵니다. 코일을 지나는 자기장이 변하면 전류가 생깁니다.', en:'A magnetic field surrounds a magnet, and a compass aligns with it. Changing magnetic field through a coil creates current.'},
+        deep:{ko:'자기 쌍극자의 장은 위치와 방향에 따라 달라집니다. 코일을 통과하는 자기선속의 시간 변화율이 유도 기전력의 크기를 정합니다.', en:'A magnetic dipole field varies with position and direction. The rate of change of magnetic flux through a coil determines induced emf.'}
+      }, sims:['magnet','induction']},
+    {year:2009, round:4, title:{ko:'알라딘의 과학램프', en:'Aladdin’s Science Lamp'},
+      keywords:{ko:['정전기','중력','마찰열'], en:['Static electricity','Gravity','Frictional heat']},
+      summary:{
+        easy:{ko:'문지르면 전기가 모일 수 있고, 물체는 아래로 떨어지며, 마찰하면 따뜻해집니다.', en:'Rubbing can build up electric charge, objects fall downward, and friction makes things warmer.'},
+        basic:{ko:'전자 이동은 정전기를 만들고, 중력은 물체를 지구 쪽으로 끌어당깁니다. 마찰은 운동 에너지 일부를 열로 바꿉니다.', en:'Electron transfer creates static charge, gravity pulls objects toward Earth, and friction changes some motion energy into heat.'},
+        deep:{ko:'정전기력은 전하량과 거리에 따라 달라지고, 중력가속도는 낙하 운동을 결정합니다. 마찰이 한 일은 내부 에너지 증가로 나타납니다.', en:'Electrostatic force depends on charge and distance, gravitational acceleration shapes falling motion, and work done by friction appears as internal energy.'}
+      }, sims:['static','gravity','friction']},
+    {year:2010, round:5, title:{ko:'네버랜드로 떠나는 과학여행', en:'A Science Journey to Neverland'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2011, round:6, title:{ko:'헨리와 도로시의 과학여행', en:'Henry and Dorothy’s Science Journey'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2012, round:7, title:{ko:'오즈의 과학자', en:'The Scientist of Oz'},
+      keywords:{ko:['마찰열','자석','나침반'], en:['Frictional heat','Magnet','Compass']},
+      summary:{
+        easy:{ko:'비비면 따뜻해지고, 자석과 나침반은 보이지 않는 자기장에 따라 움직입니다.', en:'Rubbing makes things warm, while magnets and compasses move according to an invisible magnetic field.'},
+        basic:{ko:'마찰은 운동을 방해하면서 열을 만들고, 자석 주변 자기장은 나침반 바늘의 방향을 바꿉니다.', en:'Friction resists motion and produces heat, while a magnetic field turns a compass needle.'},
+        deep:{ko:'마찰력이 이동 거리 동안 한 일은 열에너지로 전환될 수 있습니다. 나침반 바늘의 자기 모멘트는 외부 자기장 방향으로 정렬됩니다.', en:'Work done by friction can become thermal energy. A compass needle’s magnetic moment aligns with an external magnetic field.'}
+      }, sims:['friction','magnet']},
+    {year:2013, round:8, title:{ko:'금송아지의 진실', en:'The Truth of the Golden Calf'},
+      keywords:{ko:['아르키메데스','밀도'], en:['Archimedes','Density']}, scientists:{ko:'아르키메데스',en:'Archimedes'},
+      summary:{
+        easy:{ko:'같은 크기라도 물질에 따라 무게가 다릅니다. 물보다 가벼우면 뜨고 무거우면 가라앉기 쉽습니다.', en:'Objects of the same size can weigh differently. Things less dense than water tend to float; denser things tend to sink.'},
+        basic:{ko:'밀도는 질량을 부피로 나눈 값입니다. 물체가 밀어낸 유체의 무게만큼 부력을 받아 뜨거나 가라앉습니다.', en:'Density is mass divided by volume. An object receives an upward force equal to the weight of displaced fluid.'},
+        deep:{ko:'평형에서 부력은 물체가 밀어낸 유체의 무게와 같습니다. 평균 밀도와 유체 밀도의 비가 잠기는 부피 비율을 결정합니다.', en:'At equilibrium, buoyancy equals the weight of displaced fluid. The density ratio determines the submerged fraction.'}
+      }, sims:['density']},
+    {year:2014, round:9, title:{ko:'꼬마의 과학책', en:'The Little Scientist’s Book'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2015, round:10, title:{ko:'사라진 인형들', en:'The Missing Dolls'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2016, round:11, title:{ko:'소리공주와 매질왕자', en:'Princess Sound and Prince Medium'},
+      keywords:{ko:['진공','소리','매질','소리굽쇠','물병의 물높이와 소리','파동의 배·마디','부부젤라'], en:['Vacuum','Sound','Medium','Tuning fork','Bottle water level and pitch','Wave nodes and antinodes','Vuvuzela']},
+      summary:{
+        easy:{ko:'소리는 물질의 떨림을 타고 갑니다. 공기가 없으면 소리를 들을 수 없습니다.', en:'Sound travels through vibrating matter. Without a medium such as air, sound cannot be heard.'},
+        basic:{ko:'소리는 매질을 통해 전달되는 종파입니다. 진동수는 음높이를, 진폭은 소리의 크기를 정합니다.', en:'Sound is a longitudinal wave traveling through a medium. Frequency determines pitch and amplitude determines loudness.'},
+        deep:{ko:'정상파에서는 마디와 배가 생기며 공명 조건이 진동수를 정합니다. 병 속 공기기둥의 길이와 물높이가 바뀌면 공명 주파수도 변합니다.', en:'Standing waves form nodes and antinodes, and resonance conditions select frequencies. Changing the air-column length in a bottle changes its resonant frequency.'}
+      }, sims:['soundMedium','soundTools','bottleWave']},
+    {year:2017, round:12, title:{ko:'신기한 빛의 원리가 있는 이상한 나라의 엘리스', en:'Alice in a Wonderland of Amazing Light'},
+      keywords:{ko:['빛','그림자','프리즘·분산','만화경','색 그림자'], en:['Light','Shadow','Prism and dispersion','Kaleidoscope','Colored shadows']},
+      summary:{
+        easy:{ko:'빛이 막히면 그림자가 생기고, 프리즘은 흰빛을 여러 색으로 나눕니다. 거울은 무늬를 반복해 보여 줍니다.', en:'Blocking light makes a shadow, a prism splits white light into colors, and mirrors repeat patterns.'},
+        basic:{ko:'그림자 크기는 광원·물체·화면의 위치에 따라 달라집니다. 프리즘은 빛을 분산시키고, 만화경은 다중 반사로 대칭 무늬를 만듭니다.', en:'Shadow size depends on light, object, and screen positions. A prism disperses light, while a kaleidoscope creates symmetry through repeated reflections.'},
+        deep:{ko:'점광원에 가까운 물체일수록 확대된 그림자를 만들며, 서로 다른 색빛이 겹치면 가산혼합과 색 그림자가 나타납니다.', en:'An object closer to a point light source creates a larger shadow. Overlapping colored lights produce additive mixing and colored shadows.'}
+      }, sims:['shadow','prism','shadowColor','kaleidoscope']},
+    {year:2018, round:13, title:{ko:'벨과 마법 실험실', en:'Belle and the Magic Laboratory'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2019, round:14, title:{ko:'주토피아 과학수사대', en:'Zootopia Science Investigation Team'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2020, round:15, title:{ko:'유령 과학자', en:'The Ghost Scientist'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2021, round:16, title:{ko:'동화수호대', en:'Fairy-Tale Guardians'},
+      keywords:{ko:['밀도','부력','소리의 매질 전달'], en:['Density','Buoyancy','Sound through a medium']},
+      summary:{
+        easy:{ko:'물체는 밀도에 따라 뜨거나 가라앉고, 소리는 공기·물·고체 같은 물질을 통해 이동합니다.', en:'Density affects whether an object floats or sinks, and sound travels through matter such as air, water, and solids.'},
+        basic:{ko:'부력과 무게의 크기를 비교하면 뜨고 가라앉는 까닭을 알 수 있습니다. 소리의 전달은 매질 입자의 진동으로 이루어집니다.', en:'Comparing buoyancy and weight explains floating and sinking. Sound travels as particles in a medium vibrate.'},
+        deep:{ko:'유체 밀도와 물체 평균 밀도는 평형 잠김 비율을 정합니다. 매질의 탄성과 관성은 소리의 속도에 영향을 줍니다.', en:'Fluid and object densities determine the equilibrium submerged fraction. A medium’s elasticity and inertia affect sound speed.'}
+      }, sims:['density','soundMedium']},
+    {year:2022, round:17, title:{ko:'동화수호대2: 동화 마녀의 역습', en:'Fairy-Tale Guardians 2: The Witch Strikes Back'}, keywords:{ko:[],en:[]}, summary:null, sims:[]},
+    {year:2023, round:18, title:{ko:'태풍을 부르는 네버랜드 구하기 대작전', en:'Operation Save Neverland from the Typhoon'},
+      keywords:{ko:['자석','열기구와 부력','지렛대','공기대포'], en:['Magnet','Hot-air balloon and buoyancy','Lever','Air cannon']},
+      summary:{
+        easy:{ko:'자석은 밀고 당기고, 따뜻한 공기는 올라가며, 지렛대는 작은 힘으로 무거운 것을 움직이게 도와줍니다.', en:'Magnets push and pull, warm air rises, and levers help move heavy things with less force.'},
+        basic:{ko:'열기구는 주변 공기보다 평균 밀도가 작아져 뜹니다. 지렛대는 힘과 받침점까지의 거리로 균형을 만들고, 공기대포는 압력 차로 공기를 밀어냅니다.', en:'A hot-air balloon rises when its average density becomes lower than the surrounding air. Levers balance force and distance, while an air cannon pushes air using a pressure difference.'},
+        deep:{ko:'지렛대 평형은 양쪽 돌림힘의 합으로 판단합니다. 가열된 공기의 밀도 감소는 순부력을 만들며, 빠르게 밀려난 공기는 소용돌이 고리를 형성할 수 있습니다.', en:'Lever balance follows the sum of torques. Heated air becomes less dense and gains net lift, while rapidly expelled air can form a vortex ring.'}
+      }, sims:['magnet','balloon','lever','airCannon']},
+    {year:2024, round:19, title:{ko:'나 홀로 집에', en:'Home Alone'},
+      keywords:{ko:['마찰력과 기름','자석','지렛대','볼록·오목렌즈'], en:['Friction and oil','Magnet','Lever','Convex and concave lenses']},
+      summary:{
+        easy:{ko:'기름은 표면 사이를 미끄럽게 하고, 지렛대는 힘을 도우며, 렌즈는 빛을 모으거나 퍼뜨립니다.', en:'Oil makes surfaces slide more easily, a lever helps with force, and lenses gather or spread light.'},
+        basic:{ko:'윤활유는 마찰계수를 낮출 수 있습니다. 볼록렌즈는 평행광을 모으고 오목렌즈는 퍼뜨리며, 물체와 초점의 위치에 따라 상이 달라집니다.', en:'Lubricant can reduce friction. Convex lenses converge parallel rays and concave lenses diverge them; image formation depends on object and focal positions.'},
+        deep:{ko:'마찰력은 수직항력과 마찰계수에 좌우됩니다. 얇은 렌즈 방정식과 배율 관계로 상의 위치·크기·방향을 예측할 수 있습니다.', en:'Friction depends on normal force and coefficient of friction. The thin-lens equation and magnification predict image position, size, and orientation.'}
+      }, sims:['friction','magnet','lever','lens']},
+    {year:2025, round:20, title:{ko:'엘리스와 양자의 나라: 사라진 빛을 찾아서', en:'Alice in Quantum Land: Finding the Missing Light'},
+      keywords:{ko:['중첩','파동·입자 이중성','얽힘','양자'], en:['Superposition','Wave–particle duality','Entanglement','Quantum physics']},
+      summary:{
+        easy:{ko:'아주 작은 세계에서는 여러 가능성이 함께 있다가, 관찰하면 한 결과가 나타날 수 있습니다.', en:'In the very small world, several possibilities can exist together, and one result appears when we observe.'},
+        basic:{ko:'양자 상태는 여러 가능성의 중첩으로 표현되며, 빛과 물질은 실험에 따라 파동 또는 입자 성질을 보입니다. 얽힌 입자는 강한 상관관계를 보입니다.', en:'A quantum state can be a superposition of possibilities. Light and matter show wave or particle behavior depending on the experiment, and entangled particles show strong correlations.'},
+        deep:{ko:'확률진폭의 중첩은 간섭무늬를 만들며, 어느 경로 정보가 생기면 간섭이 약해집니다. 얽힘은 각 부분을 독립적인 상태로 완전히 기술할 수 없는 결합 상태입니다.', en:'Superposed probability amplitudes create interference. Path information reduces interference. Entanglement is a joint state that cannot be fully described as independent states of each part.'}
+      }, sims:['quantum','entanglement']},
+    {year:2026, round:21, title:{ko:'제21회 주제 준비 중', en:'Edition 21: Theme in Preparation'}, keywords:{ko:[],en:[]}, summary:null, sims:[], preparing:true}
+  ];
+
+  const simText = {
+    phone:{
+      title:{ko:'마이크와 스피커',en:'Microphone and speaker'},
+      desc:{easy:{ko:'목소리의 높이와 크기를 바꾸어 파형을 살펴보세요.',en:'Change pitch and loudness to see the waveform.'},basic:{ko:'진동수와 진폭을 조절하고, 같은 신호가 소리로 바뀌는 과정을 확인하세요.',en:'Adjust frequency and amplitude and see how the signal becomes sound.'},deep:{ko:'사인파의 진동수는 음높이, 진폭은 음압의 상대적 크기를 나타냅니다.',en:'The sinusoid frequency represents pitch and amplitude represents relative sound pressure.'}},
+      controls:{freq:{ko:'진동수',en:'Frequency'},amp:{ko:'진폭',en:'Amplitude'}}},
+    induction:{
+      title:{ko:'자석을 움직여 전기 만들기',en:'Generate electricity by moving a magnet'},
+      desc:{easy:{ko:'자석을 코일 가까이 빠르게 움직여 보세요.',en:'Move the magnet quickly near the coil.'},basic:{ko:'자석의 위치를 바꾸면 코일을 지나는 자기장이 변하고 전압이 생깁니다.',en:'Changing the magnet position changes magnetic flux through the coil and produces voltage.'},deep:{ko:'표시값은 자석 위치의 변화 속도에 비례하도록 단순화한 유도 기전력 모형입니다.',en:'The meter is a simplified induced-emf model proportional to the rate of position change.'}},
+      controls:{position:{ko:'자석 위치',en:'Magnet position'}}},
+    optics:{
+      title:{ko:'빛의 반사와 굴절',en:'Reflection and refraction of light'},
+      desc:{easy:{ko:'손전등을 직접 움직여 거울, 물, 유리에서 빛의 길이 어떻게 달라지는지 보세요.',en:'Move the flashlight and see how the light path changes at a mirror, water, or glass.'},basic:{ko:'광원을 드래그하면 입사각이 바뀌고 반사각과 굴절각이 실시간으로 달라집니다.',en:'Dragging the source changes the incidence angle and updates reflection and refraction in real time.'},deep:{ko:'반사 법칙과 스넬 법칙을 직접 조작으로 비교하는 모형입니다.',en:'This direct-manipulation model compares the law of reflection with Snell’s law.'}},
+      controls:{}},
+    prism:{
+      title:{ko:'삼각 프리즘과 무지개',en:'Triangular prism and rainbow'},
+      desc:{easy:{ko:'손전등과 프리즘을 움직여 흰빛이 여러 색으로 갈라지는 모습을 찾아보세요.',en:'Move the flashlight and prism to see white light split into colors.'},basic:{ko:'프리즘 안에서 빛이 두 번 굴절되고 색마다 꺾이는 정도가 달라 분산이 나타납니다.',en:'Light refracts twice in the prism, and different colors bend by different amounts.'},deep:{ko:'파장에 따른 굴절률 차이를 색별 출사각의 차이로 표현한 개념 모형입니다.',en:'This conceptual model represents wavelength-dependent refractive index as different exit angles.'}},controls:{}},
+    magnet:{
+      title:{ko:'자석과 나침반',en:'Magnet and compass'},
+      desc:{easy:{ko:'자석을 돌리고 나침반 바늘이 가리키는 방향을 보세요.',en:'Turn the magnet and watch the compass needle.'},basic:{ko:'자석 방향과 거리를 바꾸면 나침반에 작용하는 자기장의 방향과 세기가 달라집니다.',en:'Changing the magnet angle and distance changes the field direction and strength at the compass.'},deep:{ko:'나침반 바늘이 자석 쌍극자장이 만드는 국소 자기장 방향에 정렬되는 모습을 단순화했습니다.',en:'This simplified model aligns the compass with the local field of a magnetic dipole.'}},
+      controls:{angle:{ko:'자석 방향',en:'Magnet angle'},distance:{ko:'나침반 거리',en:'Compass distance'}}},
+    static:{
+      title:{ko:'정전기와 종이 조각',en:'Static charge and paper bits'},
+      desc:{easy:{ko:'풍선을 많이 문지를수록 종이 조각이 더 잘 끌려옵니다.',en:'The more you rub the balloon, the more strongly it attracts paper.'},basic:{ko:'전하량과 거리를 바꾸어 정전기적 끌림의 변화를 확인하세요.',en:'Change charge and distance to observe electrostatic attraction.'},deep:{ko:'힘이 전하량에 비례하고 거리의 제곱에 반비례하는 경향을 정성적으로 나타냅니다.',en:'The model qualitatively follows force increasing with charge and decreasing with distance squared.'}},
+      controls:{charge:{ko:'문지른 정도',en:'Rubbing amount'},distance:{ko:'거리',en:'Distance'}}},
+    gravity:{
+      title:{ko:'중력 낙하',en:'Falling under gravity'},
+      desc:{easy:{ko:'높이를 정한 뒤 물체를 놓아 보세요.',en:'Choose a height and release the object.'},basic:{ko:'공기 저항을 무시하면 낙하하는 물체의 속도는 시간에 따라 증가합니다.',en:'Ignoring air resistance, a falling object speeds up over time.'},deep:{ko:'위치는 y=h−½gt², 속력은 v=gt로 계산하는 이상적인 자유낙하 모형입니다.',en:'This ideal free-fall model uses y=h−½gt² and v=gt.'}},
+      controls:{height:{ko:'시작 높이',en:'Starting height'},gravity:{ko:'중력가속도',en:'Gravity'}}},
+    friction:{
+      title:{ko:'마찰과 온도',en:'Friction and temperature'},
+      desc:{easy:{ko:'더 세게 누르고 더 빠르게 문지를수록 따뜻해집니다. 기름을 넣으면 마찰이 줄어듭니다.',en:'Pressing harder and rubbing faster makes more heat. Oil reduces friction.'},basic:{ko:'누르는 힘, 속도, 윤활 정도가 마찰력과 온도 변화에 미치는 영향을 확인하세요.',en:'Explore how force, speed, and lubrication affect friction and temperature.'},deep:{ko:'마찰 일률을 μNv로 단순화하고 누적 에너지를 온도 상승으로 환산합니다.',en:'Frictional power is simplified as μNv, and accumulated energy is converted to temperature rise.'}},
+      controls:{force:{ko:'누르는 힘',en:'Pressing force'},speed:{ko:'문지르는 속도',en:'Rubbing speed'},oil:{ko:'기름·윤활',en:'Oil / lubrication'}}},
+    density:{
+      title:{ko:'밀도와 부력',en:'Density and buoyancy'},
+      desc:{easy:{ko:'물체와 물의 밀도를 바꾸어 뜨는지 가라앉는지 살펴보세요.',en:'Change object and liquid density to see whether it floats or sinks.'},basic:{ko:'물체의 평균 밀도가 유체보다 작으면 일부만 잠긴 채 뜨고, 크면 가라앉습니다.',en:'An object less dense than the fluid floats partly submerged; a denser object sinks.'},deep:{ko:'떠 있는 경우 잠기는 비율은 물체 밀도÷유체 밀도로 계산합니다.',en:'When floating, the submerged fraction equals object density divided by fluid density.'}},
+      controls:{object:{ko:'물체 밀도',en:'Object density'},fluid:{ko:'유체 밀도',en:'Fluid density'}}},
+    soundMedium:{
+      title:{ko:'소리와 매질',en:'Sound and medium'},
+      desc:{easy:{ko:'공기, 물, 고체, 진공을 선택해 소리가 전달되는지 보세요.',en:'Choose air, water, solid, or vacuum and see whether sound travels.'},basic:{ko:'소리는 매질 입자의 진동으로 전달되며 진공에서는 전달되지 않습니다.',en:'Sound travels through particle vibration in a medium and cannot travel through vacuum.'},deep:{ko:'각 매질의 상대적 전달 속도를 시각화한 모형이며, 실제 속도와 감쇠는 물질 특성에 따라 달라집니다.',en:'This model visualizes relative propagation speed; real speed and attenuation depend on material properties.'}},
+      controls:{medium:{ko:'매질',en:'Medium'},freq:{ko:'진동수',en:'Frequency'}}},
+    bottleWave:{
+      title:{ko:'물병의 물높이와 소리',en:'Bottle water level and pitch'},
+      desc:{easy:{ko:'물을 더 넣어 공기 부분을 짧게 만들면 소리가 어떻게 변하는지 보세요.',en:'Add water to shorten the air space and see how the pitch changes.'},basic:{ko:'병을 입으로 불 때 공기 공간이 짧아지면 공명 진동수가 높아지는 경향이 있습니다.',en:'When blowing across a bottle, a shorter air space tends to produce a higher resonant frequency.'},deep:{ko:'헬름홀츠 공명기를 단순화하여 공기 부피가 줄면 공명 주파수가 증가하도록 표현했습니다.',en:'A simplified Helmholtz-resonator model raises resonance frequency as air volume decreases.'}},
+      controls:{water:{ko:'물높이',en:'Water level'}}},
+    shadow:{
+      title:{ko:'빛과 물체의 거리: 그림자 크기',en:'Light and object distance: shadow size'},
+      desc:{easy:{ko:'손전등과 물체를 움직여 그림자가 커지고 작아지는 모습을 보세요.',en:'Move the flashlight and object to make the shadow larger or smaller.'},basic:{ko:'물체가 점광원에 가까울수록 화면에 확대된 그림자가 나타납니다.',en:'An object closer to a point light source makes a magnified shadow on the screen.'},deep:{ko:'점광원과 닮은꼴 삼각형을 이용한 기하학적 확대 모형입니다.',en:'This is a geometric magnification model based on a point source and similar triangles.'}},
+      controls:{}},
+    shadowColor:{
+      title:{ko:'빨강·초록·파랑 빛과 색 그림자',en:'Red, green, blue lights and colored shadows'},
+      desc:{easy:{ko:'빨강·초록·파랑 전구를 하나씩 켜고 끄며 그림자 색을 비교하세요.',en:'Switch the red, green, and blue lamps on and off to compare shadow colors.'},basic:{ko:'여러 색빛이 겹친 화면에서 물체가 한 색빛을 막으면 남은 빛의 혼합색으로 색 그림자가 보입니다.',en:'Where colored lights overlap, blocking one light leaves a shadow colored by the remaining mixture.'},deep:{ko:'가산혼합과 광원별 엄브라의 중첩을 정성적으로 나타낸 모형입니다.',en:'This qualitatively models additive mixing and overlapping umbras from separate sources.'}},
+      controls:{}},
+    kaleidoscope:{
+      title:{ko:'만화경 대칭 무늬',en:'Kaleidoscope symmetry'},
+      desc:{easy:{ko:'조각 수와 거울 수를 바꾸어 새로운 무늬를 만들어 보세요.',en:'Change the number of pieces and mirrors to create a new pattern.'},basic:{ko:'한 조각의 무늬가 거울 반사와 회전으로 반복되어 대칭 무늬를 만듭니다.',en:'A small pattern repeats through reflection and rotation to create symmetry.'},deep:{ko:'회전 대칭과 반사 대칭을 결합한 기하학적 모형입니다.',en:'This is a geometric model combining rotational and reflection symmetry.'}},
+      controls:{segments:{ko:'거울 조각 수',en:'Mirror segments'},dots:{ko:'색 조각 수',en:'Color pieces'}}},
+    balloon:{
+      title:{ko:'열기구의 부력',en:'Hot-air balloon lift'},
+      desc:{easy:{ko:'공기를 데우면 가벼워져 열기구가 올라갑니다.',en:'Heating air makes it less dense, so the balloon rises.'},basic:{ko:'안쪽 공기 온도를 높이면 밀도가 낮아지고 바깥 공기와의 밀도 차가 부력을 만듭니다.',en:'Heating inside air lowers its density, and the difference from outside air creates lift.'},deep:{ko:'이상기체 근사에서 같은 압력일 때 밀도는 절대온도에 반비례합니다.',en:'Under an ideal-gas approximation at equal pressure, density is inversely proportional to absolute temperature.'}},
+      controls:{inside:{ko:'기구 안 온도',en:'Inside temperature'},outside:{ko:'바깥 온도',en:'Outside temperature'}}},
+    lever:{
+      title:{ko:'지렛대 균형',en:'Lever balance'},
+      desc:{easy:{ko:'받침점에서 멀리 밀면 더 작은 힘으로 균형을 만들 수 있습니다.',en:'Pushing farther from the pivot can balance with less force.'},basic:{ko:'힘과 받침점까지의 거리를 바꾸어 양쪽 돌림힘을 같게 만들어 보세요.',en:'Change force and distance to make the torques on both sides equal.'},deep:{ko:'평형 조건은 시계 방향 돌림힘의 합과 반시계 방향 돌림힘의 합이 같은 것입니다.',en:'Equilibrium occurs when total clockwise torque equals total counterclockwise torque.'}},
+      controls:{leftForce:{ko:'왼쪽 힘',en:'Left force'},leftArm:{ko:'왼쪽 거리',en:'Left distance'},rightForce:{ko:'오른쪽 힘',en:'Right force'},rightArm:{ko:'오른쪽 거리',en:'Right distance'}}},
+    airCannon:{
+      title:{ko:'공기대포와 소용돌이',en:'Air cannon and vortex'},
+      desc:{easy:{ko:'막을 더 세게 밀면 공기 고리가 더 멀리 갑니다.',en:'Push the membrane harder and the air ring travels farther.'},basic:{ko:'압력과 구멍 크기를 바꾸어 소용돌이 고리의 속도와 이동 거리를 비교하세요.',en:'Change pressure and opening size to compare vortex-ring speed and distance.'},deep:{ko:'분사 속도와 개구 크기가 소용돌이 고리의 운동을 좌우하는 모습을 정성적으로 나타냅니다.',en:'The model qualitatively shows how jet speed and aperture size influence a vortex ring.'}},
+      controls:{pressure:{ko:'밀어내는 힘',en:'Push strength'},opening:{ko:'구멍 크기',en:'Opening size'}}},
+    lens:{
+      title:{ko:'볼록렌즈와 오목렌즈',en:'Convex and concave lenses'},
+      desc:{easy:{ko:'렌즈 종류와 물체 위치를 바꾸어 빛이 모이거나 퍼지는 모습을 보세요.',en:'Change lens type and object position to see light converge or spread.'},basic:{ko:'볼록렌즈는 빛을 모으고 오목렌즈는 빛을 퍼뜨립니다. 물체 거리와 초점거리가 상의 위치를 정합니다.',en:'A convex lens converges light and a concave lens diverges it. Object distance and focal length determine the image.'},deep:{ko:'얇은 렌즈 방정식 1/f=1/do+1/di를 사용해 상의 위치와 배율을 계산합니다.',en:'The thin-lens equation 1/f=1/do+1/di is used to calculate image position and magnification.'}},
+      controls:{type:{ko:'렌즈 종류',en:'Lens type'},object:{ko:'물체 거리',en:'Object distance'},focal:{ko:'초점거리',en:'Focal length'}}},
+    soundTools:{
+      title:{ko:'소리굽쇠와 부부젤라',en:'Tuning fork and vuvuzela'},
+      desc:{easy:{ko:'망치로 소리굽쇠를 치고 부부젤라의 길이를 바꾸어 소리를 비교하세요.',en:'Strike the tuning fork and change the vuvuzela length to compare sounds.'},basic:{ko:'소리굽쇠의 고유진동과 관 속 공기기둥의 공명을 직접 조작합니다.',en:'Directly explore a tuning fork’s natural vibration and air-column resonance.'},deep:{ko:'진동체의 고유진동수와 관의 유효 길이에 따른 공명 주파수 변화를 표현합니다.',en:'The model represents natural frequency and the change of resonance with effective tube length.'}},controls:{}},
+    quantum:{
+      title:{ko:'이중슬릿: 한 점씩 쌓이는 간섭무늬',en:'Double slit: interference built one dot at a time'},
+      desc:{easy:{ko:'광자는 화면에 한 점씩 나타나지만, 많이 모이면 두 슬릿의 간섭무늬가 만들어집니다.',en:'Photons appear as individual dots, but many dots build an interference pattern with two slits.'},basic:{ko:'한 슬릿과 두 슬릿을 비교해 입자 검출과 파동형 확률분포를 함께 관찰합니다.',en:'Compare one slit and two slits to observe particle detections and a wave-like probability distribution.'},deep:{ko:'화면의 각 점은 개별 검출 사건이고, 누적 분포는 확률진폭의 간섭을 개념적으로 나타냅니다. 광자의 실제 경로를 그리는 모형은 아닙니다.',en:'Each point is a detection event, while the accumulated distribution conceptually represents interference of probability amplitudes. It does not depict actual photon paths.'}},controls:{}},
+    entanglement:{
+      title:{ko:'한 쌍의 상태와 공동 결과',en:'A paired state and joint result'},
+      desc:{easy:{ko:'두 상자에는 서로 다른 상태가 하나씩 들어 있습니다. 하나를 열면 짝의 나머지 상태도 알 수 있습니다.',en:'The two boxes contain one of each state. Opening one also tells you the partner state.'},basic:{ko:'두 부분을 따로 보지 않고 한 쌍의 공동 상태로 생각하는 쉬운 비유입니다.',en:'This is an easy analogy for thinking of the two parts as one joint state.'},deep:{ko:'이 활동은 상관관계를 이해하기 위한 단순 비유이며 실제 양자 얽힘과 동일하지 않습니다. 실제 얽힘은 고전적인 숨은 카드로 설명되지 않는 통계적 상관을 보입니다.',en:'This is a simple analogy for correlation and is not identical to real quantum entanglement. Real entanglement can show statistical correlations that classical hidden cards cannot explain.'}},controls:{}}
+  };
+
+  let lang = 'ko';
+  let current = topics[0];
+  let level = 'basic';
+  let fontScale = 1;
+  let animations = [];
+  let audioCtx = null;
+
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+  const tr = (key) => I18N[lang][key] || key;
+  const fmt = (s, vars={}) => Object.entries(vars).reduce((a,[k,v]) => a.replace(`{${k}}`,v), s);
+  const localeNum = (n, digits=1) => Number(n).toLocaleString(lang==='ko'?'ko-KR':'en-US',{maximumFractionDigits:digits});
+  const announce = (text) => { $('#live').textContent = ''; setTimeout(()=>$('#live').textContent=text, 30); };
+
+  function applyStaticTranslations(){
+    $$('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (I18N[lang][key]) el.textContent = I18N[lang][key];
+    });
+    document.documentElement.lang = lang;
+    document.title = lang==='ko' ? '모두의 과학 이야기 · 21년 과학 아카이브' : 'Science Stories for Everyone · 21-Year Archive';
+    $('#langBtn').textContent = lang==='ko' ? 'English' : '한국어';
+    $('#langBtn').setAttribute('aria-label', lang==='ko' ? '언어를 영어로 변경' : 'Change language to Korean');
+  }
+
+  function renderYears(){
+    const grid = $('#yearGrid');
+    grid.innerHTML = topics.map(t => {
+      const count = t.sims.length;
+      const sub = count ? fmt(tr('simCount'),{n:count}) : tr('noSim');
+      return `<button type="button" class="year-card ${count ? 'has-sim' : 'is-empty'}" data-year="${t.year}" aria-current="${t.year===current.year}">
+        <span class="year-card-top"><span class="round">${fmt(tr('round'),{n:t.round})}</span><span class="status-dot" aria-hidden="true"></span></span>
+        <span class="year">${t.year}</span>
+        <span class="year-title">${escapeHtml(t.title[lang])}</span>
+        <span class="year-card-footer"><span class="sim-count">${sub}</span><span class="year-arrow" aria-hidden="true">↗</span></span>
+      </button>`;
+    }).join('');
+    $$('.year-card', grid).forEach(btn => btn.addEventListener('click', () => selectYear(Number(btn.dataset.year))));
+  }
+
+  function selectYear(year){
+    current = topics.find(t=>t.year===year) || topics[0];
+    stopAll();
+    renderYears();
+    renderDetail();
+    $('#detail').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'start'});
+    announce(`${current.year}, ${current.title[lang]}`);
+  }
+
+  function renderDetail(){
+    const d = $('#detail');
+    const keywords = current.keywords[lang] || [];
+    const summary = current.summary ? current.summary[level][lang] : '';
+    let html = `<div class="detail-head"><div>
+      <p class="detail-kicker">${current.year} · ${fmt(tr('round'),{n:current.round})}</p>
+      <h2 id="detailTitle">${escapeHtml(current.title[lang])}</h2>
+      ${summary ? `<p class="detail-summary">${escapeHtml(summary)}</p>` : ''}
+      </div><button type="button" class="speak-btn" id="speakPage">🔊 ${tr('listen')}</button></div>`;
+
+    if (keywords.length){
+      html += `<h3>${tr('keywords')}</h3><ul class="keyword-list">${keywords.map(k=>`<li>${escapeHtml(k)}</li>`).join('')}</ul>`;
+      if (current.scientists) html += `<div class="scientists"><strong>${tr('scientists')}</strong><br>${escapeHtml(current.scientists[lang])}</div>`;
+      html += `<h3 class="sim-heading">${tr('simulations')}</h3><div id="simGrid" class="sim-grid"></div>`;
+    } else {
+      const title = current.preparing ? tr('preparingTitle') : tr('noKeywordTitle');
+      const text = current.preparing ? tr('preparingText') : tr('noKeywordText');
+      html += `<div class="notice"><strong>${title}</strong><span>${text}</span></div>`;
+    }
+    d.innerHTML = html;
+    $('#speakPage').addEventListener('click', speakCurrent);
+    if (current.sims.length) {
+      current.sims.forEach((type, idx) => $('#simGrid').insertAdjacentHTML('beforeend', simCard(type, idx)));
+      current.sims.forEach((type, idx) => initSim(type, `sim-${idx}`));
+    }
+  }
+
+  function simCard(type, idx){
+    const info = simText[type];
+    return `<section class="sim-card" id="sim-${idx}-card" aria-labelledby="sim-${idx}-title">
+      <div class="sim-top"><span class="sim-number" aria-hidden="true">${String(idx+1).padStart(2,'0')}</span><h3 id="sim-${idx}-title">${escapeHtml(info.title[lang])}</h3><p>${escapeHtml(info.desc[level][lang])}</p></div>
+      <div class="sim-stage" id="sim-${idx}-stage"></div>
+      <div class="controls" id="sim-${idx}-controls"></div>
+    </section>`;
+  }
+
+  function canvasStage(id, label){
+    const stage = $(`#${id}-stage`);
+    const instruction = lang==='ko'?'화면 속 빛이나 사물을 손가락 또는 마우스로 끌어 움직일 수 있습니다.':'Drag objects or light in the scene with a finger or mouse.';
+    stage.innerHTML = `<canvas width="900" height="540" tabindex="0" role="application" aria-label="${escapeHtml(label)}. ${escapeHtml(instruction)}"></canvas>`;
+    return $('canvas', stage);
+  }
+
+  function controlRange(id,key,min,max,value,step,unit=''){
+    const label = simText[key.type]?.controls?.[key.name]?.[lang] || key.label || key.name;
+    return `<div class="control-row"><label for="${id}-${key.name}">${escapeHtml(label)}</label><input id="${id}-${key.name}" type="range" min="${min}" max="${max}" value="${value}" step="${step}"><output id="${id}-${key.name}-out" for="${id}-${key.name}">${value}${unit}</output></div>`;
+  }
+
+  function stateBox(id, text){ return `<div class="state-box" id="${id}-state" aria-live="polite"><span class="sr-only">${tr('experimentState')}: </span><span class="state-text">${escapeHtml(text)}</span></div>`; }
+  function interactionPanel(id,hint,buttons=''){return `<div class="interaction-guide"><span class="gesture-mark" aria-hidden="true">☝</span><span>${escapeHtml(hint)}</span></div><div class="button-row experiment-actions">${buttons}</div>${stateBox(id,'')}`;}
+  function choiceButtons(id,name,items,current){return `<div class="choice-group" role="group">${items.map(([v,l])=>`<button type="button" class="choice-btn" data-choice="${name}" data-value="${v}" aria-pressed="${v===current}">${escapeHtml(l)}</button>`).join('')}</div>`;}
+  function bindChoices(id,name,handler){$$(`#${id}-controls [data-choice="${name}"]`).forEach(btn=>btn.addEventListener('click',()=>{$$(`#${id}-controls [data-choice="${name}"]`).forEach(b=>b.setAttribute('aria-pressed','false'));btn.setAttribute('aria-pressed','true');handler(btn.dataset.value);}));}
+
+  function initSim(type,id){
+    const map = {phone:initPhone, induction:initInduction, optics:initOptics, prism:initPrism, magnet:initMagnet, static:initStatic,
+      gravity:initGravity, friction:initFriction, density:initDensity, soundMedium:initSoundMedium, soundTools:initSoundTools,
+      bottleWave:initBottle, shadow:initShadow, shadowColor:initShadowColor, kaleidoscope:initKaleidoscope, balloon:initBalloon, lever:initLever,
+      airCannon:initAirCannon, lens:initLens, quantum:initQuantum, entanglement:initEntanglement};
+    if (map[type]) map[type](id,type);
+  }
+
+  function prepCanvas(canvas){
+    const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,P=scenePalette();
+    ctx.clearRect(0,0,W,H);const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,P.bgTop);g.addColorStop(1,P.bg);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=P.grid;ctx.lineWidth=1;for(let x=0;x<W;x+=45){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<H;y+=45){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.lineCap='round';ctx.lineJoin='round';return {ctx,W,H};
+  }
+  function scenePalette(){const hc=document.body.classList.contains('high-contrast');return hc?{bg:'#000',bgTop:'#000',panel:'#000',text:'#fff',muted:'#fff',line:'#fff',border:'#fff',grid:'rgba(255,255,255,.13)',primary:'#00ffff',cyan:'#00ffff',accent:'#ffff00',danger:'#ff5a5a',success:'#49ff9b'}:{bg:'#eef4fb',bgTop:'#fbfdff',panel:'#fff',text:'#172033',muted:'#728096',line:'#25324a',border:'#cfd9e7',grid:'rgba(39,63,103,.055)',primary:'#315ee7',cyan:'#21bfc1',accent:'#f4b740',danger:'#ef476f',success:'#087d5b'};}
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+  function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+  function pointerPoint(c,e){const r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};}
+  function installPointer(c,hit,move,end,start){let active=false,token=null;c.style.touchAction='none';c.addEventListener('pointerdown',e=>{const p=pointerPoint(c,e),h=hit(p,e);if(h===false||h===null||h===undefined)return;active=true;token=h;c.setPointerCapture?.(e.pointerId);e.preventDefault();start?.(p,e,token);move?.(p,e,'start',token);});c.addEventListener('pointermove',e=>{if(!active)return;e.preventDefault();move?.(pointerPoint(c,e),e,'move',token);});const finish=e=>{if(!active)return;active=false;e.preventDefault();end?.(pointerPoint(c,e),e,token);token=null;};c.addEventListener('pointerup',finish);c.addEventListener('pointercancel',finish);}
+  function setState(id,c,text){const el=$(`#${id}-state .state-text`)||$(`#${id}-state`);if(el)el.textContent=text;c.setAttribute('aria-label',text);}
+  function roundedRect(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+  function drawDragHalo(ctx,x,y,r){const P=scenePalette();ctx.save();ctx.strokeStyle=P.primary;ctx.globalAlpha=.28;ctx.lineWidth=4;ctx.setLineDash([7,8]);ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.fillStyle=P.primary;ctx.beginPath();ctx.arc(x+r*.72,y-r*.72,13,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';ctx.fillText('↕',x+r*.72-6,y-r*.72+5);ctx.restore();}
+  function drawSceneTitle(ctx,text,W){const P=scenePalette();ctx.fillStyle=P.panel;roundedRect(ctx,24,20,Math.min(W-48,560),46,15);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(text,42,50);}
+  function drawFlashlight(ctx,x,y,tx,ty,P){const a=Math.atan2(ty-y,tx-x);ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.primary;roundedRect(ctx,-48,-25,82,50,14);ctx.fill();ctx.fillStyle=P.accent;ctx.beginPath();ctx.moveTo(30,-35);ctx.lineTo(68,-22);ctx.lineTo(68,22);ctx.lineTo(30,35);ctx.closePath();ctx.fill();ctx.restore();}
+  function drawBarMagnet(ctx,x,y,w,h,a,P){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.danger;ctx.fillRect(-w/2,-h/2,w/2,h);ctx.fillStyle=P.primary;ctx.fillRect(0,-h/2,w/2,h);ctx.fillStyle='#fff';ctx.font='900 27px sans-serif';ctx.fillText('N',-w*.28,9);ctx.fillText('S',w*.22,9);ctx.restore();}
+  function drawCompass(ctx,x,y,a,P){ctx.fillStyle=P.panel;ctx.beginPath();ctx.arc(x,y,85,0,Math.PI*2);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.stroke();ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.danger;ctx.beginPath();ctx.moveTo(70,0);ctx.lineTo(0,-13);ctx.lineTo(0,13);ctx.closePath();ctx.fill();ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(-70,0);ctx.lineTo(0,-13);ctx.lineTo(0,13);ctx.closePath();ctx.fill();ctx.restore();ctx.fillStyle=P.text;ctx.font='800 18px sans-serif';ctx.fillText('N',x-7,y-97);}
+  function drawFieldLines(ctx,m,compass,P){ctx.save();ctx.translate(m.x,m.y);ctx.rotate(m.a);ctx.strokeStyle=P.primary;ctx.globalAlpha=.20;ctx.lineWidth=3;for(let k=0;k<5;k++){ctx.beginPath();ctx.ellipse(0,0,130+k*45,65+k*28,0,0,Math.PI*2);ctx.stroke();}ctx.restore();ctx.globalAlpha=1;}
+  function drawTuningFork(ctx,x,y,v,P){ctx.save();ctx.translate(x,y);ctx.strokeStyle=P.line;ctx.lineWidth=18;ctx.beginPath();ctx.moveTo(0,35);ctx.lineTo(0,145);ctx.moveTo(0,35);ctx.quadraticCurveTo(-55+v,-10,-55+v,-115);ctx.moveTo(0,35);ctx.quadraticCurveTo(55-v,-10,55-v,-115);ctx.stroke();ctx.restore();}
+  function drawThermometer(ctx,x,y,temp,P){ctx.strokeStyle=P.line;ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+220);ctx.stroke();ctx.fillStyle=P.danger;ctx.beginPath();ctx.arc(x,y+235,34,0,Math.PI*2);ctx.fill();ctx.fillRect(x-10,y+220-clamp((temp-20)*2.2,0,210),20,clamp((temp-20)*2.2,0,210));ctx.fillStyle=P.text;ctx.font='800 22px sans-serif';ctx.fillText(`${temp.toFixed(0)}°C`,x-36,y+290);}
+  function drawStar(ctx,x,y,r,color){ctx.fillStyle=color;ctx.beginPath();for(let i=0;i<10;i++){const rr=i%2?r*.45:r,a=-Math.PI/2+i*Math.PI/5,px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr;i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();ctx.fill();}
+  function drawArrow(ctx,x,axis,h,color,ghost=false){ctx.save();ctx.globalAlpha=ghost?.72:1;ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(x,axis);ctx.lineTo(x,axis-h);ctx.stroke();ctx.beginPath();ctx.moveTo(x,axis-h);ctx.lineTo(x-15,axis-h+22*Math.sign(h||1));ctx.lineTo(x+15,axis-h+22*Math.sign(h||1));ctx.closePath();ctx.fill();ctx.restore();}
+  function drawLens(ctx,x,axis,type,P){ctx.strokeStyle=P.primary;ctx.fillStyle='rgba(70,180,255,.22)';ctx.lineWidth=7;ctx.beginPath();if(type==='convex'){ctx.moveTo(x,100);ctx.quadraticCurveTo(x-48,axis,x,480);ctx.quadraticCurveTo(x+48,axis,x,100);}else{ctx.moveTo(x-32,100);ctx.quadraticCurveTo(x+18,axis,x-32,480);ctx.lineTo(x+32,480);ctx.quadraticCurveTo(x-18,axis,x+32,100);}ctx.closePath();ctx.fill();ctx.stroke();}
+  async function safeTone(freq=440,duration=.7,gainValue=.12,wave='sine'){
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC){announce(tr('notSupported'));return false;}
+      audioCtx ||= new AC();
+      if(audioCtx.state==='suspended') await audioCtx.resume();
+      const now=audioCtx.currentTime;
+      const osc=audioCtx.createOscillator();
+      const gain=audioCtx.createGain();
+      const compressor=audioCtx.createDynamicsCompressor();
+      osc.type=wave;
+      osc.frequency.setValueAtTime(clamp(Number(freq)||440,40,1600),now);
+      gain.gain.setValueAtTime(0.0001,now);
+      gain.gain.exponentialRampToValueAtTime(clamp(Number(gainValue)||.12,.025,.28),now+.025);
+      gain.gain.setValueAtTime(clamp(Number(gainValue)||.12,.025,.28),now+Math.max(.05,duration-.08));
+      gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+      osc.connect(gain).connect(compressor).connect(audioCtx.destination);
+      osc.start(now);osc.stop(now+duration+.04);
+      return true;
+    }catch(e){announce(tr('notSupported'));return false;}
+  }
+
+
+  function initPhone(id,type){
+    const c=canvasStage(id,simText[type].title[lang]), controls=$(`#${id}-controls`);
+    controls.innerHTML=interactionPanel(id, lang==='ko'?'마이크의 파란 진동판을 좌우로 여러 번 움직여 파형을 만든 뒤 소리를 들어 보세요.':'Move the blue microphone diaphragm left and right several times, then hear the waveform.',
+      `<button class="action-btn primary" id="${id}-play">${lang==='ko'?'만든 소리 듣기':'Hear the signal'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    let diaphragm=0,speaker=0,signal=0,lastT=0,wave=Array(120).fill(0),raf=0;
+    let capturedEnergy=.35,capturedPitch=330,motionChanges=0,lastDirection=0;
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'떨림 → 전기 신호 → 스피커의 떨림':'Vibration → electrical signal → speaker vibration',W);
+      ctx.fillStyle=P.panel;roundedRect(ctx,40,120,270,300,30);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();
+      ctx.fillStyle=P.text;ctx.font='800 25px sans-serif';ctx.fillText(lang==='ko'?'마이크':'MIC',70,166);
+      ctx.strokeStyle=P.muted;ctx.lineWidth=4;for(let y=205;y<350;y+=30){ctx.beginPath();ctx.moveTo(85,y);ctx.lineTo(150,y);ctx.stroke();}
+      ctx.fillStyle=P.primary;roundedRect(ctx,170+diaphragm,185,30,170,14);ctx.fill();drawDragHalo(ctx,185+diaphragm,270,50);
+      ctx.fillStyle=P.panel;roundedRect(ctx,620,120,240,300,30);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();
+      ctx.fillStyle=P.text;ctx.fillText(lang==='ko'?'스피커':'SPEAKER',650,166);
+      ctx.strokeStyle=P.accent;ctx.lineWidth=14;ctx.beginPath();ctx.moveTo(690,H/2-70);ctx.lineTo(690,H/2+70);ctx.stroke();
+      ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(705,H/2-88-speaker*.13);ctx.lineTo(820,H/2-132-speaker*.20);ctx.lineTo(820,H/2+132+speaker*.20);ctx.lineTo(705,H/2+88+speaker*.13);ctx.closePath();ctx.fill();
+      ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(310,H/2);ctx.lineTo(350,H/2);ctx.moveTo(590,H/2);ctx.lineTo(620,H/2);ctx.stroke();
+      ctx.strokeStyle=P.cyan;ctx.lineWidth=5;ctx.beginPath();wave.forEach((v,i)=>{const x=350+i*2,y=H/2+v*.62;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+      const txt=lang==='ko'?`저장된 파형 세기 ${Math.round(capturedEnergy*100)}%, 예상 음높이 ${Math.round(capturedPitch)}Hz. 듣기 버튼은 휴대기기 음량을 사용합니다.`:`Saved waveform level ${Math.round(capturedEnergy*100)}%, estimated pitch ${Math.round(capturedPitch)} Hz. The play button uses your device volume.`;setState(id,c,txt);
+    };
+    installPointer(c,p=>Math.abs(p.x-(185+diaphragm))<78&&Math.abs(p.y-270)<135,
+      (p,e,phase)=>{if(phase==='start'){lastT=performance.now();return;}const now=performance.now(),dt=Math.max(12,now-lastT),old=diaphragm;diaphragm=clamp(p.x-185,-72,72);const velocity=(diaphragm-old)/dt*1000;signal=clamp(velocity*.17,-100,100);speaker=signal;wave.push(signal);wave.shift();capturedEnergy=clamp(capturedEnergy*.82+Math.abs(signal)/100*.18,.08,1);const direction=Math.sign(velocity);if(direction&&lastDirection&&direction!==lastDirection)motionChanges++;if(direction)lastDirection=direction;capturedPitch=clamp(190+motionChanges*28+Math.abs(velocity)*.035,180,760);lastT=now;draw();},
+      ()=>{cancelAnimationFrame(raf);const decay=()=>{diaphragm*=.80;speaker*=.80;signal*=.80;wave.push(signal);wave.shift();draw();if(Math.abs(signal)>.5)raf=requestAnimationFrame(decay);};decay();});
+    $(`#${id}-play`).addEventListener('click',async e=>{e.currentTarget.disabled=true;const ok=await safeTone(capturedPitch,.95,.08+capturedEnergy*.16,'sine');e.currentTarget.disabled=false;if(ok)announce(lang==='ko'?`약 ${Math.round(capturedPitch)}헤르츠 소리를 재생합니다.`:`Playing a tone near ${Math.round(capturedPitch)} hertz.`);});
+    $(`#${id}-reset`).addEventListener('click',()=>{diaphragm=speaker=signal=0;wave=Array(120).fill(0);capturedEnergy=.35;capturedPitch=330;motionChanges=0;lastDirection=0;draw();});draw();
+  }
+
+  function initInduction(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'막대자석을 코일 중심으로 빠르게 넣고 빼며 검류계 바늘의 방향을 관찰하세요. 자석의 극도 바꾸어 비교할 수 있습니다.':'Move the bar magnet quickly into and out of the coil and watch the galvanometer. You can also reverse the magnet poles.',`<button class="action-btn primary" id="${id}-flip">N↔S ${lang==='ko'?'자석 극 바꾸기':'Reverse poles'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    let magnet={x:175,y:305},prevX=175,prevT=performance.now(),emf=0,raf=0,polarity=1;
+    const coil={x:585,y:305,w:190,h:190};
+    const drawMeter=(ctx,x,y,P)=>{
+      ctx.save();ctx.fillStyle=P.panel;ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.beginPath();ctx.arc(x,y,86,Math.PI,0);ctx.lineTo(x+86,y+35);ctx.lineTo(x-86,y+35);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.fillStyle=P.text;ctx.font='900 22px sans-serif';ctx.fillText('G',x-8,y+22);ctx.font='800 17px sans-serif';ctx.fillText('−',x-67,y+23);ctx.fillText('+',x+57,y+23);
+      for(let i=0;i<=10;i++){const a=Math.PI+i*Math.PI/10,inner=i===5?58:64;ctx.strokeStyle=P.line;ctx.lineWidth=i===5?4:2;ctx.beginPath();ctx.moveTo(x+72*Math.cos(a),y+72*Math.sin(a));ctx.lineTo(x+inner*Math.cos(a),y+inner*Math.sin(a));ctx.stroke();}
+      const a=Math.PI+(clamp(emf,-100,100)+100)/200*Math.PI;ctx.strokeStyle=emf>=0?P.success:P.danger;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(x,y+7);ctx.lineTo(x+62*Math.cos(a),y+62*Math.sin(a));ctx.stroke();ctx.fillStyle=P.line;ctx.beginPath();ctx.arc(x,y+7,9,0,Math.PI*2);ctx.fill();ctx.restore();
+    };
+    const drawInductionMagnet=(ctx,x,y,P)=>{
+      const w=170,h=82,leftN=polarity===1;
+      ctx.save();ctx.translate(x,y);
+      ctx.fillStyle=leftN?P.danger:P.primary;ctx.fillRect(-w/2,-h/2,w/2,h);
+      ctx.fillStyle=leftN?P.primary:P.danger;ctx.fillRect(0,-h/2,w/2,h);
+      ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.strokeRect(-w/2,-h/2,w,h);
+      ctx.fillStyle='#fff';ctx.font='900 27px sans-serif';ctx.fillText(leftN?'N':'S',-w*.29,9);ctx.fillText(leftN?'S':'N',w*.21,9);ctx.restore();
+    };
+    const updateFlipLabel=()=>{const b=$(`#${id}-flip`);if(b)b.textContent=`N↔S ${lang==='ko'?'자석 극 바꾸기':'Reverse poles'} · ${polarity===1?(lang==='ko'?'왼쪽 N':'N left'):(lang==='ko'?'왼쪽 S':'S left')}`;};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'자속이 변할 때만 검류계가 움직임':'The galvanometer moves only while magnetic flux changes',W);
+      ctx.fillStyle='#d9e3ef';roundedRect(ctx,coil.x-70,coil.y-118,190,236,28);ctx.fill();ctx.strokeStyle='#6c7a90';ctx.lineWidth=5;ctx.stroke();
+      ctx.fillStyle='#b8c5d6';ctx.fillRect(coil.x-92,coil.y-132,28,264);ctx.fillRect(coil.x+113,coil.y-132,28,264);
+      for(let layer=0;layer<3;layer++)for(let i=0;i<11;i++){ctx.strokeStyle=layer===0?'#8b451f':layer===1?'#c46a2d':'#e49a55';ctx.lineWidth=5.5-layer;ctx.beginPath();ctx.ellipse(coil.x-50+i*15,coil.y,52+layer*4,105+layer*5,0,0,Math.PI*2);ctx.stroke();}
+      ctx.fillStyle=P.bg;ctx.beginPath();ctx.ellipse(coil.x+28,coil.y,55,96,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#8b451f';ctx.lineWidth=4;ctx.stroke();
+      const post1={x:coil.x+145,y:coil.y-82},post2={x:coil.x+145,y:coil.y+82};[post1,post2].forEach((p,i)=>{ctx.fillStyle=i?P.primary:P.danger;ctx.beginPath();ctx.arc(p.x,p.y,12,0,Math.PI*2);ctx.fill();});
+      ctx.strokeStyle='#334155';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(post1.x+12,post1.y);ctx.bezierCurveTo(790,210,770,145,800,145);ctx.moveTo(post2.x+12,post2.y);ctx.bezierCurveTo(790,390,770,310,800,310);ctx.stroke();drawMeter(ctx,800,235,P);
+      drawInductionMagnet(ctx,magnet.x,magnet.y,P);drawDragHalo(ctx,magnet.x,magnet.y,98);
+      ctx.strokeStyle='rgba(49,94,231,.25)';ctx.setLineDash([10,9]);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(260,coil.y);ctx.lineTo(coil.x+45,coil.y);ctx.stroke();ctx.setLineDash([]);
+      const pole=polarity===1?(lang==='ko'?'코일을 향한 쪽은 S극':'S pole faces the coil'):(lang==='ko'?'코일을 향한 쪽은 N극':'N pole faces the coil');
+      const txt=lang==='ko'?`${pole}. 유도 전압 ${Math.abs(emf)<3?'거의 0':emf>0?'오른쪽 방향 '+Math.round(emf):'왼쪽 방향 '+Math.round(Math.abs(emf))}. 자석을 멈추면 다시 0이 됩니다.`:`${pole}. Induced voltage ${Math.abs(emf)<3?'near zero':emf>0?'rightward '+Math.round(emf):'leftward '+Math.round(Math.abs(emf))}. It returns to zero when the magnet stops.`;setState(id,c,txt);
+    };
+    installPointer(c,p=>Math.abs(p.x-magnet.x)<112&&Math.abs(p.y-magnet.y)<78,(p,e,phase)=>{if(phase==='start'){prevX=magnet.x;prevT=performance.now();return;}const now=performance.now(),dt=Math.max(16,now-prevT);magnet.x=clamp(p.x,90,650);magnet.y=clamp(p.y,175,420);const axial=Math.exp(-Math.pow((magnet.y-coil.y)/95,2)),near=Math.max(0,1-Math.abs(coil.x-magnet.x)/430);emf=polarity*clamp((magnet.x-prevX)/dt*150*near*axial,-100,100);prevX=magnet.x;prevT=now;draw();},()=>{cancelAnimationFrame(raf);const decay=()=>{emf*=.84;draw();if(Math.abs(emf)>.5)raf=requestAnimationFrame(decay)};decay();});
+    $(`#${id}-flip`).addEventListener('click',()=>{polarity*=-1;emf=0;updateFlipLabel();draw();});
+    $(`#${id}-reset`).addEventListener('click',()=>{magnet={x:175,y:305};polarity=1;emf=0;updateFlipLabel();draw();});updateFlipLabel();draw();
+  }
+  function initOptics(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    let medium='glass',light={x:165,y:135};
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'손전등을 경계면 위와 아래로 옮겨 보세요. 아래쪽 물질에서 공기로 나갈 때 임계각과 전반사를 확인할 수 있습니다.':'Move the flashlight above and below the boundary. From the lower material toward air, you can observe the critical angle and total internal reflection.',choiceButtons(id,'medium',[['water',lang==='ko'?'물':'Water'],['glass',lang==='ko'?'유리':'Glass'],['mirror',lang==='ko'?'거울':'Mirror']],medium)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const nOf=()=>medium==='water'?1.33:1.52;
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),cx=W/2,cy=300,fromBelow=light.y>cy;drawSceneTitle(ctx,lang==='ko'?'조밀한 매질에서 공기로: 임계각과 전반사':'Dense medium to air: critical angle and total internal reflection',W);
+      ctx.fillStyle=medium==='water'?'rgba(54,160,255,.24)':medium==='glass'?'rgba(95,210,230,.20)':'#aab4c2';ctx.fillRect(0,cy,W,H-cy);ctx.strokeStyle=P.line;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();ctx.setLineDash([10,10]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,78);ctx.lineTo(cx,H-28);ctx.stroke();ctx.setLineDash([]);
+      drawFlashlight(ctx,light.x,light.y,cx,cy,P);drawDragHalo(ctx,light.x,light.y,55);
+      const dx=cx-light.x,dy=cy-light.y,ai=Math.atan2(Math.abs(dx),Math.abs(dy)),adeg=ai*180/Math.PI;
+      ctx.strokeStyle='#ffd447';ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(light.x,light.y);ctx.lineTo(cx,cy);ctx.stroke();
+      const reflY=fromBelow?cy+210*Math.cos(ai):cy-210*Math.cos(ai);ctx.strokeStyle='#ff9b42';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+210*Math.sin(ai),reflY);ctx.stroke();
+      let msg='';
+      if(medium==='mirror') msg=lang==='ko'?`입사각과 반사각은 약 ${Math.round(adeg)}도입니다.`:`Incident and reflection angles are about ${Math.round(adeg)} degrees.`;
+      else if(!fromBelow){const ar=Math.asin(Math.sin(ai)/nOf());ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy+240*Math.cos(ar));ctx.stroke();msg=lang==='ko'?`공기에서 ${medium==='water'?'물':'유리'}로: 입사각 ${Math.round(adeg)}도, 굴절각 ${(ar*180/Math.PI).toFixed(1)}도`:`Air to ${medium}: incident ${Math.round(adeg)}°, refraction ${(ar*180/Math.PI).toFixed(1)}°`;}
+      else {const critical=Math.asin(1/nOf()),cdeg=critical*180/Math.PI;if(ai>critical){ctx.strokeStyle=P.danger;ctx.lineWidth=5;ctx.setLineDash([10,8]);ctx.beginPath();ctx.arc(cx,cy,82,-Math.PI/2,-Math.PI/2+critical);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=P.danger;ctx.font='900 20px sans-serif';ctx.fillText(lang==='ko'?'전반사':'TIR',cx+75,cy+62);msg=lang==='ko'?`입사각 ${adeg.toFixed(1)}도가 임계각 ${cdeg.toFixed(1)}도보다 커서 전반사가 일어납니다.`:`The incident angle ${adeg.toFixed(1)}° exceeds the critical angle ${cdeg.toFixed(1)}°, so total internal reflection occurs.`;}else{const ar=Math.asin(nOf()*Math.sin(ai));ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy-240*Math.cos(ar));ctx.stroke();msg=lang==='ko'?`${medium==='water'?'물':'유리'}에서 공기로: 입사각 ${adeg.toFixed(1)}도, 임계각 ${cdeg.toFixed(1)}도`:`${medium} to air: incident ${adeg.toFixed(1)}°, critical ${cdeg.toFixed(1)}°`;}}
+      setState(id,c,msg);
+    };
+    installPointer(c,p=>distance(p,light)<78,p=>{light.x=clamp(p.x,70,430);light.y=clamp(p.y,85,500);if(Math.abs(light.y-300)<35)light.y=light.y<300?250:350;draw();});
+    bindChoices(id,'medium',v=>{medium=v;if(v==='mirror'&&light.y>300)light.y=135;draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:165,y:135};draw();});draw();
+  }
+
+  function initPrism(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'손전등과 프리즘을 움직이거나 프리즘을 돌리세요. 입사 방향과 프리즘 위치에 따라 무지개도 함께 이동합니다.':'Move the flashlight and prism, or rotate the prism. The rainbow follows the incident direction and prism position.',`<button class="action-btn" id="${id}-rotate">↻ ${lang==='ko'?'프리즘 돌리기':'Rotate prism'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    let light={x:105,y:270},prism={x:470,y:270,a:0};
+    const verts=()=>{const R=96;return [0,1,2].map(i=>({x:prism.x+Math.cos(prism.a-Math.PI/2+i*Math.PI*2/3)*R,y:prism.y+Math.sin(prism.a-Math.PI/2+i*Math.PI*2/3)*R}));};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'빛의 입사 방향이 바뀌면 분산된 빛도 이동':'Moving the incident beam moves the dispersed light',W);drawFlashlight(ctx,light.x,light.y,prism.x,prism.y,P);drawDragHalo(ctx,light.x,light.y,55);
+      const inA=Math.atan2(prism.y-light.y,prism.x-light.x),entry={x:prism.x-64*Math.cos(inA),y:prism.y-64*Math.sin(inA)};
+      ctx.strokeStyle='#fff4b8';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(light.x+34*Math.cos(inA),light.y+34*Math.sin(inA));ctx.lineTo(entry.x,entry.y);ctx.stroke();
+      const v=verts();ctx.fillStyle='rgba(160,225,255,.38)';ctx.strokeStyle=P.primary;ctx.lineWidth=6;ctx.beginPath();v.forEach((q,i)=>i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y));ctx.closePath();ctx.fill();ctx.stroke();drawDragHalo(ctx,prism.x,prism.y,110);
+      ctx.strokeStyle='rgba(255,255,255,.75)';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(entry.x,entry.y);ctx.lineTo(prism.x+45*Math.cos(inA),prism.y+45*Math.sin(inA));ctx.stroke();
+      const colors=['#ef476f','#ff8c42','#ffd447','#49b66d','#36a2ff','#6f5bd3'];const screenX=W-48;let hits=[];
+      colors.forEach((col,i)=>{const deviation=(-.105+i*.042)+Math.sin(prism.a-inA)*.10;const outA=inA+deviation;let t=(screenX-(prism.x+48*Math.cos(outA)))/Math.max(.18,Math.cos(outA));t=clamp(t,70,900);const sx=prism.x+48*Math.cos(outA),sy=prism.y+48*Math.sin(outA),ey=sy+t*Math.sin(outA);hits.push(ey);ctx.strokeStyle=col;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(screenX,ey);ctx.stroke();});
+      ctx.fillStyle=P.panel;roundedRect(ctx,W-62,82,35,H-120,12);ctx.fill();hits.forEach((y,i)=>{ctx.fillStyle=colors[i];ctx.fillRect(W-59,clamp(y-8,92,H-55),29,16);});
+      const txt=lang==='ko'?`손전등 각도 ${Math.round(inA*180/Math.PI)}도, 프리즘 회전 ${Math.round(prism.a*180/Math.PI)%360}도. 분산띠가 광선과 함께 이동합니다.`:`Flashlight angle ${Math.round(inA*180/Math.PI)}°, prism rotation ${Math.round(prism.a*180/Math.PI)%360}°. The spectrum follows the beam.`;setState(id,c,txt);
+    };
+    installPointer(c,p=>distance(p,light)<72?'light':distance(p,prism)<116?'prism':false,(p,e,phase,token)=>{if(token==='light'){light.x=clamp(p.x,55,350);light.y=clamp(p.y,105,440);}else{prism.x=clamp(p.x,360,650);prism.y=clamp(p.y,145,410);}draw();});
+    $(`#${id}-rotate`).addEventListener('click',()=>{prism.a=(prism.a+Math.PI/12)%(Math.PI*2);draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:105,y:270};prism={x:470,y:270,a:0};draw();});draw();
+  }
+
+  function initMagnet(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'막대자석을 나침반 주변으로 움직이거나 회전하세요. 나침반의 빨간 N극은 그 위치의 자기장 방향을 가리킵니다.':'Move or rotate the bar magnet around the compass. The red north end of the compass points along the local magnetic field.',`<button class="action-btn" id="${id}-rotate">↻ ${lang==='ko'?'자석 회전':'Rotate magnet'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    let m={x:260,y:285,a:0};const compass={x:680,y:285};
+    const fieldAt=(p)=>{const rx=p.x-m.x,ry=p.y-m.y,r=Math.max(60,Math.hypot(rx,ry)),ux=rx/r,uy=ry/r;const ma=m.a+Math.PI,mx=Math.cos(ma),my=Math.sin(ma),dot=mx*ux+my*uy;return{x:(3*dot*ux-mx)/Math.pow(r,3),y:(3*dot*uy-my)/Math.pow(r,3),r};};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'자석 밖의 자기장은 N극에서 나와 S극으로 들어감':'Outside a magnet, field lines go from N to S',W);drawFieldLines(ctx,m,compass,P);drawBarMagnet(ctx,m.x,m.y,190,88,m.a,P);drawDragHalo(ctx,m.x,m.y,115);const B=fieldAt(compass),needle=Math.atan2(B.y,B.x);drawCompass(ctx,compass.x,compass.y,needle,P);
+      const strength=Math.round(clamp(2600000/(B.r*B.r+14000),0,100));setState(id,c,lang==='ko'?`상대 자기장 세기 ${strength}. 나침반 N극은 자석의 S극 쪽으로 향하고 N극에서는 멀어집니다.`:`Relative field strength ${strength}. The compass north end points toward the magnet’s south pole and away from its north pole.`);
+    };
+    installPointer(c,p=>distance(p,m)<125,p=>{m.x=clamp(p.x,100,800);m.y=clamp(p.y,120,430);draw();});$(`#${id}-rotate`).addEventListener('click',()=>{m.a=(m.a+Math.PI/4)%(Math.PI*2);draw();});$(`#${id}-reset`).addEventListener('click',()=>{m={x:260,y:285,a:0};draw();});draw();
+  }
+  function initStatic(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'풍선을 천 위에서 여러 번 문지른 뒤 종이 조각 가까이 가져가세요.':'Rub the balloon back and forth on the cloth, then move it near the paper bits.',`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    let b={x:180,y:180},charge=0,last={x:180,y:180},papers=Array.from({length:14},(_,i)=>({x:650+(i%5)*38,y:360+Math.floor(i/5)*35,ox:650+(i%5)*38,oy:360+Math.floor(i/5)*35}));
+    const cloth={x:80,y:350,w:300,h:95};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'문지르기 → 전하 축적 → 종이 유도 분극':'Rub → charge builds → paper polarizes',W);ctx.fillStyle='#8d6e63';roundedRect(ctx,cloth.x,cloth.y,cloth.w,cloth.h,18);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 23px sans-serif';ctx.fillText(lang==='ko'?'천':'CLOTH',cloth.x+112,cloth.y+55);
+      const pull=clamp(charge/100,0,1);papers.forEach((q,i)=>{const d=Math.max(40,distance(b,q)),k=pull*clamp(240/d,0,1);q.x=q.ox+(b.x-q.ox)*k*.68;q.y=q.oy+(b.y-q.oy)*k*.68;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(i*.7);ctx.fillStyle=['#f4b740','#d9a441','#ef476f'][i%3];ctx.fillRect(-12,-8,24,16);ctx.restore();});
+      ctx.fillStyle='#ff7aa2';ctx.beginPath();ctx.ellipse(b.x,b.y,74,94,-.15,0,Math.PI*2);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=3;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 26px sans-serif';for(let i=0;i<Math.floor(charge/12);i++)ctx.fillText('−',b.x-42+(i%3)*38,b.y-36+Math.floor(i/3)*35);drawDragHalo(ctx,b.x,b.y,95);
+      setState(id,c,lang==='ko'?`풍선 전하량 ${Math.round(charge)}%. ${charge<25?'천에 더 문질러 보세요.':distance(b,{x:720,y:390})<230?'종이 조각이 끌려옵니다.':'종이 쪽으로 옮겨 보세요.'}`:`Balloon charge ${Math.round(charge)}%. ${charge<25?'Rub it more on the cloth.':distance(b,{x:720,y:390})<230?'Paper bits are attracted.':'Move it toward the paper.'}`);
+    };
+    installPointer(c,p=>distance(p,b)<110,(p)=>{const d=distance(p,last);b.x=clamp(p.x,70,830);b.y=clamp(p.y,95,420);if(b.x>cloth.x&&b.x<cloth.x+cloth.w&&b.y>cloth.y-80)charge=clamp(charge+d*.22,0,100);last={...p};draw();},null,()=>{last={...b};});$(`#${id}-reset`).addEventListener('click',()=>{b={x:180,y:180};charge=0;draw();});draw();
+  }
+
+  function initGravity(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let world='earth',ball={x:450,y:135},v=0,running=false,last=0,raf=0;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'공을 원하는 높이로 끌어 올린 뒤 놓으세요. 달·지구·목성·태양의 중력을 비교할 수 있습니다.':'Drag the ball to any height and release it. Compare gravity on the Moon, Earth, Jupiter, and Sun.',choiceButtons(id,'world',[['moon',lang==='ko'?'달':'Moon'],['earth',lang==='ko'?'지구':'Earth'],['jupiter',lang==='ko'?'목성':'Jupiter'],['sun',lang==='ko'?'태양':'Sun']],world)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const data={moon:{g:1.62,c:'#b8bec8'},earth:{g:9.8,c:'#68b75a'},jupiter:{g:24.8,c:'#d79b63'},sun:{g:274,c:'#f6b73c'}};
+    const visualA=()=>176*Math.sqrt(data[world].g/9.8);
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'같은 높이에서 놓아도 중력에 따라 낙하가 달라짐':'The same drop changes with gravitational acceleration',W);ctx.fillStyle=data[world].c;ctx.fillRect(0,H-70,W,70);
+      ctx.strokeStyle=P.muted;ctx.lineWidth=3;for(let y=90;y<H-70;y+=70){ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(120,y);ctx.stroke();ctx.fillStyle=P.text;ctx.font='700 18px sans-serif';ctx.fillText(`${Math.round((H-70-y)/18)} m`,25,y+6);}ctx.fillStyle=P.danger;ctx.beginPath();ctx.arc(ball.x,ball.y,34,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,ball.x,ball.y,52);setState(id,c,lang==='ko'?`높이 ${Math.max(0,(H-104-ball.y)/18).toFixed(1)}m, 표시 속력 ${(v/18).toFixed(1)}m/s, 선택한 천체의 중력 ${data[world].g}m/s²`:`Height ${Math.max(0,(H-104-ball.y)/18).toFixed(1)} m, displayed speed ${(v/18).toFixed(1)} m/s, gravity ${data[world].g} m/s²`);};
+    const fall=t=>{if(!last)last=t;const dt=Math.min(.04,(t-last)/1000);last=t;v+=visualA()*dt;ball.y+=v*dt;if(ball.y>=c.height-104){ball.y=c.height-104;running=false;draw();return;}draw();raf=requestAnimationFrame(fall);};
+    installPointer(c,p=>distance(p,ball)<65,p=>{running=false;cancelAnimationFrame(raf);ball.x=clamp(p.x,150,750);ball.y=clamp(p.y,85,435);v=0;draw();},()=>{running=true;last=0;raf=requestAnimationFrame(fall);});bindChoices(id,'world',v2=>{world=v2;running=false;cancelAnimationFrame(raf);v=0;draw();});$(`#${id}-reset`).addEventListener('click',()=>{running=false;cancelAnimationFrame(raf);ball={x:450,y:135};v=0;draw();});draw();
+  }
+  function initFriction(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let block={x:220,y:330},temp=20,oil=false,last={x:220,y:330},lastT=0,glide=0,raf=0,coolRaf=0,lastCool=performance.now();
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'블록을 바닥에 눌러 좌우로 문지르세요. 멈추면 주변으로 열을 잃으며 온도가 내려갑니다.':'Press and rub the block left and right. When rubbing stops, it loses heat to the surroundings and cools.',`<button class="action-btn" id="${id}-oil" aria-pressed="false">💧 ${lang==='ko'?'기름 넣기':'Add oil'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'문지를 때 가열, 멈추면 냉각':'Heating while rubbing, cooling when stopped',W);ctx.fillStyle='#9c6a43';ctx.fillRect(60,390,W-120,60);if(oil){ctx.fillStyle='rgba(50,140,255,.45)';ctx.fillRect(60,380,W-120,16);}ctx.fillStyle='#355070';roundedRect(ctx,block.x-85,block.y-65,170,110,18);ctx.fill();ctx.fillStyle=`rgba(255,70,0,${clamp((temp-20)/70,0,1)})`;ctx.fillRect(block.x-75,block.y+25,150,16);drawDragHalo(ctx,block.x,block.y,95);drawThermometer(ctx,810,150,temp,P);setState(id,c,lang==='ko'?`예상 온도 ${temp.toFixed(1)}°C. ${oil?'기름이 마찰과 발생열을 줄입니다.':'마른 표면은 더 많은 열을 만듭니다.'} 문지르지 않으면 20°C로 서서히 식습니다.`:`Estimated temperature ${temp.toFixed(1)} °C. ${oil?'Oil reduces friction and heating.':'A dry surface creates more heat.'} Without rubbing it cools toward 20 °C.`);};
+    installPointer(c,p=>Math.abs(p.x-block.x)<105&&Math.abs(p.y-block.y)<90,(p,e,phase)=>{if(phase==='start'){last={...p};lastT=performance.now();cancelAnimationFrame(raf);return;}const now=performance.now(),dx=p.x-last.x,press=clamp((p.y-300)/100,.25,1.5),mu=oil?.22:.82;temp=clamp(temp+Math.abs(dx)*press*mu*.018,20,99);glide=dx/Math.max(16,now-lastT)*16;block.x=clamp(p.x,145,755);block.y=clamp(p.y,295,350);last={...p};lastT=now;draw();},()=>{if(oil&&Math.abs(glide)>1){const go=()=>{block.x=clamp(block.x+glide,145,755);glide*=.93;draw();if(Math.abs(glide)>1&&block.x>145&&block.x<755)raf=requestAnimationFrame(go);};go();}});
+    $(`#${id}-oil`).addEventListener('click',e=>{oil=!oil;e.currentTarget.setAttribute('aria-pressed',oil);e.currentTarget.textContent=oil?(lang==='ko'?'💧 기름 제거':'💧 Remove oil'):(lang==='ko'?'💧 기름 넣기':'💧 Add oil');draw();});$(`#${id}-reset`).addEventListener('click',()=>{block={x:220,y:330};temp=20;glide=0;draw();});
+    const cool=t=>{const dt=Math.min(.1,(t-lastCool)/1000);lastCool=t;if(temp>20.02){temp=20+(temp-20)*Math.exp(-dt*.24);draw();}coolRaf=requestAnimationFrame(cool);};animations.push(()=>{cancelAnimationFrame(coolRaf);cancelAnimationFrame(raf)});draw();coolRaf=requestAnimationFrame(cool);
+  }
+
+  function initDensity(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let material='wood',fluid='water',obj={x:180,y:145},targetY=145,raf=0,inTank=false;
+    const densities={wood:650,plastic:950,aluminum:2700},fd={oil:850,water:1000,salt:1200};
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'물체를 수조 안에 놓고 재료나 액체를 바꾸세요. 선택을 바꾸면 물체가 즉시 새 평형 위치로 이동합니다.':'Put the object in the tank and change the material or liquid. It immediately moves toward the new equilibrium position.',choiceButtons(id,'material',[['wood',lang==='ko'?'나무':'Wood'],['plastic',lang==='ko'?'플라스틱':'Plastic'],['aluminum',lang==='ko'?'알루미늄':'Aluminum']],material)+choiceButtons(id,'fluid',[['oil',lang==='ko'?'기름':'Oil'],['water',lang==='ko'?'물':'Water'],['salt',lang==='ko'?'소금물':'Salt water']],fluid)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const liquidTop=230,tank={x:390,y:150,w:390,h:320};
+    const recalc=()=>{if(!inTank)return;const ratio=densities[material]/fd[fluid];targetY=ratio<1?liquidTop-48+ratio*96:tank.y+tank.h-52;obj.x=clamp(obj.x,tank.x+55,tank.x+tank.w-55);settle();};
+    const settle=()=>{cancelAnimationFrame(raf);const go=()=>{obj.y+=(targetY-obj.y)*.10;draw();if(Math.abs(targetY-obj.y)>1)raf=requestAnimationFrame(go);};go();};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'재료를 바꾸면 새 밀도에 맞춰 다시 뜨거나 가라앉음':'Changing material recalculates floating or sinking',W);ctx.strokeStyle=P.line;ctx.lineWidth=7;ctx.strokeRect(tank.x,tank.y,tank.w,tank.h);ctx.fillStyle=fluid==='oil'?'rgba(226,183,71,.55)':fluid==='salt'?'rgba(66,173,255,.66)':'rgba(66,153,255,.52)';ctx.fillRect(tank.x+4,liquidTop,tank.w-8,tank.y+tank.h-liquidTop-4);ctx.fillStyle=material==='wood'?'#9c6a43':material==='plastic'?'#f4b740':'#8d99ae';roundedRect(ctx,obj.x-48,obj.y-48,96,96,16);ctx.fill();ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(`${densities[material]}`,obj.x-34,obj.y+7);drawDragHalo(ctx,obj.x,obj.y,65);const ratio=densities[material]/fd[fluid];setState(id,c,lang==='ko'?`물체 밀도 ${densities[material]}, 액체 밀도 ${fd[fluid]}. ${ratio<1?`약 ${Math.round(ratio*100)}% 잠겨 뜹니다.`:'바닥까지 가라앉습니다.'}`:`Object density ${densities[material]}, fluid density ${fd[fluid]}. ${ratio<1?`It floats about ${Math.round(ratio*100)}% submerged.`:'It sinks to the bottom.'}`);};
+    installPointer(c,p=>distance(p,obj)<75,p=>{cancelAnimationFrame(raf);obj.x=clamp(p.x,95,820);obj.y=clamp(p.y,90,430);inTank=false;draw();},()=>{inTank=obj.x>tank.x&&obj.x<tank.x+tank.w&&obj.y>tank.y-30;if(inTank)recalc();});
+    bindChoices(id,'material',v=>{material=v;recalc();draw();});bindChoices(id,'fluid',v=>{fluid=v;recalc();draw();});$(`#${id}-reset`).addEventListener('click',()=>{obj={x:180,y:145};targetY=145;inTank=false;draw();});draw();
+  }
+
+  function initSoundMedium(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let source={x:125,y:280},phase=0,raf=0,active=false,stopTimer=0;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'소리굽쇠를 공기·물·고체·진공으로 옮긴 뒤 진동시키세요. 공기·물·고체에서는 소리가 나고 진공에서만 들리지 않습니다.':'Move the tuning fork into air, water, solid, or vacuum, then vibrate it. Sound plays in air, water, and solid, but not in vacuum.',`<button class="action-btn primary" id="${id}-strike">${lang==='ko'?'소리굽쇠 진동시키기':'Vibrate tuning fork'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const zones=[{k:'air',x:20,label:{ko:'공기',en:'Air'},speed:1},{k:'water',x:240,label:{ko:'물',en:'Water'},speed:2.2},{k:'solid',x:460,label:{ko:'고체',en:'Solid'},speed:3.2},{k:'vacuum',x:680,label:{ko:'진공',en:'Vacuum'},speed:0}];
+    const zoneOf=()=>zones.find(z=>source.x>=z.x&&source.x<z.x+200)||zones[0];
+    const particles=(z)=>{const pts=[];if(z.k==='air'){for(let i=0;i<14;i++)pts.push({x:z.x+22+(i%4)*48+(i%2)*12,y:175+Math.floor(i/4)*88});}else if(z.k==='water'){for(let r=0;r<6;r++)for(let q=0;q<8;q++)pts.push({x:z.x+14+q*24+(r%2)*9,y:165+r*50});}else if(z.k==='solid'){for(let r=0;r<10;r++)for(let q=0;q<9;q++)pts.push({x:z.x+13+q*21,y:155+r*31});}return pts;};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),activeZone=zoneOf();drawSceneTitle(ctx,lang==='ko'?'기체는 듬성듬성, 액체는 가깝게, 고체는 촘촘한 배열':'Gas is sparse, liquid is close-packed, solid is tightly ordered',W);zones.forEach((z,i)=>{ctx.fillStyle=z.k==='water'?'rgba(58,155,255,.20)':z.k==='solid'?'rgba(140,150,170,.18)':z.k==='vacuum'?'#10172b':'rgba(255,255,255,.60)';ctx.fillRect(z.x,90,200,380);ctx.strokeStyle=P.border;ctx.strokeRect(z.x,90,200,380);ctx.fillStyle=z.k==='vacuum'?'#fff':P.text;ctx.font='800 23px sans-serif';ctx.fillText(z.label[lang],z.x+66,125);particles(z).forEach((pt,q)=>{const moving=active&&z===activeZone,shift=moving?Math.sin(phase-q*.35)*Math.min(9,3+z.speed*2):0;ctx.fillStyle=z.k==='solid'?'#697386':z.k==='water'?'#287fcb':P.muted;ctx.beginPath();ctx.arc(pt.x+shift,pt.y,z.k==='air'?7:z.k==='water'?6:5,0,Math.PI*2);ctx.fill();});if(active&&z===activeZone&&z.speed>0){for(let r=26;r<150;r+=34){ctx.strokeStyle=`rgba(49,94,231,${.68-r/280})`;ctx.lineWidth=4;ctx.beginPath();ctx.arc(source.x+35,source.y,r+(phase*z.speed)%28,-.7,.7);ctx.stroke();}}});drawTuningFork(ctx,source.x,source.y,active?Math.sin(phase)*7:0,P);drawDragHalo(ctx,source.x,source.y,65);const z=zoneOf();setState(id,c,z.speed?(lang==='ko'?`${z.label.ko}: 입자 간격과 배열을 해당 매질에 맞게 표현했습니다. 진동시키면 440Hz 소리를 들을 수 있습니다.`:`${z.label.en}: particle spacing and arrangement match the medium. Vibrating plays a 440 Hz tone.`):(lang==='ko'?'진공에는 입자가 없어 진동이 전달되지 않으며 소리도 들리지 않습니다.':'Vacuum has no particles to carry the vibration, so no sound is heard.'));};
+    installPointer(c,p=>distance(p,source)<78,p=>{source.x=clamp(p.x,70,830);source.y=clamp(p.y,180,390);draw();});
+    $(`#${id}-strike`).addEventListener('click',()=>{const z=zoneOf();active=true;clearTimeout(stopTimer);stopTimer=setTimeout(()=>{active=false;draw();},1000);if(z.speed>0)safeTone(440,.9,z.k==='solid'?.14:z.k==='water'?.11:.13,'sine');else announce(lang==='ko'?'진공에서는 소리가 전달되지 않습니다.':'Sound does not travel through vacuum.');});
+    $(`#${id}-reset`).addEventListener('click',()=>{source={x:125,y:280};active=false;draw();});const loop=()=>{phase+=.13;draw();raf=requestAnimationFrame(loop)};animations.push(()=>{cancelAnimationFrame(raf);clearTimeout(stopTimer)});loop();
+  }
+  function initSoundTools(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let mallet={x:130,y:385},fork={x:255,y:255},hornEnd=760,vibration=0,raf=0;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'망치를 소리굽쇠에 부딪치고, 부부젤라 끝부분을 좌우로 끌어 관 길이를 바꿔 보세요.':'Hit the tuning fork with the mallet, then drag the vuvuzela bell to change tube length.',`<button class="action-btn primary" id="${id}-blow">${lang==='ko'?'부부젤라 불기':'Blow vuvuzela'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const freq=()=>Math.round(720-(hornEnd-570)*1.7);
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'진동하는 물체와 공기기둥의 공명':'Vibrating objects and air-column resonance',W);ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(450,95);ctx.lineTo(450,470);ctx.stroke();drawTuningFork(ctx,fork.x,fork.y,Math.sin(performance.now()/35)*vibration,P);ctx.fillStyle='#8d6e63';ctx.beginPath();ctx.arc(mallet.x,mallet.y,28,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#8d6e63';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(mallet.x,mallet.y+22);ctx.lineTo(mallet.x-35,mallet.y+85);ctx.stroke();drawDragHalo(ctx,mallet.x,mallet.y,46);
+      ctx.fillStyle='#f4b740';ctx.beginPath();ctx.moveTo(500,245);ctx.lineTo(hornEnd-70,220);ctx.lineTo(hornEnd,150);ctx.lineTo(hornEnd,360);ctx.lineTo(hornEnd-70,290);ctx.lineTo(500,275);ctx.closePath();ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();drawDragHalo(ctx,hornEnd,255,72);ctx.fillStyle=P.text;ctx.font='800 24px sans-serif';ctx.fillText(`${freq()} Hz`,610,410);setState(id,c,lang==='ko'?`부부젤라 관 길이 ${Math.round(hornEnd-500)}. 예상 음높이 ${freq()}Hz`:`Vuvuzela tube length ${Math.round(hornEnd-500)}. Estimated pitch ${freq()} Hz`);};
+    installPointer(c,p=>distance(p,mallet)<55?'mallet':Math.abs(p.x-hornEnd)<80&&Math.abs(p.y-255)<130?'horn':false,(p,e,phase,token)=>{if(token==='mallet'){mallet.x=clamp(p.x,70,420);mallet.y=clamp(p.y,130,420);if(distance(mallet,fork)<95){vibration=14;safeTone(520,.6,.09,'sine');setTimeout(()=>vibration=0,700);}}else{hornEnd=clamp(p.x,620,850);}draw();});$(`#${id}-blow`).addEventListener('click',()=>safeTone(freq(),1.0,.12,'sawtooth'));$(`#${id}-reset`).addEventListener('click',()=>{mallet={x:130,y:385};hornEnd=760;draw();});draw();
+  }
+
+  function initBottle(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let level=360,phase=0,raf=0,toneOsc=null,toneGain=null,continuous=false;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'병 속 파란 물 표면을 위아래로 움직이세요. 한 번 듣거나 연속음을 켜서 물높이에 따른 음높이 변화를 바로 들을 수 있습니다.':'Move the blue water surface up and down. Play one tone or turn on continuous sound to hear pitch change immediately.',`<button class="action-btn primary" id="${id}-play">${tr('playTone')}</button><button class="action-btn" id="${id}-continuous" aria-pressed="false">▶ ${lang==='ko'?'소리 계속 듣기':'Continuous sound'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const freq=()=>Math.round(250+(420-level)/(420-185)*450);
+    const updateContinuous=()=>{if(toneOsc&&audioCtx){toneOsc.frequency.setTargetAtTime(freq(),audioCtx.currentTime,.025);}};
+    const setContinuousButton=()=>{const b=$(`#${id}-continuous`);if(!b)return;b.setAttribute('aria-pressed',continuous);b.textContent=continuous?(lang==='ko'?'■ 연속음 끄기':'■ Stop continuous sound'):(lang==='ko'?'▶ 소리 계속 듣기':'▶ Continuous sound');};
+    const startContinuous=async()=>{try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){announce(tr('notSupported'));return;}audioCtx||=new AC();if(audioCtx.state==='suspended')await audioCtx.resume();const now=audioCtx.currentTime;toneOsc=audioCtx.createOscillator();toneGain=audioCtx.createGain();toneOsc.type='sine';toneOsc.frequency.setValueAtTime(freq(),now);toneGain.gain.setValueAtTime(.0001,now);toneGain.gain.exponentialRampToValueAtTime(.075,now+.04);toneOsc.connect(toneGain).connect(audioCtx.destination);toneOsc.start(now);continuous=true;setContinuousButton();}catch(e){announce(tr('notSupported'));}};
+    const stopContinuous=()=>{continuous=false;setContinuousButton();if(toneOsc&&toneGain&&audioCtx){const now=audioCtx.currentTime,osc=toneOsc,g=toneGain;try{g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(Math.max(.0001,g.gain.value),now);g.gain.exponentialRampToValueAtTime(.0001,now+.06);osc.stop(now+.08);}catch(e){}toneOsc=null;toneGain=null;}};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'물높이↑ → 공기 공간↓ → 음높이↑ (250~700Hz)':'Water level ↑ → air space ↓ → pitch ↑ (250–700 Hz)',W);ctx.strokeStyle=P.line;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(360,80);ctx.lineTo(360,135);ctx.quadraticCurveTo(290,165,300,420);ctx.quadraticCurveTo(450,500,600,420);ctx.quadraticCurveTo(610,165,540,135);ctx.lineTo(540,80);ctx.closePath();ctx.stroke();ctx.save();ctx.beginPath();ctx.moveTo(310,160);ctx.lineTo(590,160);ctx.lineTo(590,420);ctx.quadraticCurveTo(450,485,310,420);ctx.closePath();ctx.clip();ctx.fillStyle='rgba(55,155,255,.60)';ctx.fillRect(300,level,310,500-level);ctx.restore();ctx.strokeStyle=P.primary;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(320,level);ctx.lineTo(580,level);ctx.stroke();drawDragHalo(ctx,450,level,48);
+      const top=100,bottom=level-8,L=Math.max(50,bottom-top);ctx.strokeStyle=P.accent;ctx.lineWidth=6;ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.sin(Math.PI*u)*45,x=450+Math.sin(phase+u*Math.PI*2)*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?'마디':'node',470,top+12);ctx.fillText(lang==='ko'?'배':'antinode',505,top+L/2);ctx.fillText(`${freq()} Hz`,65,160);updateContinuous();setState(id,c,lang==='ko'?`현재 ${freq()}Hz입니다. ${continuous?'연속음이 켜져 있어 물높이를 움직이면 음높이가 바로 변합니다.':'소리 계속 듣기를 켜면 물높이 변화에 따른 음높이를 연속해서 들을 수 있습니다.'}`:`Current pitch ${freq()} Hz. ${continuous?'Continuous sound is on, so pitch changes as the water moves.':'Turn on continuous sound to hear pitch change while moving the water.'}`);};
+    installPointer(c,p=>Math.abs(p.y-level)<60&&p.x>300&&p.x<600,p=>{level=clamp(p.y,185,420);draw();});$(`#${id}-play`).addEventListener('click',()=>safeTone(freq(),.85,.14,'sine'));$(`#${id}-continuous`).addEventListener('click',()=>continuous?stopContinuous():startContinuous());$(`#${id}-reset`).addEventListener('click',()=>{level=360;draw();});const loop=()=>{phase+=.11;draw();raf=requestAnimationFrame(loop)};animations.push(()=>{cancelAnimationFrame(raf);stopContinuous();});loop();
+  }
+  function initShadow(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let light={x:105,y:285},obj={x:430,y:285},screenX=700,shape='circle';
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'흰 손전등·물체·화면을 직접 움직여 그림자의 크기와 가장자리 변화를 비교하세요.':'Move the white light, object, and screen to compare shadow size and edge softness.',choiceButtons(id,'shape',[['circle',lang==='ko'?'원':'Circle'],['square',lang==='ko'?'사각형':'Square'],['star',lang==='ko'?'별':'Star']],shape)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const screenW=170;
+    const drawShape=(ctx,x,y,size,color)=>{ctx.fillStyle=color;if(shape==='circle'){ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();}else if(shape==='square')ctx.fillRect(x-size,y-size,size*2,size*2);else drawStar(ctx,x,y,size,color);};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'광원에 가까울수록 크게 확대되고 가장자리가 흐려짐':'Closer to the source makes a larger, softer-edged shadow',W);drawFlashlight(ctx,light.x,light.y,obj.x,obj.y,P);drawDragHalo(ctx,light.x,light.y,55);ctx.fillStyle='#f7f4e9';roundedRect(ctx,screenX,95,screenW,380,18);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();drawDragHalo(ctx,screenX+screenW/2,285,54);const denom=Math.max(65,obj.x-light.x),mag=(screenX-light.x)/denom,sy=light.y+(obj.y-light.y)*mag,ss=clamp(28*mag,16,78);ctx.globalAlpha=.13;ctx.fillStyle='#ffd447';ctx.beginPath();ctx.moveTo(light.x,light.y);ctx.lineTo(screenX,sy-ss);ctx.lineTo(screenX,sy+ss);ctx.closePath();ctx.fill();ctx.globalAlpha=1;drawShape(ctx,obj.x,obj.y,42,P.text);drawDragHalo(ctx,obj.x,obj.y,62);
+      const separation=obj.x-light.x,closeness=clamp(1-(separation-85)/280,0,1),blur=3+closeness*20,alpha=.86-closeness*.28,shadowX=screenX+screenW/2,shadowY=clamp(sy,178,392);
+      ctx.save();ctx.globalAlpha=alpha;ctx.shadowColor='rgba(24,32,48,.72)';ctx.shadowBlur=blur;drawShape(ctx,shadowX,shadowY,ss,'rgba(24,32,48,.88)');ctx.restore();
+      setState(id,c,lang==='ko'?`그림자 확대 비율 약 ${mag.toFixed(2)}배. 물체가 손전등에 가까울수록 모든 모양이 크게 확대되고 테두리가 더 희미해집니다.`:`Shadow magnification about ${mag.toFixed(2)}×. Moving any shape closer to the flashlight enlarges it and softens its edge.`);};
+    installPointer(c,p=>distance(p,obj)<70?'obj':distance(p,light)<72?'light':(p.x>screenX-25&&p.x<screenX+screenW+25&&p.y>80&&p.y<490)?'screen':false,(p,e,phase,t)=>{if(t==='obj'){obj.x=clamp(p.x,light.x+85,screenX-75);obj.y=clamp(p.y,135,435);}else if(t==='light'){light.x=clamp(p.x,55,obj.x-85);light.y=clamp(p.y,120,445);}else screenX=clamp(p.x-screenW/2,obj.x+80,720);draw();});bindChoices(id,'shape',v=>{shape=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:105,y:285};obj={x:430,y:285};screenX=700;draw();});draw();
+  }
+  function initShadowColor(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let obj={x:470,y:285},lights=[{x:105,y:175,on:true,c:'#ff334d',rgb:[255,0,0],name:{ko:'빨강',en:'Red'}},{x:105,y:285,on:true,c:'#00c853',rgb:[0,255,0],name:{ko:'초록',en:'Green'}},{x:105,y:395,on:true,c:'#2979ff',rgb:[0,0,255],name:{ko:'파랑',en:'Blue'}}];
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'전구와 물체를 움직이고 빨강·초록·파랑 전구를 각각 켜거나 끄세요. 한 색만 켜면 주변은 그 색이고, 빛이 막힌 곳은 검정 그림자입니다.':'Move the lamps and object, and switch each red, green, and blue lamp independently. With one lamp, the screen takes that color and the blocked region is black.',lights.map((l,i)=>`<button class="action-btn" id="${id}-light-${i}" aria-pressed="true">● ${l.name[lang]} ${lang==='ko'?'끄기':'off'}</button>`).join('')+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const screenX=810,screenY=95,screenW=65,screenH=380;
+    const projections=()=>lights.map(l=>{const mag=(screenX-l.x)/Math.max(70,obj.x-l.x),sy=l.y+(obj.y-l.y)*mag,ss=clamp(42*mag,18,160);return{sy,ss};});
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'켜진 빛은 더해지고, 물체가 막은 색은 그림자에서 빠짐':'Active lights add; a blocked color is removed from its shadow',W);const proj=projections();
+      lights.forEach((l,i)=>{ctx.fillStyle=l.on?l.c:'#7f8794';ctx.beginPath();ctx.arc(l.x,l.y,25,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,l.x,l.y,43);if(l.on){ctx.globalAlpha=.10;ctx.fillStyle=l.c;ctx.beginPath();ctx.moveTo(l.x,l.y);ctx.lineTo(screenX,proj[i].sy-proj[i].ss);ctx.lineTo(screenX,proj[i].sy+proj[i].ss);ctx.closePath();ctx.fill();ctx.globalAlpha=1;}});
+      ctx.fillStyle='#111827';roundedRect(ctx,screenX,screenY,screenW,screenH,12);ctx.fill();
+      for(let y=screenY+3;y<screenY+screenH-3;y+=2){let r=0,g=0,b=0;lights.forEach((l,i)=>{const blocked=y>=proj[i].sy-proj[i].ss&&y<=proj[i].sy+proj[i].ss;if(l.on&&!blocked){r+=l.rgb[0];g+=l.rgb[1];b+=l.rgb[2];}});ctx.fillStyle=`rgb(${Math.min(255,r)},${Math.min(255,g)},${Math.min(255,b)})`;ctx.fillRect(screenX+3,y,screenW-6,2.4);}
+      ctx.strokeStyle=P.line;ctx.lineWidth=4;roundedRect(ctx,screenX,screenY,screenW,screenH,12);ctx.stroke();ctx.fillStyle=P.text;ctx.beginPath();ctx.arc(obj.x,obj.y,42,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,obj.x,obj.y,62);const on=lights.filter(l=>l.on),names=on.map(l=>l.name[lang]).join(', ')||(lang==='ko'?'없음':'none');const one=on.length===1?(lang==='ko'?`${on[0].name.ko}빛 하나만 켜져 화면 주변은 ${on[0].name.ko}, 물체 뒤는 검정 그림자입니다.`:`Only ${on[0].name.en} is on: the screen is ${on[0].name.en.toLowerCase()} and the blocked shadow is black.`):(lang==='ko'?'여러 색빛이 더해지고, 각 그림자에서는 막힌 색을 제외한 빛이 보입니다.':'The active colors add, and each shadow contains the colors that were not blocked.');setState(id,c,lang==='ko'?`켜진 전구: ${names}. ${one}`:`Lights on: ${names}. ${one}`);};
+    installPointer(c,p=>distance(p,obj)<70?'obj':lights.findIndex(l=>distance(p,l)<55),(p,e,phase,t)=>{if(t==='obj'){obj.x=clamp(p.x,260,720);obj.y=clamp(p.y,135,435);}else if(Number.isInteger(t)&&t>=0){lights[t].x=clamp(p.x,65,315);lights[t].y=clamp(p.y,115,445);}draw();});lights.forEach((l,i)=>$(`#${id}-light-${i}`).addEventListener('click',e=>{l.on=!l.on;e.currentTarget.setAttribute('aria-pressed',l.on);e.currentTarget.textContent=`● ${l.name[lang]} ${l.on?(lang==='ko'?'끄기':'off'):(lang==='ko'?'켜기':'on')}`;draw();}));$(`#${id}-reset`).addEventListener('click',()=>{obj={x:470,y:285};lights.forEach((l,i)=>{l.x=105;l.y=175+i*110;l.on=true;const b=$(`#${id}-light-${i}`);b.setAttribute('aria-pressed','true');b.textContent=`● ${l.name[lang]} ${lang==='ko'?'끄기':'off'}`;});draw();});draw();
+  }
+  function initKaleidoscope(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let segments=6,dots=[{x:720,y:225,c:'#ef476f'},{x:755,y:285,c:'#3a86ff'},{x:700,y:340,c:'#f4b740'}];
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'오른쪽 거울 다각형 안의 색 점을 움직이고 거울 수를 바꾸세요. 원 밖과 옆 도형의 변 수도 함께 바뀝니다.':'Move the colored dots inside the mirror polygon and change the mirror count. The outer frame and side polygon change together.',`<button class="action-btn" id="${id}-less">− ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-more">＋ ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const polygon=(ctx,cx,cy,R,n,rot=-Math.PI/2)=>{ctx.beginPath();for(let i=0;i<n;i++){const a=rot+i*Math.PI*2/n,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),cx=270,cy=285,R=180,right={x:720,y:285,r:130};drawSceneTitle(ctx,lang==='ko'?'거울 수가 늘면 반사 조각과 다각형의 변 수도 증가':'More mirrors create more reflected sectors and polygon sides',W);
+      ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.clip();for(let k=0;k<segments;k++){ctx.save();ctx.translate(cx,cy);ctx.rotate(k*Math.PI*2/segments);if(k%2)ctx.scale(1,-1);dots.forEach(d=>{const rx=(d.x-right.x)*.70,ry=(d.y-right.y)*.70;ctx.fillStyle=d.c;ctx.beginPath();ctx.arc(88+rx,ry,15,0,Math.PI*2);ctx.fill();});ctx.restore();}ctx.restore();ctx.strokeStyle=P.line;ctx.lineWidth=7;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();ctx.strokeStyle=P.primary;ctx.lineWidth=4;polygon(ctx,cx,cy,R+24,segments);ctx.stroke();for(let k=0;k<segments;k++){const a=k*Math.PI*2/segments;ctx.strokeStyle='rgba(49,94,231,.32)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();}
+      ctx.fillStyle='rgba(49,94,231,.06)';polygon(ctx,right.x,right.y,right.r,segments);ctx.fill();ctx.strokeStyle=P.primary;ctx.lineWidth=5;ctx.stroke();for(let k=0;k<segments;k++){const a=k*Math.PI*2/segments;ctx.strokeStyle='rgba(49,94,231,.28)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(right.x,right.y);ctx.lineTo(right.x+right.r*Math.cos(a),right.y+right.r*Math.sin(a));ctx.stroke();}dots.forEach(d=>{ctx.fillStyle=d.c;ctx.beginPath();ctx.arc(d.x,d.y,20,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,d.x,d.y,34);});ctx.fillStyle=P.text;ctx.font='900 21px sans-serif';ctx.fillText(lang==='ko'?`${segments}각형 거울`:`${segments}-sided mirror`,right.x-65,455);setState(id,c,lang==='ko'?`거울 ${segments}개: 원 밖은 ${segments}각형, 오른쪽 거울 배열도 ${segments}각형으로 표시됩니다.`:`${segments} mirrors: both the outer frame and the side mirror arrangement are shown as ${segments}-sided polygons.`);};
+    installPointer(c,p=>{const i=dots.findIndex(d=>distance(p,d)<45);return i>=0?i:false;},(p,e,phase,i)=>{const dx=p.x-720,dy=p.y-285,r=Math.hypot(dx,dy),scale=r>105?105/r:1;dots[i].x=720+dx*scale;dots[i].y=285+dy*scale;draw();});$(`#${id}-less`).addEventListener('click',()=>{segments=clamp(segments-1,3,12);draw();});$(`#${id}-more`).addEventListener('click',()=>{segments=clamp(segments+1,3,12);draw();});$(`#${id}-reset`).addEventListener('click',()=>{segments=6;dots=[{x:720,y:225,c:'#ef476f'},{x:755,y:285,c:'#3a86ff'},{x:700,y:340,c:'#f4b740'}];draw();});draw();
+  }
+
+  function initBalloon(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let heat=.42,balloonY=300,vy=0,raf=0;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'열기구 입구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 불꽃이 약하면 내려가고 강하면 올라갑니다.':'Drag the flame inside the balloon mouth up or down to change burner power. Low power descends; high power rises.',`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const flamePoint=()=>({x:470,y:balloonY+132-heat*55});
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'내부 버너 화력 → 공기 온도 → 상승·하강':'Internal burner power → air temperature → rise or fall',W);ctx.fillStyle='#8ecae6';ctx.fillRect(0,90,W,H-90);for(let i=0;i<5;i++){ctx.fillStyle='rgba(255,255,255,.72)';ctx.beginPath();ctx.ellipse(115+i*185,135+(i%2)*55,70,24,0,0,Math.PI*2);ctx.fill();}
+      ctx.fillStyle='#f4b740';ctx.beginPath();ctx.ellipse(470,balloonY,112,140,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d58c20';ctx.lineWidth=5;ctx.stroke();ctx.strokeStyle='#8b5e34';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(405,balloonY+105);ctx.lineTo(438,balloonY+170);ctx.moveTo(535,balloonY+105);ctx.lineTo(502,balloonY+170);ctx.stroke();ctx.fillStyle='#8b5e34';ctx.fillRect(432,balloonY+165,76,45);
+      // burner assembly and flame inside the mouth
+      ctx.fillStyle='#4b5563';roundedRect(ctx,447,balloonY+116,46,40,8);ctx.fill();const fp=flamePoint(),fh=22+heat*52;ctx.fillStyle='#ff7a00';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh);ctx.quadraticCurveTo(fp.x-30,fp.y-12,fp.x,fp.y+8);ctx.quadraticCurveTo(fp.x+30,fp.y-12,fp.x,fp.y-fh);ctx.fill();ctx.fillStyle='#ffd447';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh*.72);ctx.quadraticCurveTo(fp.x-13,fp.y-5,fp.x,fp.y+4);ctx.quadraticCurveTo(fp.x+13,fp.y-5,fp.x,fp.y-fh*.72);ctx.fill();drawDragHalo(ctx,fp.x,fp.y-fh*.40,40);
+      ctx.fillStyle=P.panel;roundedRect(ctx,700,170,145,210,20);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?'화력':'POWER',742,205);ctx.fillStyle='#d9e3ef';ctx.fillRect(755,225,28,125);ctx.fillStyle='#ff7a00';ctx.fillRect(755,350-heat*125,28,heat*125);ctx.fillStyle=P.text;ctx.font='900 25px sans-serif';ctx.fillText(`${Math.round(heat*100)}%`,740,415);
+      const lift=(heat-.45)*100;setState(id,c,lang==='ko'?`버너 화력 ${Math.round(heat*100)}%, 상대 순부력 ${lift.toFixed(0)}. ${lift>4?'열기구가 올라갑니다.':lift<-4?'열기구가 내려갑니다.':'높이를 거의 유지합니다.'}`:`Burner power ${Math.round(heat*100)}%, relative net lift ${lift.toFixed(0)}. ${lift>4?'The balloon rises.':lift<-4?'The balloon descends.':'It nearly holds altitude.'}`);};
+    installPointer(c,p=>distance(p,flamePoint())<90,p=>{heat=clamp((balloonY+170-p.y)/115,0,1);draw();});$(`#${id}-reset`).addEventListener('click',()=>{heat=.42;balloonY=300;vy=0;draw();});const loop=()=>{const acc=(.45-heat)*.075;vy=clamp(vy+acc,-2.4,2.4);vy*=.985;balloonY=clamp(balloonY+vy,205,345);if((balloonY<=205&&vy<0)||(balloonY>=345&&vy>0))vy=0;draw();raf=requestAnimationFrame(loop)};animations.push(()=>cancelAnimationFrame(raf));loop();
+  }
+
+  function initLever(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let left={x:270,m:5},right={x:650,m:5};
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'두 추를 지렛대 위에서 좌우로 드래그해 균형을 맞추세요.':'Drag both weights along the lever to balance it.',`<button class="action-btn" id="${id}-leftMass">${lang==='ko'?'왼쪽 추 +1':'Left +1'}</button><button class="action-btn" id="${id}-rightMass">${lang==='ko'?'오른쪽 추 +1':'Right +1'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),pivot=450,lt=left.m*(pivot-left.x),rt=right.m*(right.x-pivot),ang=clamp((rt-lt)/18000,-.22,.22);drawSceneTitle(ctx,lang==='ko'?'돌림힘 = 힘 × 받침점에서의 거리':'Torque = force × distance from pivot',W);ctx.save();ctx.translate(pivot,320);ctx.rotate(ang);ctx.strokeStyle='#7b5739';ctx.lineWidth=25;ctx.beginPath();ctx.moveTo(-350,0);ctx.lineTo(350,0);ctx.stroke();const drawWeight=(o,col)=>{const x=o.x-pivot;ctx.fillStyle=col;roundedRect(ctx,x-42,-95,84,85,12);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 25px sans-serif';ctx.fillText(`${o.m}`,x-8,-45);drawDragHalo(ctx,x,-55,55)};drawWeight(left,P.danger);drawWeight(right,P.primary);ctx.restore();ctx.fillStyle=P.accent;ctx.beginPath();ctx.moveTo(pivot,325);ctx.lineTo(pivot-65,455);ctx.lineTo(pivot+65,455);ctx.closePath();ctx.fill();const result=Math.abs(lt-rt)<800?(lang==='ko'?'균형입니다.':'Balanced.'):lt>rt?(lang==='ko'?'왼쪽이 내려갑니다.':'Left side goes down.'):(lang==='ko'?'오른쪽이 내려갑니다.':'Right side goes down.');setState(id,c,lang==='ko'?`왼쪽 돌림힘 ${Math.round(lt)}, 오른쪽 ${Math.round(rt)}. ${result}`:`Left torque ${Math.round(lt)}, right ${Math.round(rt)}. ${result}`);};
+    installPointer(c,p=>distance(p,{x:left.x,y:265})<70?'left':distance(p,{x:right.x,y:265})<70?'right':false,(p,e,phase,t)=>{if(t==='left')left.x=clamp(p.x,110,410);else right.x=clamp(p.x,490,790);draw();});$(`#${id}-leftMass`).addEventListener('click',()=>{left.m=left.m%9+1;draw();});$(`#${id}-rightMass`).addEventListener('click',()=>{right.m=right.m%9+1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{left={x:270,m:5};right={x:650,m:5};draw();});draw();
+  }
+
+  function initAirCannon(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let membrane=155,ring={x:330,v:0,r:55,active:false,alpha:1},raf=0,opening=1;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'공기대포 뒤쪽의 파란 막을 왼쪽으로 당겼다가 놓으세요. 소용돌이 고리는 오른쪽 화면 밖으로 나가면 사라집니다.':'Pull the blue rear membrane left and release it. The vortex ring disappears after leaving the right edge.',`<button class="action-btn" id="${id}-opening">${lang==='ko'?'구멍 크기 바꾸기':'Change opening'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'발사된 소용돌이 고리는 화면 밖으로 이동':'The fired vortex ring travels out of the scene',W);ctx.fillStyle='#66788f';roundedRect(ctx,150,175,260,220,30);ctx.fill();ctx.fillStyle=P.bg;ctx.beginPath();ctx.arc(410,285,opening===1?48:72,0,Math.PI*2);ctx.fill();ctx.fillStyle=P.primary;ctx.fillRect(membrane,185,22,200);drawDragHalo(ctx,membrane+11,285,50);if(ring.active){ctx.save();ctx.globalAlpha=ring.alpha;ctx.strokeStyle=P.cyan;ctx.lineWidth=12;ctx.beginPath();ctx.ellipse(ring.x,285,ring.r*.35,ring.r,0,0,Math.PI*2);ctx.stroke();ctx.restore();}setState(id,c,lang==='ko'?`막을 ${Math.round(155-membrane)}만큼 당겼습니다. ${ring.active?`소용돌이 위치 ${Math.round(ring.x)}`:'현재 화면 안에 소용돌이가 없습니다.'}`:`Membrane pulled ${Math.round(155-membrane)}. ${ring.active?`Vortex position ${Math.round(ring.x)}`:'No vortex is currently visible.'}`);};
+    const fire=()=>{cancelAnimationFrame(raf);const pull=155-membrane;membrane=155;if(pull<8){draw();return;}ring={x:420,v:Math.max(2.5,pull*(opening===1?.20:.14)),r:opening===1?55:78,active:true,alpha:1};const go=()=>{ring.x+=ring.v;ring.v*=.991;if(ring.x>c.width-80)ring.alpha=clamp((c.width+90-ring.x)/170,0,1);if(ring.x>c.width+110||ring.alpha<=.01){ring.active=false;ring.x=-999;draw();return;}draw();raf=requestAnimationFrame(go);};go();};installPointer(c,p=>Math.abs(p.x-(membrane+11))<60&&Math.abs(p.y-285)<130,p=>{membrane=clamp(p.x,55,155);draw();},fire);$(`#${id}-opening`).addEventListener('click',()=>{opening=opening===1?2:1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{cancelAnimationFrame(raf);membrane=155;ring={x:330,v:0,r:55,active:false,alpha:1};draw();});draw();
+  }
+
+  function initLens(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let lensType='convex',obj={x:190,h:100},lensX=470,screenX=820;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'물체, 렌즈, 화면을 좌우로 직접 드래그하세요.':'Drag the object, lens, and screen left or right.',choiceButtons(id,'lens',[['convex',lang==='ko'?'볼록렌즈':'Convex'],['concave',lang==='ko'?'오목렌즈':'Concave']],lensType)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const f=()=>lensType==='convex'?115:-115;
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),axis=310,doVal=(lensX-obj.x),di=1/(1/f()-1/doVal),imageX=lensX+di,m=-di/doVal;drawSceneTitle(ctx,lang==='ko'?'위치를 움직이며 상이 맺히는 곳 찾기':'Move parts to find where the image forms',W);ctx.strokeStyle=P.line;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(40,axis);ctx.lineTo(860,axis);ctx.stroke();drawArrow(ctx,obj.x,axis,obj.h,P.danger);drawDragHalo(ctx,obj.x,axis-obj.h/2,55);drawLens(ctx,lensX,axis,lensType,P);drawDragHalo(ctx,lensX,axis,70);ctx.fillStyle='#f5f1e8';ctx.fillRect(screenX,100,22,380);ctx.strokeStyle=P.line;ctx.strokeRect(screenX,100,22,380);drawDragHalo(ctx,screenX+11,axis,55);
+      const topY=axis-obj.h;ctx.strokeStyle=P.accent;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,topY);const ray1y=topY+(screenX-lensX)*(lensType==='convex'?obj.h/f():-obj.h/Math.abs(f()));ctx.lineTo(screenX,ray1y);ctx.stroke();ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,axis);ctx.lineTo(screenX,axis+(screenX-lensX)*(obj.h/doVal));ctx.stroke();if(Number.isFinite(imageX)&&imageX>40&&imageX<875)drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);const focusDiff=Math.abs(screenX-imageX),focus=focusDiff<28?(lang==='ko'?'화면에 선명한 상':'sharp image on screen'):(lang==='ko'?'화면과 상 위치가 다름':'screen is away from image plane');setState(id,c,lang==='ko'?`${lensType==='convex'?'볼록':'오목'}렌즈. 계산된 상 위치 ${Number.isFinite(imageX)?Math.round(imageX):'∞'}, ${focus}`:`${lensType==='convex'?'Convex':'Concave'} lens. Calculated image position ${Number.isFinite(imageX)?Math.round(imageX):'∞'}, ${focus}`);};
+    installPointer(c,p=>Math.abs(p.x-obj.x)<60&&p.y>150&&p.y<330?'obj':Math.abs(p.x-lensX)<60?'lens':Math.abs(p.x-screenX)<55?'screen':false,(p,e,phase,t)=>{if(t==='obj')obj.x=clamp(p.x,80,lensX-80);else if(t==='lens')lensX=clamp(p.x,obj.x+80,screenX-90);else screenX=clamp(p.x,lensX+90,860);draw();});bindChoices(id,'lens',v=>{lensType=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{obj={x:190,h:100};lensX=470;screenX=820;draw();});draw();
+  }
+
+  function initQuantum(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let mode='both',hits=[],pulse=0,raf=0,emitTimer=0;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'한 슬릿과 두 슬릿을 선택하고 광자를 보내세요. 광자는 밝은 스크린에 선명한 자홍색 점으로 한 개씩 나타납니다.':'Choose one slit or two slits and send photons. Each photon appears as a vivid magenta dot on the bright screen.',choiceButtons(id,'slits',[['left',lang==='ko'?'왼쪽 슬릿만':'Left only'],['right',lang==='ko'?'오른쪽 슬릿만':'Right only'],['both',lang==='ko'?'두 슬릿':'Both slits']],mode)+`<button class="action-btn primary" id="${id}-emit">${lang==='ko'?'광자 50개 보내기':'Send 50 photons'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const slitX=420,screenX=805,screenW=48;
+    const intensity=(y)=>{const u=(y-285)/54,env=Math.exp(-.5*Math.pow(u/2.35,2));return mode==='both'?env*(.10+.90*Math.pow(Math.cos(2.55*u),2)):env;};
+    const sampleY=()=>{for(let n=0;n<500;n++){const y=115+Math.random()*340;if(Math.random()<intensity(y))return y;}return 285;};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'개별 점은 입자처럼, 누적 분포는 파동 간섭처럼':'Individual dots are particle-like; the accumulated pattern is wave-like',W);ctx.fillStyle='#101b3d';ctx.fillRect(0,80,W,H-80);ctx.fillStyle='#ffd447';ctx.beginPath();ctx.arc(95,285,24+pulse*5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(slitX,105);ctx.lineTo(slitX,220);ctx.moveTo(slitX,252);ctx.lineTo(slitX,318);ctx.moveTo(slitX,350);ctx.lineTo(slitX,465);ctx.stroke();if(mode==='left'){ctx.fillStyle='#fff';ctx.fillRect(slitX-6,252,12,66);}if(mode==='right'){ctx.fillStyle='#fff';ctx.fillRect(slitX-6,220,12,32);}
+      ctx.fillStyle='#f4fbff';ctx.fillRect(screenX,105,screenW,360);ctx.strokeStyle='#7bdff2';ctx.lineWidth=5;ctx.strokeRect(screenX,105,screenW,360);hits.forEach(h=>{ctx.save();ctx.shadowColor='#ff2d8d';ctx.shadowBlur=8;ctx.fillStyle=`rgba(255,35,135,${h.a})`;ctx.beginPath();ctx.arc(h.x,h.y,4.6,0,Math.PI*2);ctx.fill();ctx.restore();});ctx.fillStyle='#fff';ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?`누적 ${hits.length}개`:`${hits.length} detections`,640,455);setState(id,c,lang==='ko'?`${mode==='both'?'두 슬릿':'한 슬릿'} 모드. 밝은 스크린의 자홍색 점 하나가 광자 한 번의 검출입니다. ${mode==='both'?'점이 많이 쌓이면 밝고 어두운 간섭띠가 나타납니다.':'넓은 단일 분포가 나타납니다.'}`:`${mode==='both'?'Two-slit':'One-slit'} mode. Each vivid magenta dot on the bright screen is one detection. ${mode==='both'?'Many points build bright and dark interference bands.':'A broad single distribution appears.'}`);};
+    const emit=()=>{let n=0;clearInterval(emitTimer);emitTimer=setInterval(()=>{hits.push({x:screenX+7+Math.random()*(screenW-14),y:sampleY(),a:.82+Math.random()*.18});if(hits.length>650)hits.splice(0,hits.length-650);pulse=1;n++;draw();setTimeout(()=>{pulse=0;draw()},45);if(n>=50)clearInterval(emitTimer);},32);};bindChoices(id,'slits',v=>{mode=v;hits=[];draw();});$(`#${id}-emit`).addEventListener('click',emit);$(`#${id}-reset`).addEventListener('click',()=>{clearInterval(emitTimer);mode='both';hits=[];$$(`#${id}-controls [data-choice="slits"]`).forEach(b=>b.setAttribute('aria-pressed',b.dataset.value==='both'));draw();});animations.push(()=>clearInterval(emitTimer));draw();
+  }
+  function initEntanglement(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let pair=Math.random()<.5?0:1,revealed=false,opened=-1;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'두 상자 중 하나를 누르세요. 선택한 상자만 선명하게 열리고, 짝의 상태는 반투명하게 표시됩니다. 누를 때마다 모양의 좌우 순서가 무작위로 바뀝니다.':'Tap either box. Only the selected box opens clearly; the partner state appears faded. The left–right order is randomized on every tap.',`<button class="action-btn primary" id="${id}-shuffle">${lang==='ko'?'새 쌍 숨기기':'Hide a new pair'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 선택하지 않은 쪽은 직접 연 것이 아니라 짝 관계로 알게 된 상태를 흐리게 표시합니다. 이 상자 비유는 실제 양자 얽힘과 같지는 않습니다.':'※ The unselected side is not opened directly; its inferred partner state is shown faded. This box analogy is not the same as real quantum entanglement.'}</p>`);
+    const boxes=[{x:260,y:285},{x:640,y:285}],stateFor=i=>(pair===0?(i===0?'circle':'square'):(i===0?'square':'circle'));
+    const stateColor=s=>s==='circle'?'#ef476f':'#3a86ff';
+    const drawSymbol=(ctx,s,x,y,alpha=1)=>{ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=stateColor(s);if(s==='circle'){ctx.beginPath();ctx.arc(x,y,48,0,Math.PI*2);ctx.fill();}else{ctx.fillRect(x-45,y-45,90,90);}ctx.restore();};
+    const drawBox=(ctx,b,i,P)=>{const selected=revealed&&i===opened,partner=revealed&&i!==opened;ctx.save();ctx.globalAlpha=partner?.62:1;ctx.fillStyle=selected?P.panel:partner?'#dce4f0':'#6d7890';roundedRect(ctx,b.x-105,b.y-105,210,210,28);ctx.fill();ctx.strokeStyle=selected?P.primary:P.line;ctx.lineWidth=selected?8:6;if(partner)ctx.setLineDash([10,8]);ctx.stroke();ctx.setLineDash([]);if(!revealed){ctx.fillStyle='#fff';ctx.font='900 54px sans-serif';ctx.fillText('?',b.x-18,b.y+18);drawDragHalo(ctx,b.x,b.y,118);}else{drawSymbol(ctx,stateFor(i),b.x,b.y,selected?1:.42);ctx.fillStyle=selected?P.text:P.muted;ctx.font='800 18px sans-serif';ctx.fillText(selected?(lang==='ko'?'직접 확인':'observed'):(lang==='ko'?'짝으로 알게 됨':'inferred'),b.x-47,b.y+82);}ctx.restore();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?`상자 ${i+1}`:`Box ${i+1}`,b.x-34,b.y+145);};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'한쪽은 직접 확인하고, 다른 쪽은 짝 관계로 알게 됨':'Observe one side directly and infer the partner from the pair',W);ctx.strokeStyle=P.cyan;ctx.lineWidth=7;ctx.setLineDash([14,10]);ctx.beginPath();ctx.moveTo(365,285);ctx.lineTo(535,285);ctx.stroke();ctx.setLineDash([]);boxes.forEach((b,i)=>drawBox(ctx,b,i,P));if(revealed){ctx.fillStyle=P.panel;roundedRect(ctx,250,430,400,52,15);ctx.fill();ctx.strokeStyle=P.border;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?`상자 ${opened+1}은 선명하게 관찰, 짝은 흐리게 표시`:`Box ${opened+1} observed clearly; partner shown faded`,285,463);}setState(id,c,revealed?(lang==='ko'?`이번에는 상자 ${opened+1}을 직접 확인했습니다. 다른 상자는 동시에 연 것이 아니라, 한 쌍에 원과 사각형이 하나씩 있다는 관계로 상태를 알게 되어 반투명하게 표시했습니다. 다시 누르면 좌우 순서가 무작위로 바뀝니다.`:`This time Box ${opened+1} was observed directly. The other box was not opened at the same time; its state is shown faded because the pair contains one circle and one square. Tap again to randomize the order.`):(lang==='ko'?'두 상자의 상태는 숨겨져 있습니다. 하나를 눌러 한쪽만 직접 확인하세요.':'Both states are hidden. Tap one box to observe only that side directly.'));};
+    installPointer(c,p=>distance(p,boxes[0])<120?0:distance(p,boxes[1])<120?1:false,(p,e,phase,i)=>{pair=Math.random()<.5?0:1;opened=i;revealed=true;draw();const s=stateFor(i);announce(s==='circle'?(lang==='ko'?'선택한 상자는 원, 짝은 사각형입니다.':'Selected box is a circle; partner is a square.'):(lang==='ko'?'선택한 상자는 사각형, 짝은 원입니다.':'Selected box is a square; partner is a circle.'));});$(`#${id}-shuffle`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});draw();
+  }
+  function speakCurrent(){
+    if (!('speechSynthesis' in window)) { announce(tr('notSupported')); return; }
+    speechSynthesis.cancel();
+    const parts=[`${current.year}. ${fmt(tr('round'),{n:current.round})}. ${current.title[lang]}.`];
+    if(current.summary) parts.push(current.summary[level][lang]);
+    if(current.keywords[lang].length) parts.push(`${tr('keywords')}: ${current.keywords[lang].join(', ')}.`);
+    else parts.push(current.preparing?tr('preparingText'):tr('noKeywordText'));
+    const u=new SpeechSynthesisUtterance(parts.join(' '));u.lang=lang==='ko'?'ko-KR':'en-US';u.rate=document.body.classList.contains('easy-mode')?.85:1;speechSynthesis.speak(u);
+  }
+
+  function stopAll(){
+    animations.forEach(fn=>{try{fn();}catch(e){}});animations=[];
+    if('speechSynthesis' in window) speechSynthesis.cancel();
+  }
+
+  function escapeHtml(value){return String(value).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+
+  $('#langBtn').addEventListener('click',()=>{lang=lang==='ko'?'en':'ko';stopAll();applyStaticTranslations();renderYears();renderDetail();announce(lang==='ko'?'한국어로 변경했습니다.':'Language changed to English.');});
+  $('#easyBtn').addEventListener('click',e=>{const on=document.body.classList.toggle('easy-mode');e.currentTarget.setAttribute('aria-pressed',on);announce(lang==='ko'?(on?'쉬운 화면을 켰습니다.':'쉬운 화면을 껐습니다.'):(on?'Simple screen on.':'Simple screen off.'));});
+  $('#contrastBtn').addEventListener('click',e=>{const on=document.body.classList.toggle('high-contrast');e.currentTarget.setAttribute('aria-pressed',on);renderDetail();announce(lang==='ko'?(on?'고대비를 켰습니다.':'고대비를 껐습니다.'):(on?'High contrast on.':'High contrast off.'));});
+  $('#textUp').addEventListener('click',()=>{fontScale=Math.min(1.4,fontScale+.1);document.documentElement.style.setProperty('--font-scale',fontScale);});
+  $('#textDown').addEventListener('click',()=>{fontScale=Math.max(.9,fontScale-.1);document.documentElement.style.setProperty('--font-scale',fontScale);});
+  $('#stopSpeech').addEventListener('click',()=>{if('speechSynthesis' in window)speechSynthesis.cancel();});
+  $('#levelSelect').addEventListener('change',e=>{level=e.target.value;stopAll();renderDetail();announce(e.target.options[e.target.selectedIndex].text);});
+
+  applyStaticTranslations();renderYears();renderDetail();
+})();
+</script>
+</body>
+</html>
