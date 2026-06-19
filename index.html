@@ -1196,8 +1196,12 @@
       title:{ko:'소리굽쇠와 부부젤라',en:'Tuning fork and vuvuzela'},
       desc:{easy:{ko:'망치로 소리굽쇠를 치고 부부젤라의 길이를 바꾸어 소리를 비교하세요.',en:'Strike the tuning fork and change the vuvuzela length to compare sounds.'},basic:{ko:'소리굽쇠의 고유진동과 관 속 공기기둥의 공명을 직접 조작합니다.',en:'Directly explore a tuning fork’s natural vibration and air-column resonance.'},deep:{ko:'진동체의 고유진동수와 관의 유효 길이에 따른 공명 주파수 변화를 표현합니다.',en:'The model represents natural frequency and the change of resonance with effective tube length.'}},controls:{}},
     quantum:{
-      title:{ko:'빛의 이중성: 한 점과 간섭무늬',en:'Wave–particle duality: dots and interference'},
-      desc:{easy:{ko:'빛은 화면에서 한 점씩 검출되지만, 두 슬릿을 열면 많은 점이 파동의 간섭무늬를 만듭니다.',en:'Light is detected one dot at a time, but with both slits open many dots build a wave-like interference pattern.'},basic:{ko:'입자 보기에서는 개별 광자의 검출을, 파동 보기에서는 두 슬릿에서 퍼지는 파동과 간섭 분포를 비교합니다. 파장과 슬릿 간격도 직접 바꿀 수 있습니다.',en:'Particle view shows individual photon detections, while wave view shows spreading waves and the interference distribution. Wavelength and slit spacing can be changed directly.'},deep:{ko:'검출점은 입자적 사건이고 누적 확률분포는 파동적 간섭을 보입니다. 화면의 이동선은 이해를 위한 경로 예시일 뿐, 실제 광자의 경로를 측정하거나 확정한 표현은 아닙니다.',en:'Detection dots are particle-like events, while the accumulated probability distribution shows wave-like interference. The animated travel line is only an explanatory path example, not a measured or definite photon trajectory.'}},controls:{}},
+      title:{ko:'빛의 이중성: 광자와 이중슬릿',en:'Wave–particle duality: photons and the double slit'},
+      desc:{
+        easy:{ko:'광자는 스크린에서 한 점으로 검출되지만, 점이 많이 모이면 파동처럼 밝고 어두운 간섭무늬가 나타납니다.',en:'A photon is detected as one dot on the screen, but many dots build bright and dark interference bands like a wave.'},
+        basic:{ko:'위 슬릿·아래 슬릿·두 슬릿을 비교하고, 입자 보기와 파동 보기를 바꾸어 빛의 이중성을 관찰합니다. 파장과 슬릿 간격은 화면의 손잡이를 직접 드래그해 조절합니다.',en:'Compare the upper slit, lower slit, and both slits, then switch between particle and wave views. Drag the on-screen handles to change wavelength and slit separation.'},
+        deep:{ko:'각 점은 한 번의 광자 검출이고, 누적 분포는 확률진폭의 간섭을 개념적으로 나타냅니다. 입자 보기의 이동선은 이해를 돕는 예시이며 실제로 측정된 광자 궤적이 아닙니다.',en:'Each dot is one photon detection, while the accumulated distribution conceptually represents interference of probability amplitudes. The trail in particle view is an explanatory guide, not a measured photon trajectory.'}
+      },controls:{}},
     entanglement:{
       title:{ko:'한 쌍의 상태와 공동 결과',en:'A paired state and joint result'},
       desc:{easy:{ko:'두 상자에는 서로 다른 상태가 하나씩 들어 있습니다. 하나를 열면 짝의 나머지 상태도 알 수 있습니다.',en:'The two boxes contain one of each state. Opening one also tells you the partner state.'},basic:{ko:'두 부분을 따로 보지 않고 한 쌍의 공동 상태로 생각하는 쉬운 비유입니다.',en:'This is an easy analogy for thinking of the two parts as one joint state.'},deep:{ko:'이 활동은 상관관계를 이해하기 위한 단순 비유이며 실제 양자 얽힘과 동일하지 않습니다. 실제 얽힘은 고전적인 숨은 카드로 설명되지 않는 통계적 상관을 보입니다.',en:'This is a simple analogy for correlation and is not identical to real quantum entanglement. Real entanglement can show statistical correlations that classical hidden cards cannot explain.'}},controls:{}}
@@ -1711,8 +1715,8 @@
     controls.innerHTML=interactionPanel(
       id,
       lang==='ko'
-        ?'열기구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 화력 70% 초과에서는 상승하고, 50~70%에서는 현재 고도를 유지하며, 50% 미만에서는 하강합니다. 열기구는 화면에 고정되고 주변 풍경과 고도 아이콘이 움직입니다.'
-        :'Drag the flame inside the balloon to adjust burner power. Above 70% it rises, from 50% to 70% it holds its current altitude, and below 50% it descends. The balloon stays fixed while the scenery and altitude icon move.',
+        ?'열기구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 화력 70% 초과에서는 상승하고, 50~70%에서는 현재 고도를 유지하며, 50% 미만에서는 하강합니다. 임계값에 가까울수록 천천히 움직이고 0%·100%에 가까울수록 빨라집니다. 열기구는 화면에 고정되고 주변 풍경과 고도 아이콘이 움직입니다.'
+        :'Drag the flame inside the balloon to adjust burner power. Above 70% it rises, from 50% to 70% it holds its current altitude, and below 50% it descends. Motion is slow near the thresholds and becomes faster toward 0% or 100%. The balloon stays fixed while the scenery and altitude icon move.',
       `<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
     );
 
@@ -1738,17 +1742,6 @@
       sky.addColorStop(.45,altitude>.82?'#4f94cf':altitude>.52?'#78b9e8':'#a9dbf7');
       sky.addColorStop(1,altitude>.82?'#b8ddf4':'#edf8ff');
       ctx.fillStyle=sky;ctx.fillRect(0,90,W,H-90);
-
-      // 높은 고도에서는 아주 옅은 대기층을 추가합니다.
-      if(altitude>.58){
-        ctx.save();
-        ctx.globalAlpha=clamp((altitude-.58)/.42,0,1)*.34;
-        ctx.fillStyle='#d8efff';
-        for(let i=0;i<4;i++){
-          ctx.fillRect(0,120+i*72,W,2);
-        }
-        ctx.restore();
-      }
 
       // 태양은 멀리 있는 기준점으로 화면에 고정합니다.
       ctx.save();ctx.globalAlpha=.9;
@@ -1911,17 +1904,22 @@
 
     const loop=()=>{
       const power=visualPower();
-      // 70% 초과는 상승, 50~70%는 고도 유지, 50% 미만은 하강합니다.
+      // 임계값 바로 바깥에서는 천천히, 0% 또는 100%에 가까워질수록 빠르게 움직입니다.
+      // 지수 곡선을 사용해 71%·49%에서 갑자기 빠르게 움직이는 현상을 방지합니다.
+      const MAX_SCENE_SPEED=.0030;
+      let targetVelocity=0;
       if(power>.70){
-        const strength=(power-.70)/.30;
-        sceneVelocity=clamp((sceneVelocity+strength*.0035)*.985,-.024,.024);
+        const strength=clamp((power-.70)/.30,0,1);
+        targetVelocity=MAX_SCENE_SPEED*Math.pow(strength,1.8);
       }else if(power<.50){
-        const strength=(.50-power)/.50;
-        sceneVelocity=clamp((sceneVelocity-strength*.0035)*.985,-.024,.024);
-      }else{
-        // 50~70% 구간에서는 현재 고도를 즉시 유지합니다.
-        sceneVelocity=0;
+        const strength=clamp((.50-power)/.50,0,1);
+        targetVelocity=-MAX_SCENE_SPEED*Math.pow(strength,1.8);
       }
+
+      // 목표 속도까지 부드럽게 가속·감속합니다. 50~70%에서는 속도가 0으로 수렴해 고도를 유지합니다.
+      sceneVelocity+=(targetVelocity-sceneVelocity)*.14;
+      if(Math.abs(sceneVelocity)<.000002)sceneVelocity=0;
+
       sceneAltitude=clamp(sceneAltitude+sceneVelocity,0,1);
       if((sceneAltitude<=0&&sceneVelocity<0)||(sceneAltitude>=1&&sceneVelocity>0))sceneVelocity=0;
 
@@ -1971,163 +1969,307 @@
 
   function initQuantum(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
-    let slitMode='both',viewMode='particle',wavelength=540,slitGap=112,hits=[],photons=[],wavePhase=0,emitTimer=0,raf=0,lastTime=performance.now();
-    const source={x:88,y:280},slitX=390,screenX=805,screenW=52,screenTop=105,screenBottom=455,centerY=280,slitH=34;
+    let slitMode='both',viewMode='particle',wavelength=540,slitGap=108,hits=[],packets=[],pulse=0,phase=0,raf=0,emitTimer=0;
+    const source={x:92,y:278},slitX=405,centerY=278,slitH=30,screenX=810,screenW=55;
+    const waveTrack={x1:115,x2:365,y:500};
+    const gapHandle=()=>({x:slitX+58,y:centerY+slitGap/2});
+    const slitYs=()=>({upper:centerY-slitGap/2,lower:centerY+slitGap/2});
+    const isUpperOpen=()=>slitMode==='both'||slitMode==='upper';
+    const isLowerOpen=()=>slitMode==='both'||slitMode==='lower';
 
     controls.innerHTML=interactionPanel(
       id,
       lang==='ko'
-        ?'위·아래 슬릿을 선택하고, 아래쪽 파장 손잡이와 슬릿 옆 간격 손잡이를 직접 드래그하세요. 입자 보기와 파동 보기를 바꾸어 빛의 두 성질을 비교할 수 있습니다.'
-        :'Choose the upper or lower slit, then drag the wavelength handle below and the spacing handles beside the slits. Switch between particle and wave views to compare the two behaviors of light.',
+        ?'위·아래 슬릿과 입자·파동 보기를 선택하세요. 아래 색 손잡이는 좌우로, 슬릿 옆 파란 손잡이는 위아래로 직접 드래그할 수 있습니다.'
+        :'Choose upper/lower slits and particle/wave view. Drag the color handle sideways and the blue slit handle vertically.',
       choiceButtons(id,'slits',[
-        ['top',lang==='ko'?'위 슬릿만':'Upper only'],
-        ['bottom',lang==='ko'?'아래 슬릿만':'Lower only'],
+        ['upper',lang==='ko'?'위 슬릿만':'Upper slit only'],
+        ['lower',lang==='ko'?'아래 슬릿만':'Lower slit only'],
         ['both',lang==='ko'?'두 슬릿':'Both slits']
       ],slitMode)
       +choiceButtons(id,'view',[
         ['particle',lang==='ko'?'입자 보기':'Particle view'],
         ['wave',lang==='ko'?'파동 보기':'Wave view']
       ],viewMode)
-      +`<button class="action-btn primary" id="${id}-emit">${lang==='ko'?'광자 80개 보내기':'Send 80 photons'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 입자 보기의 이동선은 이해를 돕는 경로 예시이며, 실제 광자의 경로를 측정했다는 뜻은 아닙니다.':'※ The travel line in particle view is an explanatory path example, not a measurement of a photon’s actual trajectory.'}</p>`
+      +`<button class="action-btn" id="${id}-one">${lang==='ko'?'광자 1개 보내기':'Send 1 photon'}</button>`
+      +`<button class="action-btn primary" id="${id}-emit">${lang==='ko'?'광자 80개 보내기':'Send 80 photons'}</button>`
+      +`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
     );
 
-    const slitPositions=()=>({top:centerY-slitGap/2,bottom:centerY+slitGap/2});
-    const openSlits=()=>{const s=slitPositions();return slitMode==='top'?[s.top]:slitMode==='bottom'?[s.bottom]:[s.top,s.bottom];};
-    const gapMm=()=>0.20+(slitGap-58)/(190-58)*0.60;
-    const wavelengthColor=(nm)=>{
+    function wavelengthColor(nm,alpha=1){
       let r=0,g=0,b=0;
       if(nm<440){r=-(nm-440)/(440-380);b=1;}
       else if(nm<490){g=(nm-440)/(490-440);b=1;}
       else if(nm<510){g=1;b=-(nm-510)/(510-490);}
       else if(nm<580){r=(nm-510)/(580-510);g=1;}
       else if(nm<645){r=1;g=-(nm-645)/(645-580);}
-      else r=1;
-      const factor=nm<420?.35+.65*(nm-380)/40:nm>645?.35+.65*(700-nm)/55:1;
-      return `rgb(${Math.round(255*r*factor)},${Math.round(255*g*factor)},${Math.round(255*b*factor)})`;
-    };
-    const fringeSpacing=()=>clamp(48*(wavelength/540)*(112/slitGap),20,104);
-    const projectedCenter=(slitY)=>centerY+(screenX-slitX)/(slitX-source.x)*(slitY-source.y);
-    const intensity=(y)=>{
-      const opens=openSlits();
-      if(opens.length===1){
-        const dy=y-projectedCenter(opens[0]),sigma=76+(wavelength-400)*.08;
-        return Math.exp(-.5*Math.pow(dy/sigma,2));
+      else {r=1;}
+      let factor=1;
+      if(nm<420)factor=.45+.55*(nm-380)/(420-380);
+      else if(nm>645)factor=.45+.55*(700-nm)/(700-645);
+      const gamma=.8;
+      const cv=v=>Math.round(255*Math.pow(clamp(v*factor,0,1),gamma));
+      return `rgba(${cv(r)},${cv(g)},${cv(b)},${alpha})`;
+    }
+
+    function fringeSpacing(){
+      return clamp(58*(wavelength/540)*(108/slitGap),26,105);
+    }
+
+    function singleCenter(){
+      const ys=slitYs();
+      return slitMode==='upper'?ys.upper:slitMode==='lower'?ys.lower:centerY;
+    }
+
+    function intensity(y){
+      const spread=106;
+      const baseCenter=singleCenter();
+      if(slitMode!=='both'){
+        const u=(y-baseCenter)/spread;
+        const sinc=Math.abs(u)<.001?1:Math.sin(Math.PI*u)/(Math.PI*u);
+        return Math.max(0,.04+.96*sinc*sinc)*Math.exp(-.18*u*u);
       }
-      const dy=y-centerY,env=Math.exp(-.5*Math.pow(dy/145,2));
-      return env*(.035+.965*Math.pow(Math.cos(Math.PI*dy/fringeSpacing()),2));
-    };
-    const sampleY=()=>{for(let n=0;n<900;n++){const y=screenTop+8+Math.random()*(screenBottom-screenTop-16);if(Math.random()<intensity(y))return y;}return centerY;};
-    const chooseSlit=()=>{const opens=openSlits();return opens[Math.floor(Math.random()*opens.length)];};
-    const wavelengthHandle=()=>({x:135+(wavelength-400)/300*205,y:493});
+      const u=(y-centerY)/150;
+      const envelope=Math.exp(-1.4*u*u);
+      return envelope*(.06+.94*Math.pow(Math.cos(Math.PI*(y-centerY)/fringeSpacing()),2));
+    }
 
-    const drawWavefronts=(ctx,color)=>{
-      const spacing=20+(wavelength-400)/300*17;
-      ctx.save();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.globalAlpha=.38;
-      ctx.beginPath();ctx.rect(0,82,slitX-15,390);ctx.clip();
-      for(let r=(wavePhase%spacing);r<355;r+=spacing){ctx.beginPath();ctx.arc(source.x,source.y,r,-Math.PI/2,Math.PI/2);ctx.stroke();}
-      ctx.restore();
-      ctx.save();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.globalAlpha=.36;
-      ctx.beginPath();ctx.rect(slitX+12,82,screenX-slitX-20,390);ctx.clip();
-      openSlits().forEach(sy=>{for(let r=(wavePhase%spacing);r<450;r+=spacing){ctx.beginPath();ctx.arc(slitX,sy,r,-Math.PI/2,Math.PI/2);ctx.stroke();}});
-      ctx.restore();
-    };
+    function sampleY(){
+      for(let n=0;n<900;n++){
+        const y=105+Math.random()*350;
+        if(Math.random()<intensity(y)) return y;
+      }
+      return centerY;
+    }
 
-    const drawBarrier=(ctx,P)=>{
-      const s=slitPositions();
-      ctx.fillStyle='#e9edf5';ctx.fillRect(slitX-11,100,22,365);
-      [s.top,s.bottom].forEach((sy,i)=>{
-        ctx.fillStyle='#101b3d';ctx.fillRect(slitX-13,sy-slitH/2,26,slitH);
-        ctx.strokeStyle=P.cyan;ctx.lineWidth=3;ctx.strokeRect(slitX-13,sy-slitH/2,26,slitH);
-        const open=slitMode==='both'||(i===0&&slitMode==='top')||(i===1&&slitMode==='bottom');
-        if(!open){
-          ctx.fillStyle='#ef476f';roundedRect(ctx,slitX-18,sy-slitH/2-4,36,slitH+8,7);ctx.fill();
-          ctx.fillStyle='#fff';ctx.font='900 12px sans-serif';ctx.fillText(lang==='ko'?'가림':'CLOSED',slitX-15,sy+4);
+    function chooseIllustrationSlit(){
+      const ys=slitYs();
+      if(slitMode==='upper')return ys.upper;
+      if(slitMode==='lower')return ys.lower;
+      return Math.random()<.5?ys.upper:ys.lower;
+    }
+
+    function addPhoton(){
+      const finalY=sampleY(),slitY=chooseIllustrationSlit();
+      packets.push({t:0,finalY,slitY});
+      if(packets.length>12)packets.shift();
+      pulse=1;
+    }
+
+    function emitMany(count){
+      clearInterval(emitTimer);
+      let sent=0;
+      emitTimer=setInterval(()=>{
+        addPhoton();
+        sent++;
+        if(sent>=count)clearInterval(emitTimer);
+      },44);
+    }
+
+    function drawArrowLabel(ctx,x,y,text,color){
+      ctx.save();
+      ctx.fillStyle=color;
+      roundedRect(ctx,x,y-20,116,34,11);ctx.fill();
+      ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';ctx.fillText(text,x+10,y+3);
+      ctx.restore();
+    }
+
+    function drawBarrier(ctx,P){
+      const ys=slitYs(),wallW=18;
+      ctx.fillStyle='#f8fbff';
+      ctx.fillRect(slitX-wallW/2,92,wallW,372);
+      ctx.strokeStyle='#9ab0cf';ctx.lineWidth=3;
+      ctx.strokeRect(slitX-wallW/2,92,wallW,372);
+
+      const drawOpening=(y,open,label)=>{
+        if(open){
+          ctx.fillStyle='#101b3d';
+          ctx.fillRect(slitX-wallW/2-2,y-slitH/2,wallW+4,slitH);
+          ctx.strokeStyle=wavelengthColor(wavelength,.9);ctx.lineWidth=3;
+          ctx.strokeRect(slitX-wallW/2-2,y-slitH/2,wallW+4,slitH);
+        }else{
+          ctx.fillStyle='#ef476f';
+          ctx.fillRect(slitX-wallW/2-4,y-slitH/2-2,wallW+8,slitH+4);
+          ctx.strokeStyle='#9f1239';ctx.lineWidth=2;ctx.strokeRect(slitX-wallW/2-4,y-slitH/2-2,wallW+8,slitH+4);
+          ctx.strokeStyle='#fff';ctx.lineWidth=3;
+          ctx.beginPath();ctx.moveTo(slitX-7,y-8);ctx.lineTo(slitX+7,y+8);ctx.moveTo(slitX+7,y-8);ctx.lineTo(slitX-7,y+8);ctx.stroke();
         }
-        ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';ctx.fillText(i===0?(lang==='ko'?'위':'UP'):(lang==='ko'?'아래':'DOWN'),slitX-50,sy+5);
-      });
-      ctx.strokeStyle=P.primary;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(slitX+45,s.top);ctx.lineTo(slitX+45,s.bottom);ctx.stroke();
-      ctx.fillStyle=P.primary;[s.top,s.bottom].forEach(sy=>{ctx.beginPath();ctx.arc(slitX+45,sy,13,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,slitX+45,sy,25);});
-      ctx.fillStyle='#fff';ctx.font='900 15px sans-serif';ctx.fillText('↕',slitX+39,s.top+5);ctx.fillText('↕',slitX+39,s.bottom+5);
-    };
+        ctx.fillStyle='#f8fbff';ctx.font='800 16px sans-serif';ctx.textAlign='right';
+        ctx.fillText(label,slitX-20,y+6);ctx.textAlign='left';
+      };
+      drawOpening(ys.upper,isUpperOpen(),lang==='ko'?'위 슬릿':'UPPER');
+      drawOpening(ys.lower,isLowerOpen(),lang==='ko'?'아래 슬릿':'LOWER');
 
-    const drawScreen=(ctx,color)=>{
-      ctx.fillStyle='#f8fbff';ctx.fillRect(screenX,screenTop,screenW,screenBottom-screenTop);
-      ctx.strokeStyle='#7bdff2';ctx.lineWidth=4;ctx.strokeRect(screenX,screenTop,screenW,screenBottom-screenTop);
+      const gh=gapHandle();
+      ctx.strokeStyle=P.primary;ctx.lineWidth=4;
+      ctx.beginPath();ctx.moveTo(gh.x,ys.upper);ctx.lineTo(gh.x,ys.lower);ctx.stroke();
+      ctx.fillStyle=P.primary;
+      ctx.beginPath();ctx.moveTo(gh.x,ys.upper);ctx.lineTo(gh.x-7,ys.upper+11);ctx.lineTo(gh.x+7,ys.upper+11);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.moveTo(gh.x,ys.lower);ctx.lineTo(gh.x-7,ys.lower-11);ctx.lineTo(gh.x+7,ys.lower-11);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.arc(gh.x,gh.y,15,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#fff';ctx.font='900 18px sans-serif';ctx.fillText('↕',gh.x-8,gh.y+6);
+      drawDragHalo(ctx,gh.x,gh.y,30);
+      ctx.fillStyle='#fff';ctx.font='750 14px sans-serif';
+      ctx.fillText(lang==='ko'?`간격 ${Math.round(slitGap)} px`:`Gap ${Math.round(slitGap)} px`,slitX+80,centerY+6);
+    }
+
+    function drawScreen(ctx){
+      ctx.fillStyle='#f8fbff';ctx.fillRect(screenX,96,screenW,368);
+      ctx.strokeStyle='#7bdff2';ctx.lineWidth=5;ctx.strokeRect(screenX,96,screenW,368);
       if(viewMode==='wave'){
-        for(let y=screenTop+2;y<screenBottom-2;y+=2){ctx.save();ctx.globalAlpha=.08+.86*intensity(y);ctx.fillStyle=color;ctx.fillRect(screenX+4,y,screenW-8,2);ctx.restore();}
+        for(let y=101;y<459;y+=3){
+          const I=intensity(y),a=.10+.88*I;
+          ctx.fillStyle=wavelengthColor(wavelength,a);
+          ctx.fillRect(screenX+5,y,screenW-10,3);
+        }
       }
-      hits.forEach(h=>{ctx.save();ctx.shadowColor=h.color;ctx.shadowBlur=8;ctx.fillStyle=h.color;ctx.globalAlpha=h.a;ctx.beginPath();ctx.arc(h.x,h.y,4.3,0,Math.PI*2);ctx.fill();ctx.restore();});
-    };
+      hits.forEach(h=>{
+        ctx.save();
+        ctx.shadowColor=h.color;ctx.shadowBlur=9;
+        ctx.fillStyle=h.color;ctx.beginPath();ctx.arc(h.x,h.y,4.7,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(12,27,61,.55)';ctx.lineWidth=1.2;ctx.stroke();ctx.restore();
+      });
+      ctx.fillStyle='#fff';ctx.font='800 17px sans-serif';
+      ctx.fillText(lang==='ko'?`스크린 · 누적 ${hits.length}개`:`Screen · ${hits.length} detections`,690,488);
+    }
 
-    const drawPhoton=(ctx,p,color)=>{
-      const split=.46;let x,y;
-      if(p.t<split){const q=p.t/split;x=source.x+(slitX-source.x)*q;y=source.y+(p.slitY-source.y)*q;}
-      else{const q=(p.t-split)/(1-split);x=slitX+(screenX-slitX)*q;y=p.slitY+(p.targetY-p.slitY)*q;}
-      ctx.save();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.globalAlpha=.22;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(source.x,source.y);ctx.lineTo(slitX,p.slitY);ctx.lineTo(screenX,p.targetY);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.shadowColor=color;ctx.shadowBlur=14;ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();ctx.restore();
-    };
+    function drawParticleView(ctx){
+      const ys=slitYs();
+      ctx.save();
+      ctx.setLineDash([7,8]);ctx.lineWidth=2.5;
+      ctx.strokeStyle='rgba(255,255,255,.26)';
+      if(isUpperOpen()){ctx.beginPath();ctx.moveTo(source.x,source.y);ctx.lineTo(slitX,ys.upper);ctx.lineTo(screenX,centerY);ctx.stroke();}
+      if(isLowerOpen()){ctx.beginPath();ctx.moveTo(source.x,source.y);ctx.lineTo(slitX,ys.lower);ctx.lineTo(screenX,centerY);ctx.stroke();}
+      ctx.setLineDash([]);ctx.restore();
 
-    const drawWavelengthControl=(ctx,P)=>{
-      ctx.fillStyle='rgba(255,255,255,.92)';roundedRect(ctx,92,462,292,62,15);ctx.fill();ctx.strokeStyle='rgba(170,190,220,.8)';ctx.lineWidth=2;ctx.stroke();
-      const grad=ctx.createLinearGradient(135,0,340,0);
-      [[0,'#6b2cff'],[.18,'#206dff'],[.35,'#00b7ff'],[.5,'#18c96e'],[.68,'#ffe23b'],[.84,'#ff8a22'],[1,'#e83b3b']].forEach(([o,col])=>grad.addColorStop(o,col));
-      ctx.fillStyle=grad;roundedRect(ctx,135,486,205,10,5);ctx.fill();
-      const h=wavelengthHandle();ctx.fillStyle=wavelengthColor(wavelength);ctx.beginPath();ctx.arc(h.x,h.y,14,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=4;ctx.stroke();drawDragHalo(ctx,h.x,h.y,26);
-      ctx.fillStyle=P.text;ctx.font='800 15px sans-serif';ctx.fillText(lang==='ko'?`파장 ${Math.round(wavelength)} nm`:`Wavelength ${Math.round(wavelength)} nm`,110,480);
-    };
+      packets.forEach(p=>{
+        const t=p.t;
+        let x,y;
+        if(t<.52){
+          const q=t/.52;x=source.x+(slitX-source.x)*q;y=source.y+(p.slitY-source.y)*q;
+        }else{
+          const q=(t-.52)/.48;x=slitX+(screenX-slitX)*q;y=p.slitY+(p.finalY-p.slitY)*q;
+        }
+        ctx.save();ctx.shadowColor=wavelengthColor(wavelength,1);ctx.shadowBlur=18;
+        ctx.fillStyle=wavelengthColor(wavelength,1);ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x-2,y-2,2,0,Math.PI*2);ctx.fill();ctx.restore();
+      });
 
-    const draw=()=>{
-      const {ctx,W,H}=prepCanvas(c),P=scenePalette(),color=wavelengthColor(wavelength),s=slitPositions();
-      drawSceneTitle(ctx,lang==='ko'?'한 점씩 검출되고, 많이 모이면 파동 무늬가 됩니다':'Detected one dot at a time; many dots build a wave pattern',W);
+      ctx.fillStyle='rgba(255,255,255,.86)';ctx.font='700 14px sans-serif';
+      ctx.fillText(lang==='ko'?'점선은 이해를 위한 가능한 이동선이며 실제 측정 궤적이 아닙니다.':'Dotted lines are possible-path guides, not measured trajectories.',185,455);
+    }
+
+    function drawWaveView(ctx){
+      const ys=slitYs(),spacing=clamp((wavelength-380)/6.2+20,23,52);
+      ctx.save();
+      ctx.strokeStyle=wavelengthColor(wavelength,.52);ctx.lineWidth=3;
+      for(let x=source.x+28+((phase*70)%spacing);x<slitX-15;x+=spacing){
+        ctx.beginPath();ctx.moveTo(x,120);ctx.lineTo(x,438);ctx.stroke();
+      }
+      const drawWavefronts=(sy)=>{
+        for(let r=24+((phase*85)%spacing);r<430;r+=spacing){
+          ctx.globalAlpha=clamp(1-r/520,.13,.72);
+          ctx.beginPath();ctx.arc(slitX,sy,r,-Math.PI/2,Math.PI/2);ctx.stroke();
+        }
+      };
+      if(isUpperOpen())drawWavefronts(ys.upper);
+      if(isLowerOpen())drawWavefronts(ys.lower);
+      ctx.restore();
+
+      ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='700 14px sans-serif';
+      ctx.fillText(lang==='ko'?'열린 슬릿에서 퍼진 파동이 겹쳐 밝고 어두운 무늬를 만듭니다.':'Waves from the open slits overlap to form bright and dark bands.',190,455);
+    }
+
+    function drawWavelengthControl(ctx,P){
+      const knobX=waveTrack.x1+(wavelength-400)/300*(waveTrack.x2-waveTrack.x1);
+      const grad=ctx.createLinearGradient(waveTrack.x1,0,waveTrack.x2,0);
+      grad.addColorStop(0,'#6f42c1');grad.addColorStop(.18,'#315ee7');grad.addColorStop(.36,'#00a8f3');
+      grad.addColorStop(.52,'#21bfc1');grad.addColorStop(.68,'#6bcf63');grad.addColorStop(.82,'#ffd447');grad.addColorStop(1,'#ef476f');
+      ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(waveTrack.x1,waveTrack.y);ctx.lineTo(waveTrack.x2,waveTrack.y);ctx.stroke();
+      ctx.strokeStyle=grad;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(waveTrack.x1,waveTrack.y);ctx.lineTo(waveTrack.x2,waveTrack.y);ctx.stroke();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(knobX,waveTrack.y,16,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=wavelengthColor(wavelength,1);ctx.lineWidth=6;ctx.stroke();
+      drawDragHalo(ctx,knobX,waveTrack.y,30);
+      ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';
+      ctx.fillText(lang==='ko'?`파장 ${Math.round(wavelength)} nm`:`Wavelength ${Math.round(wavelength)} nm`,waveTrack.x1,waveTrack.y-24);
+      ctx.fillStyle='rgba(255,255,255,.72)';ctx.font='700 13px sans-serif';
+      ctx.fillText('400',waveTrack.x1-10,waveTrack.y+30);ctx.fillText('700',waveTrack.x2-10,waveTrack.y+30);
+    }
+
+    function draw(){
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'한 점으로 검출되고, 많이 모이면 간섭무늬가 됩니다':'Detected as dots; many dots build an interference pattern',W);
       ctx.fillStyle='#101b3d';ctx.fillRect(0,80,W,H-80);
-      if(viewMode==='wave')drawWavefronts(ctx,color);
-      ctx.save();ctx.shadowColor=color;ctx.shadowBlur=22;ctx.fillStyle=color;ctx.beginPath();ctx.arc(source.x,source.y,23,0,Math.PI*2);ctx.fill();ctx.restore();
-      ctx.fillStyle='#fff';ctx.font='800 16px sans-serif';ctx.fillText(lang==='ko'?'빛':'LIGHT',55,325);
-      drawBarrier(ctx,P);drawScreen(ctx,color);
-      if(viewMode==='particle')photons.forEach(p=>drawPhoton(ctx,p,color));
+
+      ctx.save();ctx.shadowColor=wavelengthColor(wavelength,.95);ctx.shadowBlur=24;
+      ctx.fillStyle=wavelengthColor(wavelength,1);ctx.beginPath();ctx.arc(source.x,source.y,23+pulse*3,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(source.x-6,source.y-6,5,0,Math.PI*2);ctx.fill();ctx.restore();
+      ctx.fillStyle='#fff';ctx.font='800 16px sans-serif';ctx.fillText(lang==='ko'?'광자 광원':'PHOTON SOURCE',39,326);
+
+      if(viewMode==='wave')drawWaveView(ctx);else drawParticleView(ctx);
+      drawBarrier(ctx,P);
+      drawScreen(ctx);
       drawWavelengthControl(ctx,P);
-      ctx.fillStyle='#fff';ctx.font='800 16px sans-serif';ctx.fillText(lang==='ko'?`슬릿 간격 ${gapMm().toFixed(2)} mm`:`Slit spacing ${gapMm().toFixed(2)} mm`,465,492);
-      ctx.fillStyle='#fff';ctx.font='800 18px sans-serif';ctx.fillText(lang==='ko'?`누적 ${hits.length}개`:`${hits.length} detections`,650,448);
-      const slitLabel=slitMode==='both'?(lang==='ko'?'위·아래 두 슬릿':'both upper and lower slits'):slitMode==='top'?(lang==='ko'?'위 슬릿':'upper slit'):(lang==='ko'?'아래 슬릿':'lower slit');
-      const viewLabel=viewMode==='particle'?(lang==='ko'?'입자 보기':'particle view'):(lang==='ko'?'파동 보기':'wave view');
+
+      drawArrowLabel(ctx,610,112,viewMode==='particle'?(lang==='ko'?'입자 보기':'PARTICLE'):(lang==='ko'?'파동 보기':'WAVE'),viewMode==='particle'?'#ef476f':'#315ee7');
+
+      const pattern=slitMode==='both'
+        ?(lang==='ko'?'두 슬릿 간섭무늬':'two-slit interference')
+        :(lang==='ko'?'한 슬릿 회절분포':'single-slit diffraction');
+      const viewText=viewMode==='particle'
+        ?(lang==='ko'?'입자 보기에서는 광자가 스크린에 한 점씩 검출됩니다. 이동선은 설명용 예시입니다.':'Particle view shows one-dot detections. The trail is explanatory only.')
+        :(lang==='ko'?'파동 보기에서는 열린 슬릿에서 퍼진 파동과 예상 밝기 분포를 보여 줍니다.':'Wave view shows spreading waves and the expected brightness distribution.');
       setState(id,c,lang==='ko'
-        ?`${slitLabel}, ${viewLabel}. 파장 ${Math.round(wavelength)}nm, 슬릿 간격 ${gapMm().toFixed(2)}mm입니다. ${viewMode==='particle'?'광자는 화면에 한 점씩 검출되고, 점이 누적되며 분포가 나타납니다.':'두 슬릿에서 퍼지는 파동과 스크린의 예상 간섭 분포를 보여 줍니다.'}`
-        :`${slitLabel}, ${viewLabel}. Wavelength ${Math.round(wavelength)} nm and slit spacing ${gapMm().toFixed(2)} mm. ${viewMode==='particle'?'Photons are detected one dot at a time and build a distribution.':'The view shows waves spreading from the slits and the expected interference distribution on the screen.'}`);
-    };
+        ?`${slitMode==='both'?'두 슬릿':slitMode==='upper'?'위 슬릿만':'아래 슬릿만'} · ${pattern}. 파장 ${Math.round(wavelength)} nm, 슬릿 간격 ${Math.round(slitGap)} px. ${viewText}`
+        :`${slitMode==='both'?'Both slits':slitMode==='upper'?'Upper slit only':'Lower slit only'} · ${pattern}. Wavelength ${Math.round(wavelength)} nm, slit gap ${Math.round(slitGap)} px. ${viewText}`);
+    }
 
-    const addPhoton=()=>photons.push({t:0,slitY:chooseSlit(),targetY:sampleY(),color:wavelengthColor(wavelength),speed:.48+Math.random()*.10});
-    const emit=()=>{let n=0;clearInterval(emitTimer);emitTimer=setInterval(()=>{addPhoton();n++;if(n>=80)clearInterval(emitTimer);},34);};
-
-    installPointer(c,
+    installPointer(
+      c,
       p=>{
-        const h=wavelengthHandle(),s=slitPositions();
-        if(distance(p,h)<42)return'wavelength';
-        if(distance(p,{x:slitX+45,y:s.top})<42)return'spacing';
-        if(distance(p,{x:slitX+45,y:s.bottom})<42)return'spacing';
+        const knobX=waveTrack.x1+(wavelength-400)/300*(waveTrack.x2-waveTrack.x1);
+        if(distance(p,{x:knobX,y:waveTrack.y})<48)return 'wavelength';
+        if(distance(p,gapHandle())<54)return 'gap';
         return false;
       },
-      (p,e,phase,token)=>{
-        if(token==='wavelength')wavelength=clamp(400+(p.x-135)/205*300,400,700);
-        else slitGap=clamp(Math.abs(p.y-centerY)*2,58,190);
-        hits=[];photons=[];draw();
+      (p,e,phaseName,token)=>{
+        if(token==='wavelength'){
+          wavelength=Math.round(clamp(400+(p.x-waveTrack.x1)/(waveTrack.x2-waveTrack.x1)*300,400,700)/5)*5;
+        }else if(token==='gap'){
+          slitGap=Math.round(clamp(2*Math.abs(p.y-centerY),64,184)/4)*4;
+        }
+        hits=[];packets=[];draw();
       }
     );
 
-    bindChoices(id,'slits',v=>{slitMode=v;hits=[];photons=[];draw();});
-    bindChoices(id,'view',v=>{viewMode=v;draw();});
-    $(`#${id}-emit`).addEventListener('click',emit);
+    bindChoices(id,'slits',v=>{slitMode=v;hits=[];packets=[];draw();});
+    bindChoices(id,'view',v=>{viewMode=v;packets=[];draw();});
+    $(`#${id}-one`).addEventListener('click',()=>addPhoton());
+    $(`#${id}-emit`).addEventListener('click',()=>emitMany(80));
     $(`#${id}-reset`).addEventListener('click',()=>{
-      clearInterval(emitTimer);slitMode='both';viewMode='particle';wavelength=540;slitGap=112;hits=[];photons=[];
+      clearInterval(emitTimer);
+      slitMode='both';viewMode='particle';wavelength=540;slitGap=108;hits=[];packets=[];pulse=0;
       $$(`#${id}-controls [data-choice="slits"]`).forEach(b=>b.setAttribute('aria-pressed',b.dataset.value==='both'));
       $$(`#${id}-controls [data-choice="view"]`).forEach(b=>b.setAttribute('aria-pressed',b.dataset.value==='particle'));
       draw();
     });
 
-    const loop=(now)=>{
-      const dt=Math.min(40,now-lastTime);lastTime=now;wavePhase=(wavePhase+dt*.055)%80;
-      for(let i=photons.length-1;i>=0;i--){const p=photons[i];p.t+=dt/1000*p.speed;if(p.t>=1){hits.push({x:screenX+6+Math.random()*(screenW-12),y:p.targetY,a:.88+Math.random()*.12,color:p.color});photons.splice(i,1);}}
-      if(hits.length>900)hits.splice(0,hits.length-900);draw();raf=requestAnimationFrame(loop);
+    let last=performance.now();
+    const loop=now=>{
+      const dt=Math.min(.04,(now-last)/1000);last=now;phase=(phase+dt)%10;
+      pulse=Math.max(0,pulse-dt*4);
+      for(let i=packets.length-1;i>=0;i--){
+        packets[i].t+=dt*.82;
+        if(packets[i].t>=1){
+          const p=packets[i];
+          hits.push({x:screenX+8+Math.random()*(screenW-16),y:p.finalY,color:wavelengthColor(wavelength,.96)});
+          if(hits.length>800)hits.splice(0,hits.length-800);
+          packets.splice(i,1);
+        }
+      }
+      draw();raf=requestAnimationFrame(loop);
     };
-    animations.push(()=>{clearInterval(emitTimer);cancelAnimationFrame(raf);});
+    animations.push(()=>{cancelAnimationFrame(raf);clearInterval(emitTimer);});
     draw();raf=requestAnimationFrame(loop);
   }
   function initEntanglement(id,type){
