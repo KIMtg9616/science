@@ -1115,7 +1115,7 @@
         easy:{ko:'아주 작은 세계에서는 여러 가능성이 함께 있다가, 관찰하면 한 결과가 나타날 수 있습니다.', en:'In the very small world, several possibilities can exist together, and one result appears when we observe.'},
         basic:{ko:'양자 상태는 여러 가능성의 중첩으로 표현되며, 빛과 물질은 실험에 따라 파동 또는 입자 성질을 보입니다. 얽힌 입자는 강한 상관관계를 보입니다.', en:'A quantum state can be a superposition of possibilities. Light and matter show wave or particle behavior depending on the experiment, and entangled particles show strong correlations.'},
         deep:{ko:'확률진폭의 중첩은 간섭무늬를 만들며, 어느 경로 정보가 생기면 간섭이 약해집니다. 얽힘은 각 부분을 독립적인 상태로 완전히 기술할 수 없는 결합 상태입니다.', en:'Superposed probability amplitudes create interference. Path information reduces interference. Entanglement is a joint state that cannot be fully described as independent states of each part.'}
-      }, sims:['quantum','entanglement']},
+      }, sims:['superposition','quantum','entanglement']},
     {year:2026, round:21, title:{ko:'20주년 주제 준비 중', en:'20th Anniversary Theme in Preparation'},
       keywords:{ko:[], en:[]}, preparing:true, sims:[]}
   ];
@@ -1195,6 +1195,13 @@
     soundTools:{
       title:{ko:'소리굽쇠와 부부젤라',en:'Tuning fork and vuvuzela'},
       desc:{easy:{ko:'망치로 소리굽쇠를 치고 부부젤라의 길이를 바꾸어 소리를 비교하세요.',en:'Strike the tuning fork and change the vuvuzela length to compare sounds.'},basic:{ko:'소리굽쇠의 고유진동과 관 속 공기기둥의 공명을 직접 조작합니다.',en:'Directly explore a tuning fork’s natural vibration and air-column resonance.'},deep:{ko:'진동체의 고유진동수와 관의 유효 길이에 따른 공명 주파수 변화를 표현합니다.',en:'The model represents natural frequency and the change of resonance with effective tube length.'}},controls:{}},
+    superposition:{
+      title:{ko:'동전으로 이해하는 중첩',en:'Understanding superposition with a coin'},
+      desc:{
+        easy:{ko:'동전이 회전하는 동안 앞면과 뒷면의 두 가능성을 함께 보여 줍니다. 관찰해 멈추면 한 면만 나타납니다.',en:'While the coin spins, both heads and tails possibilities are shown together. When you observe and stop it, one face appears.'},
+        basic:{ko:'회전 중에는 앞면 상태와 뒷면 상태의 가능성을 함께 표시하고, 관찰하면 앞면 또는 뒷면 중 하나가 무작위로 정해집니다. 동전은 중첩을 쉽게 이해하기 위한 비유입니다.',en:'During the spin, the possibilities of heads and tails are displayed together. Observation randomly produces one result. The coin is an analogy for understanding superposition.'},
+        deep:{ko:'실제 양자 중첩은 고전적인 동전이 빠르게 회전하는 것과 다릅니다. 이 활동은 측정 전 여러 가능한 결과를 함께 표현하고, 측정 후 한 결과가 나타난다는 구조만 비유합니다.',en:'A real quantum superposition is not the same as a classical coin spinning rapidly. This activity only illustrates the structure of multiple possible outcomes before measurement and one outcome after measurement.'}
+      },controls:{}},
     quantum:{
       title:{ko:'빛의 이중성: 광자와 이중슬릿',en:'Wave–particle duality: photons and the double slit'},
       desc:{
@@ -1323,7 +1330,7 @@
     const map = {phone:initPhone, induction:initInduction, optics:initOptics, prism:initPrism, magnet:initMagnet, static:initStatic,
       gravity:initGravity, friction:initFriction, density:initDensity, soundMedium:initSoundMedium, soundTools:initSoundTools,
       bottleWave:initBottle, shadow:initShadow, shadowColor:initShadowColor, kaleidoscope:initKaleidoscope, balloon:initBalloon, lever:initLever,
-      airCannon:initAirCannon, lens:initLens, quantum:initQuantum, entanglement:initEntanglement};
+      airCannon:initAirCannon, lens:initLens, superposition:initSuperposition, quantum:initQuantum, entanglement:initEntanglement};
     if (map[type]) map[type](id,type);
   }
 
@@ -1965,6 +1972,123 @@
       const real=Number.isFinite(di)&&di>0,virtual=Number.isFinite(di)&&di<0;if(real&&imageX>40&&imageX<875){drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);}else if(virtual&&imageX>40&&imageX<875){ctx.save();ctx.setLineDash([9,7]);ctx.globalAlpha=.72;drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);ctx.restore();ctx.save();ctx.strokeStyle=P.success;ctx.lineWidth=3;ctx.setLineDash([9,7]);ctx.beginPath();ctx.moveTo(lensX,topY);ctx.lineTo(imageX,axis-obj.h*m);ctx.moveTo(lensX,axis);ctx.lineTo(imageX,axis-obj.h*m);ctx.stroke();ctx.restore();}
       let msg;if(!Number.isFinite(di)){msg=lang==='ko'?'물체가 초점 부근에 있어 굴절광이 거의 평행하며 상은 매우 멀리 형성됩니다.':'The object is near the focal point, so outgoing rays are nearly parallel and the image is very far away.';}else if(real){const focusDiff=Math.abs(screenX-imageX),focus=focusDiff<28?(lang==='ko'?'화면에 선명한 실상이 맺힙니다.':'A sharp real image forms on the screen.'):(lang==='ko'?'실상 위치와 화면 위치가 달라 화면에는 흐리게 보입니다.':'The screen is away from the real-image plane, so the projection is blurred.');msg=lang==='ko'?`볼록렌즈의 도립 실상입니다. 배율 ${Math.abs(m).toFixed(2)}배. ${focus}`:`This is an inverted real image from a convex lens, magnification ${Math.abs(m).toFixed(2)}×. ${focus}`;}else{msg=lang==='ko'?`${lensType==='convex'?'초점 안쪽의 볼록렌즈':'오목렌즈'}가 만든 정립 가상상입니다. 가상상은 화면에 직접 맺히지 않습니다.`:`This is an upright virtual image made by ${lensType==='convex'?'a convex lens with the object inside the focal length':'a concave lens'}. A virtual image cannot be projected directly onto the screen.`;}setState(id,c,msg);};
     installPointer(c,p=>Math.abs(p.x-obj.x)<60&&p.y>150&&p.y<330?'obj':Math.abs(p.x-lensX)<60?'lens':Math.abs(p.x-screenX)<55?'screen':false,(p,e,phase,t)=>{if(t==='obj')obj.x=clamp(p.x,80,lensX-45);else if(t==='lens')lensX=clamp(p.x,obj.x+45,screenX-90);else screenX=clamp(p.x,lensX+90,860);draw();});bindChoices(id,'lens',v=>{lensType=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{obj={x:190,h:100};lensX=470;screenX=820;draw();});draw();
+  }
+
+  function initSuperposition(id,type){
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    let spinning=false,observed=false,result='front',angle=0,angularVelocity=8,raf=0,last=performance.now();
+    const center={x:450,y:292},coinR=92;
+
+    controls.innerHTML=interactionPanel(
+      id,
+      lang==='ko'?'동전을 누르거나 회전 시작 버튼을 누르세요. 회전 중에는 앞면·뒷면 가능성을 함께 보고, 관찰해서 멈추면 한 결과가 나타납니다.':'Tap the coin or press Start spin. During the spin, heads and tails possibilities are shown together; observing and stopping reveals one result.',
+      `<button class="action-btn primary" id="${id}-spin">${lang==='ko'?'동전 회전 시작':'Start coin spin'}</button><button class="action-btn" id="${id}-observe" disabled>${lang==='ko'?'관찰해서 멈추기':'Observe and stop'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 회전하는 동전은 실제 양자 중첩 그 자체가 아닙니다. 측정 전 여러 가능성과 측정 후 한 결과를 쉽게 이해하기 위한 비유입니다.':'※ A spinning coin is not a real quantum superposition. It is only an analogy for multiple possibilities before measurement and one result after measurement.'}</p>`
+    );
+
+    const spinBtn=$(`#${id}-spin`),observeBtn=$(`#${id}-observe`);
+    const updateButtons=()=>{
+      spinBtn.disabled=spinning;
+      observeBtn.disabled=!spinning;
+      spinBtn.textContent=observed?(lang==='ko'?'다시 회전하기':'Spin again'):(lang==='ko'?'동전 회전 시작':'Start coin spin');
+    };
+
+    const drawFaceIcon=(ctx,face,x,y,size,alpha=1)=>{
+      const P=scenePalette();
+      ctx.save();ctx.globalAlpha=alpha;
+      ctx.fillStyle=face==='front'?'#ffd166':'#4cc9f0';
+      ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=face==='front'?'#c88914':'#167ea5';ctx.lineWidth=Math.max(3,size*.09);ctx.stroke();
+      ctx.fillStyle=face==='front'?'#6e4a05':'#083d57';
+      ctx.font=`900 ${Math.max(17,size*.42)}px sans-serif`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(face==='front'?(lang==='ko'?'앞':'H'):(lang==='ko'?'뒤':'T'),x,y+1);
+      ctx.textAlign='start';ctx.textBaseline='alphabetic';ctx.restore();
+    };
+
+    const drawPossibility=(ctx,face,x,active,alpha,P)=>{
+      ctx.save();ctx.globalAlpha=alpha;
+      ctx.fillStyle=active?P.panel:'rgba(223,230,240,.72)';roundedRect(ctx,x-105,160,210,142,22);ctx.fill();
+      ctx.strokeStyle=active?(face==='front'?'#d89b1d':'#278fba'):P.border;ctx.lineWidth=active?6:3;ctx.stroke();
+      drawFaceIcon(ctx,face,x,214,38,active?1:.55);
+      ctx.fillStyle=active?P.text:P.muted;ctx.font='800 18px sans-serif';ctx.textAlign='center';
+      ctx.fillText(face==='front'?(lang==='ko'?'앞면 가능성':'Heads possibility'):(lang==='ko'?'뒷면 가능성':'Tails possibility'),x,278);
+      ctx.textAlign='start';ctx.restore();
+    };
+
+    const drawCoin=(ctx,P)=>{
+      if(spinning){
+        const facing=Math.cos(angle),w=16+Math.abs(facing)*152,h=180;
+        const face=facing>=0?'front':'back';
+        ctx.save();ctx.translate(center.x,center.y);ctx.rotate(Math.sin(angle*.7)*.06);
+        ctx.fillStyle=face==='front'?'#ffd166':'#4cc9f0';ctx.beginPath();ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle=face==='front'?'#c88914':'#167ea5';ctx.lineWidth=9;ctx.stroke();
+        if(w>62){ctx.fillStyle=face==='front'?'#6e4a05':'#083d57';ctx.font='900 35px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(face==='front'?(lang==='ko'?'앞':'H'):(lang==='ko'?'뒤':'T'),0,0);}
+        ctx.restore();
+        ctx.strokeStyle=P.primary;ctx.globalAlpha=.32;ctx.lineWidth=6;ctx.setLineDash([12,12]);
+        ctx.beginPath();ctx.arc(center.x,center.y,126,-2.35,-.75);ctx.stroke();ctx.beginPath();ctx.arc(center.x,center.y,126,.78,2.35);ctx.stroke();
+        ctx.setLineDash([]);ctx.globalAlpha=1;
+      }else if(observed){
+        drawFaceIcon(ctx,result,center.x,center.y,coinR,1);
+      }else{
+        ctx.fillStyle=P.panel;ctx.beginPath();ctx.arc(center.x,center.y,coinR,0,Math.PI*2);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=8;ctx.stroke();
+        ctx.fillStyle=P.primary;ctx.font='900 72px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',center.x,center.y+3);ctx.textAlign='start';ctx.textBaseline='alphabetic';
+        drawDragHalo(ctx,center.x,center.y,112);
+      }
+    };
+
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'회전 중에는 두 가능성, 관찰하면 한 결과':'Two possibilities while spinning; one result when observed',W);
+
+      const pulse=spinning ? .78+Math.sin(angle*1.7)*.12 : 1;
+      const frontActive=spinning||!observed||result==='front';
+      const backActive=spinning||!observed||result==='back';
+      drawPossibility(ctx,'front',205,frontActive,spinning?pulse:(frontActive?1:.24),P);
+      drawPossibility(ctx,'back',695,backActive,spinning?1.56-pulse:(backActive?1:.24),P);
+
+      ctx.strokeStyle=P.cyan;ctx.lineWidth=5;ctx.setLineDash([10,9]);ctx.globalAlpha=spinning ? .65 : .28;
+      ctx.beginPath();ctx.moveTo(310,232);ctx.quadraticCurveTo(365,195,392,252);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(590,232);ctx.quadraticCurveTo(535,195,508,252);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
+
+      drawCoin(ctx,P);
+
+      ctx.fillStyle=P.panel;roundedRect(ctx,245,410,410,66,18);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.stroke();
+      ctx.fillStyle=P.text;ctx.font='850 20px sans-serif';ctx.textAlign='center';
+      const bottomText=spinning
+        ?(lang==='ko'?'관찰 전: 앞면 + 뒷면 가능성을 함께 표현':'Before observation: heads + tails possibilities')
+        :observed
+          ?(result==='front'?(lang==='ko'?'관찰 결과: 앞면':'Observed result: heads'):(lang==='ko'?'관찰 결과: 뒷면':'Observed result: tails'))
+          :(lang==='ko'?'동전을 눌러 회전을 시작하세요':'Tap the coin to start spinning');
+      ctx.fillText(bottomText,450,451);ctx.textAlign='start';
+
+      const state=spinning
+        ?(lang==='ko'?'동전이 회전 중입니다. 중첩 비유에서는 앞면 가능성과 뒷면 가능성을 함께 표시하며, 아직 하나의 결과로 정하지 않았습니다.':'The coin is spinning. In this superposition analogy, heads and tails possibilities are shown together and no single result has been selected yet.')
+        :observed
+          ?(result==='front'?(lang==='ko'?'관찰해 동전을 멈추자 앞면으로 정해졌습니다. 다시 회전하면 두 가능성을 다시 함께 볼 수 있습니다.':'Observation stopped the coin and the result is heads. Spin again to show both possibilities again.'):(lang==='ko'?'관찰해 동전을 멈추자 뒷면으로 정해졌습니다. 다시 회전하면 두 가능성을 다시 함께 볼 수 있습니다.':'Observation stopped the coin and the result is tails. Spin again to show both possibilities again.'))
+          :(lang==='ko'?'아직 회전하지 않았습니다. 동전을 누르거나 회전 시작 버튼을 누르세요.':'The coin has not started spinning. Tap it or press Start coin spin.');
+      setState(id,c,state);
+    };
+
+    const startSpin=()=>{
+      spinning=true;observed=false;angle=Math.random()*Math.PI*2;angularVelocity=7.5+Math.random()*2.5;updateButtons();draw();
+      announce(lang==='ko'?'동전이 회전합니다. 앞면과 뒷면 가능성을 함께 표시합니다.':'The coin is spinning. Heads and tails possibilities are shown together.');
+    };
+    const observe=()=>{
+      if(!spinning)return;
+      result=Math.random()<.5?'front':'back';spinning=false;observed=true;angle=result==='front'?0:Math.PI;updateButtons();draw();
+      announce(result==='front'?(lang==='ko'?'관찰 결과는 앞면입니다.':'The observed result is heads.'):(lang==='ko'?'관찰 결과는 뒷면입니다.':'The observed result is tails.'));
+    };
+    const reset=()=>{spinning=false;observed=false;result='front';angle=0;angularVelocity=8;updateButtons();draw();};
+
+    installPointer(c,p=>distance(p,center)<128?'coin':false,null,null,()=>{spinning?observe():startSpin();});
+    spinBtn.addEventListener('click',startSpin);observeBtn.addEventListener('click',observe);$(`#${id}-reset`).addEventListener('click',reset);
+
+    const loop=now=>{
+      const dt=Math.min(.04,(now-last)/1000);last=now;
+      if(spinning){angle=(angle+angularVelocity*dt)%(Math.PI*2);draw();}
+      raf=requestAnimationFrame(loop);
+    };
+    animations.push(()=>cancelAnimationFrame(raf));updateButtons();draw();raf=requestAnimationFrame(loop);
   }
 
   function initQuantum(id,type){
