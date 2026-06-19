@@ -1711,8 +1711,8 @@
     controls.innerHTML=interactionPanel(
       id,
       lang==='ko'
-        ?'열기구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 화력 70% 초과에서는 상승하고, 50~70%에서는 현재 고도를 유지하며, 50% 미만에서는 하강합니다. 열기구는 화면에 고정되고 주변 풍경과 고도 아이콘이 움직입니다.'
-        :'Drag the flame inside the balloon to adjust burner power. Above 70% it rises, from 50% to 70% it holds its current altitude, and below 50% it descends. The balloon stays fixed while the scenery and altitude icon move.',
+        ?'열기구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 화력 70% 초과에서는 상승하고, 50~70%에서는 현재 고도를 유지하며, 50% 미만에서는 하강합니다. 임계값에 가까울수록 천천히 움직이고 0%·100%에 가까울수록 빨라집니다. 열기구는 화면에 고정되고 주변 풍경과 고도 아이콘이 움직입니다.'
+        :'Drag the flame inside the balloon to adjust burner power. Above 70% it rises, from 50% to 70% it holds its current altitude, and below 50% it descends. Motion is slow near the thresholds and becomes faster toward 0% or 100%. The balloon stays fixed while the scenery and altitude icon move.',
       `<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
     );
 
@@ -1738,17 +1738,6 @@
       sky.addColorStop(.45,altitude>.82?'#4f94cf':altitude>.52?'#78b9e8':'#a9dbf7');
       sky.addColorStop(1,altitude>.82?'#b8ddf4':'#edf8ff');
       ctx.fillStyle=sky;ctx.fillRect(0,90,W,H-90);
-
-      // 높은 고도에서는 아주 옅은 대기층을 추가합니다.
-      if(altitude>.58){
-        ctx.save();
-        ctx.globalAlpha=clamp((altitude-.58)/.42,0,1)*.34;
-        ctx.fillStyle='#d8efff';
-        for(let i=0;i<4;i++){
-          ctx.fillRect(0,120+i*72,W,2);
-        }
-        ctx.restore();
-      }
 
       // 태양은 멀리 있는 기준점으로 화면에 고정합니다.
       ctx.save();ctx.globalAlpha=.9;
@@ -1911,17 +1900,22 @@
 
     const loop=()=>{
       const power=visualPower();
-      // 70% 초과는 상승, 50~70%는 고도 유지, 50% 미만은 하강합니다.
+      // 임계값 바로 바깥에서는 천천히, 0% 또는 100%에 가까워질수록 빠르게 움직입니다.
+      // 지수 곡선을 사용해 71%·49%에서 갑자기 빠르게 움직이는 현상을 방지합니다.
+      const MAX_SCENE_SPEED=.0030;
+      let targetVelocity=0;
       if(power>.70){
-        const strength=(power-.70)/.30;
-        sceneVelocity=clamp((sceneVelocity+strength*.0035)*.985,-.024,.024);
+        const strength=clamp((power-.70)/.30,0,1);
+        targetVelocity=MAX_SCENE_SPEED*Math.pow(strength,1.8);
       }else if(power<.50){
-        const strength=(.50-power)/.50;
-        sceneVelocity=clamp((sceneVelocity-strength*.0035)*.985,-.024,.024);
-      }else{
-        // 50~70% 구간에서는 현재 고도를 즉시 유지합니다.
-        sceneVelocity=0;
+        const strength=clamp((.50-power)/.50,0,1);
+        targetVelocity=-MAX_SCENE_SPEED*Math.pow(strength,1.8);
       }
+
+      // 목표 속도까지 부드럽게 가속·감속합니다. 50~70%에서는 속도가 0으로 수렴해 고도를 유지합니다.
+      sceneVelocity+=(targetVelocity-sceneVelocity)*.14;
+      if(Math.abs(sceneVelocity)<.000002)sceneVelocity=0;
+
       sceneAltitude=clamp(sceneAltitude+sceneVelocity,0,1);
       if((sceneAltitude<=0&&sceneVelocity<0)||(sceneAltitude>=1&&sceneVelocity>0))sceneVelocity=0;
 
