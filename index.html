@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>모두의 과학 이야기 · 21년 과학 아카이브 · Touch Lab</title>
+  <title>희망의 과학싹잔치 · 20주년 과학 아카이브 · Touch Lab</title>
   <style>
     :root {
       --bg: #f4f7fb;
@@ -351,7 +351,8 @@
       color: var(--primary);
       font-size: .78rem;
       font-weight: 850;
-      letter-spacing: .035em;
+      letter-spacing: .015em;
+      line-height: 1.35;
     }
     .year-card[aria-current="true"] .round { color: #cfe0ff; }
     .status-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 5px rgba(33,191,193,.13); }
@@ -775,14 +776,34 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 28px 70px rgba(0,0,0,.24);
       backdrop-filter: blur(16px);
     }
+    .intro-anniversary {
+      position: relative;
+      display: inline-flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-right: 1.65rem;
+    }
     .intro-emblem strong {
+      display: block;
       font-size: 6rem;
-      line-height: 1;
+      line-height: .9;
       letter-spacing: -.08em;
       background: linear-gradient(180deg,#fff,#bfd4ff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+    }
+    .intro-anniversary-unit {
+      position: absolute;
+      right: .05rem;
+      bottom: .55rem;
+      color: #f3f7ff;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.04em;
+      white-space: nowrap;
+      text-shadow: 0 2px 10px rgba(0,0,0,.28);
     }
     .intro-ring {
       position: absolute;
@@ -823,7 +844,9 @@
     }
     @media (max-width: 600px) {
       .intro-emblem { width: 168px; }
+      .intro-anniversary { padding-right: 1.35rem; }
       .intro-emblem strong { font-size: 4.8rem; }
+      .intro-anniversary-unit { right: 0; bottom: .42rem; font-size: .82rem; }
       .intro-ring { width: 232px; height: 232px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -896,10 +919,10 @@
       <div class="intro-emblem">
         <span class="intro-ring"><i></i></span>
         <span class="intro-ring intro-ring-b"><i></i></span>
-        <strong>21</strong>
+        <div class="intro-anniversary"><strong>20</strong><span class="intro-anniversary-unit" data-i18n="anniversaryUnit">주년</span></div>
       </div>
-      <p class="intro-title">21년의 과학 기록</p>
-      <p class="intro-subtitle">Science Stories for Everyone</p>
+      <p class="intro-title">희망의 과학싹잔치</p>
+      <p class="intro-subtitle">20th Anniversary Science Archive</p>
     </div>
   </div>
   <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -908,8 +931,8 @@
   <header class="wrap">
     <section class="hero" aria-labelledby="site-title">
       <div class="hero-copy">
-        <p class="eyebrow" data-i18n="archiveEyebrow">2006–2026 · 제1회–제21회</p>
-        <h1 id="site-title" data-i18n="archiveTitle">모두의 과학 이야기</h1>
+        <p class="eyebrow" data-i18n="archiveEyebrow">2006–2026 · 제1회–제21회 · 20주년</p>
+        <h1 id="site-title" data-i18n="archiveTitle">희망의 과학싹잔치</h1>
         <p data-i18n="archiveIntro">해마다 이어진 과학 공연의 주제와 원리를 한곳에서 만나고, 직접 움직이며 탐구하는 접근성 중심 과학 아카이브입니다.</p>
         <div class="hero-features" aria-label="웹사이트 주요 특징">
           <span class="hero-feature" data-i18n="featureLanguage">한국어·English</span>
@@ -917,10 +940,10 @@
           <span class="hero-feature" data-i18n="featureAccess">모두를 위한 접근성</span>
         </div>
       </div>
-      <div class="hero-badge" aria-label="21년 과학 기록">
+      <div class="hero-badge" aria-label="20주년 과학 기록">
         <span class="hero-orbit hero-orbit-a" aria-hidden="true"><span class="hero-orbit-spinner"><span class="hero-orbit-dot"></span></span></span>
         <span class="hero-orbit hero-orbit-b" aria-hidden="true"><span class="hero-orbit-spinner"><span class="hero-orbit-dot"></span></span></span>
-        <div><strong>21</strong><span data-i18n="yearsRecord">년의 과학 기록</span></div>
+        <div><strong>20</strong><span data-i18n="yearsRecord">주년 과학 기록</span></div>
       </div>
     </section>
 
@@ -957,7 +980,7 @@
 
   <footer>
     <div class="wrap">
-      <strong data-i18n="footerTitle">모두를 위한 과학 아카이브</strong>
+      <strong data-i18n="footerTitle">희망의 과학싹잔치 과학 아카이브</strong>
       <p data-i18n="footerText">색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.</p>
     </div>
   </footer>
@@ -968,31 +991,31 @@
 
   const I18N = {
     ko: {
-      archiveEyebrow: '2006–2026 · 제1회–제21회', archiveTitle: '모두의 과학 이야기',
+      archiveEyebrow: '2006–2026 · 제1회–제21회 · 20주년', archiveTitle: '희망의 과학싹잔치',
       archiveIntro: '해마다 이어진 과학 공연의 주제와 원리를 한곳에서 만나고, 직접 움직이며 탐구하는 접근성 중심 과학 아카이브입니다.',
       featureLanguage: '한국어·English', featureVoice: '음성 안내', featureAccess: '모두를 위한 접근성',
-      yearsRecord: '년의 과학 기록', easyMode: '쉬운 화면', contrast: '고대비', stopVoice: '음성 중지',
+      anniversaryUnit: '주년', yearsRecord: '주년 과학 기록', easyMode: '쉬운 화면', contrast: '고대비', stopVoice: '음성 중지',
       levelLabel: '설명 수준', levelEasy: '쉬움', levelBasic: '기본', levelDeep: '깊이 보기',
       chooseYear: '연도·회차를 선택하세요', chooseHint: '키보드의 Tab과 Enter로도 선택할 수 있습니다.',
-      footerTitle: '모두를 위한 과학 아카이브', footerText: '색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.',
+      footerTitle: '희망의 과학싹잔치 과학 아카이브', footerText: '색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.',
       round: '제{n}회', keywords: '과학 키워드', simulations: '가상 실험', listen: '이 페이지 듣기',
       noKeywordTitle: '등록된 과학 키워드가 없습니다.', noKeywordText: '제공된 기록에 과학 키워드가 없어 가상 실험을 만들지 않았습니다. 이후 자료가 확인되면 추가할 수 있습니다.',
-      preparingTitle: '제21회 주제 준비 중', preparingText: '2026년 행사 제목과 과학 키워드가 아직 제공되지 않았습니다. 현재는 기록 자리만 마련했습니다.',
+      preparingTitle: '다음 회차 주제 준비 중', preparingText: '다음 회차의 행사 제목과 과학 키워드는 추후 추가할 수 있습니다.',
       notSupported: '이 브라우저에서는 음성 읽기를 지원하지 않습니다.', experimentState: '현재 상태', scientists: '함께 알아볼 과학자',
       start: '시작', stop: '정지', reset: '처음으로', playTone: '소리 듣기', observe: '관찰하기', release: '놓기',
       simCount: '{n}개의 가상 실험', noSim: '가상 실험 없음'
     },
     en: {
-      archiveEyebrow: '2006–2026 · Editions 1–21', archiveTitle: 'Science Stories for Everyone',
+      archiveEyebrow: '2006–2026 · Editions 1–21 · 20th anniversary', archiveTitle: 'Hope Science Sprout Festival',
       archiveIntro: 'An accessibility-first science archive where everyone can explore yearly performance themes, scientific ideas, and interactive experiments.',
       featureLanguage: 'Korean · English', featureVoice: 'Voice guidance', featureAccess: 'Accessible for everyone',
-      yearsRecord: 'years of science', easyMode: 'Simple screen', contrast: 'High contrast', stopVoice: 'Stop voice',
+      anniversaryUnit: 'th', yearsRecord: 'th anniversary archive', easyMode: 'Simple screen', contrast: 'High contrast', stopVoice: 'Stop voice',
       levelLabel: 'Explanation level', levelEasy: 'Easy', levelBasic: 'Standard', levelDeep: 'Explore deeper',
       chooseYear: 'Choose a year and edition', chooseHint: 'You can also use Tab and Enter on a keyboard.',
-      footerTitle: 'A science archive for everyone', footerText: 'Information is never conveyed by color alone. Every interaction includes text feedback and optional speech. Voice uses the browser Web Speech API.',
+      footerTitle: 'Hope Science Sprout Festival archive', footerText: 'Information is never conveyed by color alone. Every interaction includes text feedback and optional speech. Voice uses the browser Web Speech API.',
       round: 'Edition {n}', keywords: 'Science keywords', simulations: 'Virtual experiments', listen: 'Read this page aloud',
       noKeywordTitle: 'No science keywords are recorded.', noKeywordText: 'No simulation was added because the supplied record did not include science keywords. It can be expanded when more information is available.',
-      preparingTitle: 'Edition 21 is being prepared', preparingText: 'The 2026 title and science keywords were not supplied, so this page is reserved as a placeholder.',
+      preparingTitle: 'The next edition is being prepared', preparingText: 'The next edition can be added when its title and science keywords are available.',
       notSupported: 'Speech synthesis is not supported in this browser.', experimentState: 'Current state', scientists: 'Scientists to meet',
       start: 'Start', stop: 'Stop', reset: 'Reset', playTone: 'Play sound', observe: 'Observe', release: 'Release',
       simCount: '{n} virtual experiments', noSim: 'No simulation'
@@ -1093,7 +1116,8 @@
         basic:{ko:'양자 상태는 여러 가능성의 중첩으로 표현되며, 빛과 물질은 실험에 따라 파동 또는 입자 성질을 보입니다. 얽힌 입자는 강한 상관관계를 보입니다.', en:'A quantum state can be a superposition of possibilities. Light and matter show wave or particle behavior depending on the experiment, and entangled particles show strong correlations.'},
         deep:{ko:'확률진폭의 중첩은 간섭무늬를 만들며, 어느 경로 정보가 생기면 간섭이 약해집니다. 얽힘은 각 부분을 독립적인 상태로 완전히 기술할 수 없는 결합 상태입니다.', en:'Superposed probability amplitudes create interference. Path information reduces interference. Entanglement is a joint state that cannot be fully described as independent states of each part.'}
       }, sims:['quantum','entanglement']},
-    {year:2026, round:21, title:{ko:'제21회 주제 준비 중', en:'Edition 21: Theme in Preparation'}, keywords:{ko:[],en:[]}, summary:null, sims:[], preparing:true}
+    {year:2026, round:21, title:{ko:'20주년 주제 준비 중', en:'20th Anniversary Theme in Preparation'},
+      keywords:{ko:[], en:[]}, preparing:true, sims:[]}
   ];
 
   const simText = {
@@ -1138,11 +1162,11 @@
       controls:{medium:{ko:'매질',en:'Medium'},freq:{ko:'진동수',en:'Frequency'}}},
     bottleWave:{
       title:{ko:'물병의 물높이와 소리',en:'Bottle water level and pitch'},
-      desc:{easy:{ko:'물을 더 넣어 공기 부분을 짧게 만들면 소리가 어떻게 변하는지 보세요.',en:'Add water to shorten the air space and see how the pitch changes.'},basic:{ko:'병을 입으로 불 때 공기 공간이 짧아지면 공명 진동수가 높아지는 경향이 있습니다.',en:'When blowing across a bottle, a shorter air space tends to produce a higher resonant frequency.'},deep:{ko:'헬름홀츠 공명기를 단순화하여 공기 부피가 줄면 공명 주파수가 증가하도록 표현했습니다.',en:'A simplified Helmholtz-resonator model raises resonance frequency as air volume decreases.'}},
+      desc:{easy:{ko:'물을 더 넣어 공기 부분을 짧게 만들면 소리가 높아지는 모습을 살펴보세요.',en:'Add water to shorten the air space and observe the pitch rise.'},basic:{ko:'물높이에 따른 음높이는 병의 공명 변화로 나타내고, 파형은 입구가 배·물 표면이 마디인 한쪽 열린 관의 고조파 예시로 구분해 보여 줍니다.',en:'Pitch changes with the bottle resonance, while the waveform separately illustrates harmonics of an open–closed tube with an antinode at the opening and a node at the water surface.'},deep:{ko:'실제 병은 병목과 몸통의 헬름홀츠 공명 성질을 가지므로 단순한 관 모형과 완전히 같지 않습니다. 화면의 마디 증가는 1·3·5차 고조파 비교입니다.',en:'A real bottle has Helmholtz-resonator behavior because of its neck and body, so it is not identical to a simple tube. The added nodes compare the 1st, 3rd, and 5th harmonics.'}},
       controls:{water:{ko:'물높이',en:'Water level'}}},
     shadow:{
       title:{ko:'빛과 물체의 거리: 그림자 크기',en:'Light and object distance: shadow size'},
-      desc:{easy:{ko:'손전등과 물체를 움직여 그림자가 커지고 작아지는 모습을 보세요.',en:'Move the flashlight and object to make the shadow larger or smaller.'},basic:{ko:'물체가 점광원에 가까울수록 화면에 확대된 그림자가 나타납니다.',en:'An object closer to a point light source makes a magnified shadow on the screen.'},deep:{ko:'점광원과 닮은꼴 삼각형을 이용한 기하학적 확대 모형입니다.',en:'This is a geometric magnification model based on a point source and similar triangles.'}},
+      desc:{easy:{ko:'손전등·물체·벽을 움직여 그림자의 크기와 테두리를 비교하세요.',en:'Move the flashlight, object, and wall to compare shadow size and edge sharpness.'},basic:{ko:'물체가 광원에 가까우면 그림자가 커지고 흐려지며, 벽에 가까우면 물체와 거의 같은 크기로 선명해집니다.',en:'Near the light, a shadow becomes larger and softer; near the wall, it approaches the object’s size and becomes sharper.'},deep:{ko:'그림자 크기는 닮은꼴 삼각형으로, 반그림자 폭은 유한한 광원의 크기와 물체–벽 거리로 정성적으로 나타냅니다.',en:'Shadow size follows similar-triangle geometry, while penumbra width is modeled qualitatively from finite source size and object–wall distance.'}},
       controls:{}},
     shadowColor:{
       title:{ko:'빨강·초록·파랑 빛과 색 그림자',en:'Red, green, blue lights and colored shadows'},
@@ -1199,9 +1223,19 @@
       if (I18N[lang][key]) el.textContent = I18N[lang][key];
     });
     document.documentElement.lang = lang;
-    document.title = lang==='ko' ? '모두의 과학 이야기 · 21년 과학 아카이브' : 'Science Stories for Everyone · 21-Year Archive';
+    document.title = lang==='ko' ? '희망의 과학싹잔치 · 20주년 과학 아카이브' : 'Hope Science Sprout Festival · 20th Anniversary Archive';
     $('#langBtn').textContent = lang==='ko' ? 'English' : '한국어';
     $('#langBtn').setAttribute('aria-label', lang==='ko' ? '언어를 영어로 변경' : 'Change language to Korean');
+  }
+
+  function ordinalEn(n){
+    const mod100=n%100;
+    if(mod100>=11&&mod100<=13)return `${n}th`;
+    return `${n}${n%10===1?'st':n%10===2?'nd':n%10===3?'rd':'th'}`;
+  }
+  function editionAnniversary(t){
+    if(lang==='ko') return t.round===1 ? `제1회` : `제${t.round}회 · ${t.round-1}주년`;
+    return t.round===1 ? 'Edition 1' : `Edition ${t.round} · ${ordinalEn(t.round-1)} anniversary`;
   }
 
   function renderYears(){
@@ -1210,7 +1244,7 @@
       const count = t.sims.length;
       const sub = count ? fmt(tr('simCount'),{n:count}) : tr('noSim');
       return `<button type="button" class="year-card ${count ? 'has-sim' : 'is-empty'}" data-year="${t.year}" aria-current="${t.year===current.year}">
-        <span class="year-card-top"><span class="round">${fmt(tr('round'),{n:t.round})}</span><span class="status-dot" aria-hidden="true"></span></span>
+        <span class="year-card-top"><span class="round">${editionAnniversary(t)}</span><span class="status-dot" aria-hidden="true"></span></span>
         <span class="year">${t.year}</span>
         <span class="year-title">${escapeHtml(t.title[lang])}</span>
         <span class="year-card-footer"><span class="sim-count">${sub}</span><span class="year-arrow" aria-hidden="true">↗</span></span>
@@ -1233,7 +1267,7 @@
     const keywords = current.keywords[lang] || [];
     const summary = current.summary ? current.summary[level][lang] : '';
     let html = `<div class="detail-head"><div>
-      <p class="detail-kicker">${current.year} · ${fmt(tr('round'),{n:current.round})}</p>
+      <p class="detail-kicker">${current.year} · ${editionAnniversary(current)}</p>
       <h2 id="detailTitle">${escapeHtml(current.title[lang])}</h2>
       ${summary ? `<p class="detail-summary">${escapeHtml(summary)}</p>` : ''}
       </div><button type="button" class="speak-btn" id="speakPage">🔊 ${tr('listen')}</button></div>`;
@@ -1338,7 +1372,7 @@
 
   function initPhone(id,type){
     const c=canvasStage(id,simText[type].title[lang]), controls=$(`#${id}-controls`);
-    controls.innerHTML=interactionPanel(id, lang==='ko'?'마이크의 파란 진동판을 좌우로 여러 번 움직여 파형을 만든 뒤 소리를 들어 보세요.':'Move the blue microphone diaphragm left and right several times, then hear the waveform.',
+    controls.innerHTML=interactionPanel(id, lang==='ko'?'마이크의 파란 진동판을 좌우로 여러 번 움직여 신호를 만든 뒤, 움직임에서 추정한 단순한 음을 들어 보세요.':'Move the blue microphone diaphragm several times, then hear a simple tone estimated from the gesture.',
       `<button class="action-btn primary" id="${id}-play">${lang==='ko'?'만든 소리 듣기':'Hear the signal'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
     let diaphragm=0,speaker=0,signal=0,lastT=0,wave=Array(120).fill(0),raf=0;
     let capturedEnergy=.35,capturedPitch=330,motionChanges=0,lastDirection=0;
@@ -1354,7 +1388,7 @@
       ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(705,H/2-88-speaker*.13);ctx.lineTo(820,H/2-132-speaker*.20);ctx.lineTo(820,H/2+132+speaker*.20);ctx.lineTo(705,H/2+88+speaker*.13);ctx.closePath();ctx.fill();
       ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(310,H/2);ctx.lineTo(350,H/2);ctx.moveTo(590,H/2);ctx.lineTo(620,H/2);ctx.stroke();
       ctx.strokeStyle=P.cyan;ctx.lineWidth=5;ctx.beginPath();wave.forEach((v,i)=>{const x=350+i*2,y=H/2+v*.62;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
-      const txt=lang==='ko'?`저장된 파형 세기 ${Math.round(capturedEnergy*100)}%, 예상 음높이 ${Math.round(capturedPitch)}Hz. 듣기 버튼은 휴대기기 음량을 사용합니다.`:`Saved waveform level ${Math.round(capturedEnergy*100)}%, estimated pitch ${Math.round(capturedPitch)} Hz. The play button uses your device volume.`;setState(id,c,txt);
+      const txt=lang==='ko'?`저장된 움직임 세기 ${Math.round(capturedEnergy*100)}%, 예상 음높이 ${Math.round(capturedPitch)}Hz. 듣기 버튼은 휴대기기 음량을 사용합니다.`:`Saved motion level ${Math.round(capturedEnergy*100)}%, estimated pitch ${Math.round(capturedPitch)} Hz. The play button uses your device volume.`;setState(id,c,txt);
     };
     installPointer(c,p=>Math.abs(p.x-(185+diaphragm))<78&&Math.abs(p.y-270)<135,
       (p,e,phase)=>{if(phase==='start'){lastT=performance.now();return;}const now=performance.now(),dt=Math.max(12,now-lastT),old=diaphragm;diaphragm=clamp(p.x-185,-72,72);const velocity=(diaphragm-old)/dt*1000;signal=clamp(velocity*.17,-100,100);speaker=signal;wave.push(signal);wave.shift();capturedEnergy=clamp(capturedEnergy*.82+Math.abs(signal)/100*.18,.08,1);const direction=Math.sign(velocity);if(direction&&lastDirection&&direction!==lastDirection)motionChanges++;if(direction)lastDirection=direction;capturedPitch=clamp(190+motionChanges*28+Math.abs(velocity)*.035,180,760);lastT=now;draw();},
@@ -1402,43 +1436,96 @@
   function initOptics(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
     let medium='glass',light={x:165,y:135};
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'손전등을 경계면 위와 아래로 옮겨 보세요. 아래쪽 물질에서 공기로 나갈 때 임계각과 전반사를 확인할 수 있습니다.':'Move the flashlight above and below the boundary. From the lower material toward air, you can observe the critical angle and total internal reflection.',choiceButtons(id,'medium',[['water',lang==='ko'?'물':'Water'],['glass',lang==='ko'?'유리':'Glass'],['mirror',lang==='ko'?'거울':'Mirror']],medium)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'물·유리에서는 손전등을 경계면 위아래로 움직일 수 있습니다. 거울을 선택하면 손전등은 거울 위쪽에서만 움직입니다.':'For water and glass, move the flashlight above or below the boundary. With the mirror selected, the flashlight stays above the mirror.',choiceButtons(id,'medium',[['water',lang==='ko'?'물':'Water'],['glass',lang==='ko'?'유리':'Glass'],['mirror',lang==='ko'?'거울':'Mirror']],medium)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
     const nOf=()=>medium==='water'?1.33:1.52;
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),cx=W/2,cy=300,fromBelow=light.y>cy;drawSceneTitle(ctx,lang==='ko'?'조밀한 매질에서 공기로: 임계각과 전반사':'Dense medium to air: critical angle and total internal reflection',W);
-      ctx.fillStyle=medium==='water'?'rgba(54,160,255,.24)':medium==='glass'?'rgba(95,210,230,.20)':'#aab4c2';ctx.fillRect(0,cy,W,H-cy);ctx.strokeStyle=P.line;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();ctx.setLineDash([10,10]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,78);ctx.lineTo(cx,H-28);ctx.stroke();ctx.setLineDash([]);
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette(),cx=W/2,cy=300;
+      const fromBelow=medium!=='mirror'&&light.y>cy;
+      drawSceneTitle(ctx,medium==='mirror'?(lang==='ko'?'거울에서는 입사각과 반사각이 같습니다':'At a mirror, incidence angle equals reflection angle'):(lang==='ko'?'조밀한 매질에서 공기로: 임계각과 전반사':'Dense medium to air: critical angle and total internal reflection'),W);
+      if(medium==='mirror'){
+        ctx.fillStyle='rgba(188,198,212,.16)';ctx.fillRect(0,cy+12,W,H-cy-12);
+        const grad=ctx.createLinearGradient(0,cy-10,0,cy+12);grad.addColorStop(0,'#eef4fb');grad.addColorStop(.45,'#8d9bad');grad.addColorStop(1,'#d9e1ea');
+        ctx.fillStyle=grad;ctx.fillRect(0,cy-10,W,22);
+        ctx.strokeStyle='#657286';ctx.lineWidth=3;ctx.strokeRect(0,cy-10,W,22);
+        ctx.strokeStyle='rgba(65,78,96,.28)';ctx.lineWidth=2;
+        for(let x=-20;x<W;x+=28){ctx.beginPath();ctx.moveTo(x,cy+12);ctx.lineTo(x+24,cy-10);ctx.stroke();}
+      }else{
+        ctx.fillStyle=medium==='water'?'rgba(54,160,255,.24)':'rgba(95,210,230,.20)';ctx.fillRect(0,cy,W,H-cy);
+        ctx.strokeStyle=P.line;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
+      }
+      ctx.setLineDash([10,10]);ctx.lineWidth=2;ctx.strokeStyle=P.line;ctx.beginPath();ctx.moveTo(cx,78);ctx.lineTo(cx,H-28);ctx.stroke();ctx.setLineDash([]);
       drawFlashlight(ctx,light.x,light.y,cx,cy,P);drawDragHalo(ctx,light.x,light.y,55);
       const dx=cx-light.x,dy=cy-light.y,ai=Math.atan2(Math.abs(dx),Math.abs(dy)),adeg=ai*180/Math.PI;
       ctx.strokeStyle='#ffd447';ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(light.x,light.y);ctx.lineTo(cx,cy);ctx.stroke();
-      const reflY=fromBelow?cy+210*Math.cos(ai):cy-210*Math.cos(ai);ctx.strokeStyle='#ff9b42';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+210*Math.sin(ai),reflY);ctx.stroke();
+      const reflY=fromBelow?cy+210*Math.cos(ai):cy-210*Math.cos(ai);
+      ctx.strokeStyle='#ff9b42';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+210*Math.sin(ai),reflY);ctx.stroke();
       let msg='';
-      if(medium==='mirror') msg=lang==='ko'?`입사각과 반사각은 약 ${Math.round(adeg)}도입니다.`:`Incident and reflection angles are about ${Math.round(adeg)} degrees.`;
-      else if(!fromBelow){const ar=Math.asin(Math.sin(ai)/nOf());ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy+240*Math.cos(ar));ctx.stroke();msg=lang==='ko'?`공기에서 ${medium==='water'?'물':'유리'}로: 입사각 ${Math.round(adeg)}도, 굴절각 ${(ar*180/Math.PI).toFixed(1)}도`:`Air to ${medium}: incident ${Math.round(adeg)}°, refraction ${(ar*180/Math.PI).toFixed(1)}°`;}
-      else {const critical=Math.asin(1/nOf()),cdeg=critical*180/Math.PI;if(ai>critical){ctx.strokeStyle=P.danger;ctx.lineWidth=5;ctx.setLineDash([10,8]);ctx.beginPath();ctx.arc(cx,cy,82,-Math.PI/2,-Math.PI/2+critical);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=P.danger;ctx.font='900 20px sans-serif';ctx.fillText(lang==='ko'?'전반사':'TIR',cx+75,cy+62);msg=lang==='ko'?`입사각 ${adeg.toFixed(1)}도가 임계각 ${cdeg.toFixed(1)}도보다 커서 전반사가 일어납니다.`:`The incident angle ${adeg.toFixed(1)}° exceeds the critical angle ${cdeg.toFixed(1)}°, so total internal reflection occurs.`;}else{const ar=Math.asin(nOf()*Math.sin(ai));ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy-240*Math.cos(ar));ctx.stroke();msg=lang==='ko'?`${medium==='water'?'물':'유리'}에서 공기로: 입사각 ${adeg.toFixed(1)}도, 임계각 ${cdeg.toFixed(1)}도`:`${medium} to air: incident ${adeg.toFixed(1)}°, critical ${cdeg.toFixed(1)}°`;}}
+      if(medium==='mirror'){
+        msg=lang==='ko'?`손전등은 거울을 통과하지 않습니다. 입사각과 반사각은 약 ${Math.round(adeg)}도입니다.`:`The flashlight cannot pass through the mirror. Incident and reflection angles are about ${Math.round(adeg)} degrees.`;
+      }else if(!fromBelow){
+        const ar=Math.asin(Math.sin(ai)/nOf());ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy+240*Math.cos(ar));ctx.stroke();
+        msg=lang==='ko'?`공기에서 ${medium==='water'?'물':'유리'}로: 입사각 ${Math.round(adeg)}도, 굴절각 ${(ar*180/Math.PI).toFixed(1)}도`:`Air to ${medium}: incident ${Math.round(adeg)}°, refraction ${(ar*180/Math.PI).toFixed(1)}°`;
+      }else{
+        const critical=Math.asin(1/nOf()),cdeg=critical*180/Math.PI;
+        if(ai>critical){
+          ctx.strokeStyle=P.danger;ctx.lineWidth=5;ctx.setLineDash([10,8]);ctx.beginPath();ctx.arc(cx,cy,82,-Math.PI/2,-Math.PI/2+critical);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=P.danger;ctx.font='900 20px sans-serif';ctx.fillText(lang==='ko'?'전반사':'TIR',cx+75,cy+62);
+          msg=lang==='ko'?`입사각 ${adeg.toFixed(1)}도가 임계각 ${cdeg.toFixed(1)}도보다 커서 전반사가 일어납니다.`:`The incident angle ${adeg.toFixed(1)}° exceeds the critical angle ${cdeg.toFixed(1)}°, so total internal reflection occurs.`;
+        }else{
+          const ar=Math.asin(nOf()*Math.sin(ai));ctx.strokeStyle=P.cyan;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+240*Math.sin(ar),cy-240*Math.cos(ar));ctx.stroke();
+          msg=lang==='ko'?`${medium==='water'?'물':'유리'}에서 공기로: 입사각 ${adeg.toFixed(1)}도, 임계각 ${cdeg.toFixed(1)}도`:`${medium} to air: incident ${adeg.toFixed(1)}°, critical ${cdeg.toFixed(1)}°`;
+        }
+      }
       setState(id,c,msg);
     };
-    installPointer(c,p=>distance(p,light)<78,p=>{light.x=clamp(p.x,70,430);light.y=clamp(p.y,85,500);if(Math.abs(light.y-300)<35)light.y=light.y<300?250:350;draw();});
-    bindChoices(id,'medium',v=>{medium=v;if(v==='mirror'&&light.y>300)light.y=135;draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:165,y:135};draw();});draw();
+    installPointer(c,p=>distance(p,light)<78,p=>{
+      light.x=clamp(p.x,70,430);
+      light.y=medium==='mirror'?clamp(p.y,85,220):clamp(p.y,85,500);
+      if(medium!=='mirror'&&Math.abs(light.y-300)<35)light.y=light.y<300?250:350;
+      draw();
+    });
+    bindChoices(id,'medium',v=>{medium=v;if(v==='mirror')light.y=Math.min(light.y,180);draw();});
+    $(`#${id}-reset`).addEventListener('click',()=>{light={x:165,y:135};draw();});draw();
   }
-
   function initPrism(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'손전등과 프리즘을 움직이거나 프리즘을 돌리세요. 입사 방향과 프리즘 위치에 따라 무지개도 함께 이동합니다.':'Move the flashlight and prism, or rotate the prism. The rainbow follows the incident direction and prism position.',`<button class="action-btn" id="${id}-rotate">↻ ${lang==='ko'?'프리즘 돌리기':'Rotate prism'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'손전등과 프리즘을 움직이거나 프리즘을 돌리세요. 광선이 실제로 오른쪽 스크린에 닿을 때만 스펙트럼이 표시됩니다.':'Move the flashlight and prism, or rotate the prism. A spectrum appears only when the outgoing rays actually reach the right-hand screen.',`<button class="action-btn" id="${id}-rotate">↻ ${lang==='ko'?'프리즘 돌리기':'Rotate prism'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
     let light={x:105,y:270},prism={x:470,y:270,a:0};
     const verts=()=>{const R=96;return [0,1,2].map(i=>({x:prism.x+Math.cos(prism.a-Math.PI/2+i*Math.PI*2/3)*R,y:prism.y+Math.sin(prism.a-Math.PI/2+i*Math.PI*2/3)*R}));};
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'빛의 입사 방향이 바뀌면 분산된 빛도 이동':'Moving the incident beam moves the dispersed light',W);drawFlashlight(ctx,light.x,light.y,prism.x,prism.y,P);drawDragHalo(ctx,light.x,light.y,55);
+    const rayExit=(sx,sy,a,W,H,screenX)=>{
+      const dx=Math.cos(a),dy=Math.sin(a),candidates=[];
+      if(dx>1e-4)candidates.push((screenX-sx)/dx);else if(dx<-1e-4)candidates.push((12-sx)/dx);
+      if(dy>1e-4)candidates.push((H-22-sy)/dy);else if(dy<-1e-4)candidates.push((82-sy)/dy);
+      const ts=candidates.filter(t=>Number.isFinite(t)&&t>0);
+      const t=ts.length?Math.min(...ts):80;
+      return {x:sx+dx*t,y:sy+dy*t,t};
+    };
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'광선이 스크린에 닿을 때만 분산띠가 나타납니다':'The spectrum appears only when rays hit the screen',W);
+      drawFlashlight(ctx,light.x,light.y,prism.x,prism.y,P);drawDragHalo(ctx,light.x,light.y,55);
       const inA=Math.atan2(prism.y-light.y,prism.x-light.x),entry={x:prism.x-64*Math.cos(inA),y:prism.y-64*Math.sin(inA)};
       ctx.strokeStyle='#fff4b8';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(light.x+34*Math.cos(inA),light.y+34*Math.sin(inA));ctx.lineTo(entry.x,entry.y);ctx.stroke();
       const v=verts();ctx.fillStyle='rgba(160,225,255,.38)';ctx.strokeStyle=P.primary;ctx.lineWidth=6;ctx.beginPath();v.forEach((q,i)=>i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y));ctx.closePath();ctx.fill();ctx.stroke();drawDragHalo(ctx,prism.x,prism.y,110);
       ctx.strokeStyle='rgba(255,255,255,.75)';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(entry.x,entry.y);ctx.lineTo(prism.x+45*Math.cos(inA),prism.y+45*Math.sin(inA));ctx.stroke();
-      const colors=['#ef476f','#ff8c42','#ffd447','#49b66d','#36a2ff','#6f5bd3'];const screenX=W-48;let hits=[];
-      colors.forEach((col,i)=>{const deviation=(-.105+i*.042)+Math.sin(prism.a-inA)*.10;const outA=inA+deviation;let t=(screenX-(prism.x+48*Math.cos(outA)))/Math.max(.18,Math.cos(outA));t=clamp(t,70,900);const sx=prism.x+48*Math.cos(outA),sy=prism.y+48*Math.sin(outA),ey=sy+t*Math.sin(outA);hits.push(ey);ctx.strokeStyle=col;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(screenX,ey);ctx.stroke();});
-      ctx.fillStyle=P.panel;roundedRect(ctx,W-62,82,35,H-120,12);ctx.fill();hits.forEach((y,i)=>{ctx.fillStyle=colors[i];ctx.fillRect(W-59,clamp(y-8,92,H-55),29,16);});
-      const txt=lang==='ko'?`손전등 각도 ${Math.round(inA*180/Math.PI)}도, 프리즘 회전 ${Math.round(prism.a*180/Math.PI)%360}도. 분산띠가 광선과 함께 이동합니다.`:`Flashlight angle ${Math.round(inA*180/Math.PI)}°, prism rotation ${Math.round(prism.a*180/Math.PI)%360}°. The spectrum follows the beam.`;setState(id,c,txt);
+      const colors=['#ef476f','#ff8c42','#ffd447','#49b66d','#36a2ff','#6f5bd3'],screenX=W-48,screenTop=92,screenBottom=H-55,hits=[];
+      ctx.fillStyle=P.panel;roundedRect(ctx,W-62,82,35,H-120,12);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.stroke();
+      colors.forEach((col,i)=>{
+        const deviation=(-.105+i*.042)+Math.sin(prism.a-inA)*.10,outA=inA+deviation,dx=Math.cos(outA),dy=Math.sin(outA),sx=prism.x+48*dx,sy=prism.y+48*dy;
+        const exit=rayExit(sx,sy,outA,W,H,screenX);
+        let end=exit,hitY=null;
+        if(dx>1e-4){
+          const tScreen=(screenX-sx)/dx,yScreen=sy+tScreen*dy;
+          if(tScreen>0&&yScreen>=screenTop&&yScreen<=screenBottom&&tScreen<=exit.t+.5){end={x:screenX,y:yScreen,t:tScreen};hitY=yScreen;}
+        }
+        ctx.strokeStyle=col;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(end.x,end.y);ctx.stroke();
+        if(hitY!==null)hits.push({y:hitY,color:col});
+      });
+      hits.forEach(h=>{ctx.fillStyle=h.color;ctx.fillRect(W-59,h.y-8,29,16);});
+      const txt=lang==='ko'?`손전등 각도 ${Math.round(inA*180/Math.PI)}도, 프리즘 회전 ${((Math.round(prism.a*180/Math.PI)%360)+360)%360}도. ${hits.length?`스크린에 ${hits.length}개의 색 띠가 닿습니다.`:'현재 분산광이 스크린을 벗어나 색 띠가 표시되지 않습니다.'}`:`Flashlight angle ${Math.round(inA*180/Math.PI)}°, prism rotation ${((Math.round(prism.a*180/Math.PI)%360)+360)%360}°. ${hits.length?`${hits.length} color bands reach the screen.`:'The dispersed rays currently miss the screen, so no bands are shown.'}`;
+      setState(id,c,txt);
     };
     installPointer(c,p=>distance(p,light)<72?'light':distance(p,prism)<116?'prism':false,(p,e,phase,token)=>{if(token==='light'){light.x=clamp(p.x,55,350);light.y=clamp(p.y,105,440);}else{prism.x=clamp(p.x,360,650);prism.y=clamp(p.y,145,410);}draw();});
     $(`#${id}-rotate`).addEventListener('click',()=>{prism.a=(prism.a+Math.PI/12)%(Math.PI*2);draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:105,y:270};prism={x:470,y:270,a:0};draw();});draw();
   }
-
   function initMagnet(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
     controls.innerHTML=interactionPanel(id,lang==='ko'?'막대자석을 나침반 주변으로 움직이거나 회전하세요. 나침반의 빨간 N극은 그 위치의 자기장 방향을 가리킵니다.':'Move or rotate the bar magnet around the compass. The red north end of the compass points along the local magnetic field.',`<button class="action-btn" id="${id}-rotate">↻ ${lang==='ko'?'자석 회전':'Rotate magnet'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
@@ -1463,14 +1550,68 @@
   }
 
   function initGravity(id,type){
-    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let world='earth',ball={x:450,y:135},v=0,running=false,last=0,raf=0;
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'공을 원하는 높이로 끌어 올린 뒤 놓으세요. 달·지구·목성·태양의 중력을 비교할 수 있습니다.':'Drag the ball to any height and release it. Compare gravity on the Moon, Earth, Jupiter, and Sun.',choiceButtons(id,'world',[['moon',lang==='ko'?'달':'Moon'],['earth',lang==='ko'?'지구':'Earth'],['jupiter',lang==='ko'?'목성':'Jupiter'],['sun',lang==='ko'?'태양':'Sun']],world)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
-    const data={moon:{g:1.62,c:'#b8bec8'},earth:{g:9.8,c:'#68b75a'},jupiter:{g:24.8,c:'#d79b63'},sun:{g:274,c:'#f6b73c'}};
-    const visualA=()=>176*Math.sqrt(data[world].g/9.8);
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'같은 높이에서 놓아도 중력에 따라 낙하가 달라짐':'The same drop changes with gravitational acceleration',W);ctx.fillStyle=data[world].c;ctx.fillRect(0,H-70,W,70);
-      ctx.strokeStyle=P.muted;ctx.lineWidth=3;for(let y=90;y<H-70;y+=70){ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(120,y);ctx.stroke();ctx.fillStyle=P.text;ctx.font='700 18px sans-serif';ctx.fillText(`${Math.round((H-70-y)/18)} m`,25,y+6);}ctx.fillStyle=P.danger;ctx.beginPath();ctx.arc(ball.x,ball.y,34,0,Math.PI*2);ctx.fill();drawDragHalo(ctx,ball.x,ball.y,52);setState(id,c,lang==='ko'?`높이 ${Math.max(0,(H-104-ball.y)/18).toFixed(1)}m, 표시 속력 ${(v/18).toFixed(1)}m/s, 선택한 천체의 중력 ${data[world].g}m/s²`:`Height ${Math.max(0,(H-104-ball.y)/18).toFixed(1)} m, displayed speed ${(v/18).toFixed(1)} m/s, gravity ${data[world].g} m/s²`);};
-    const fall=t=>{if(!last)last=t;const dt=Math.min(.04,(t-last)/1000);last=t;v+=visualA()*dt;ball.y+=v*dt;if(ball.y>=c.height-104){ball.y=c.height-104;running=false;draw();return;}draw();raf=requestAnimationFrame(fall);};
-    installPointer(c,p=>distance(p,ball)<65,p=>{running=false;cancelAnimationFrame(raf);ball.x=clamp(p.x,150,750);ball.y=clamp(p.y,85,435);v=0;draw();},()=>{running=true;last=0;raf=requestAnimationFrame(fall);});bindChoices(id,'world',v2=>{world=v2;running=false;cancelAnimationFrame(raf);v=0;draw();});$(`#${id}-reset`).addEventListener('click',()=>{running=false;cancelAnimationFrame(raf);ball={x:450,y:135};v=0;draw();});draw();
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    const maxHeight=6,pxPerM=50,groundY=436,topY=groundY-maxHeight*pxPerM,displayScale=.65;
+    let world='earth',ball={x:450,y:topY},v=0,running=false,last=0,raf=0;
+    controls.innerHTML=interactionPanel(
+      id,
+      lang==='ko'
+        ?'공을 0~6m 사이의 원하는 높이로 끌어 올린 뒤 놓으세요. 모든 천체에 같은 화면 시간 비율을 적용하므로 태양에서 가장 빠르게 떨어집니다.'
+        :'Drag the ball to a height from 0 to 6 m and release it. The same display-time scale is used for every world, so the fall is fastest on the Sun.',
+      choiceButtons(id,'world',[[ 'moon',lang==='ko'?'달':'Moon'],['earth',lang==='ko'?'지구':'Earth'],['jupiter',lang==='ko'?'목성':'Jupiter'],['sun',lang==='ko'?'태양':'Sun']],world)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
+    );
+    const data={
+      moon:{g:1.62,c:'#b8bec8'},
+      earth:{g:9.8,c:'#68b75a'},
+      jupiter:{g:24.8,c:'#d79b63'},
+      sun:{g:274,c:'#f6b73c'}
+    };
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'자유낙하: 중력가속도가 클수록 더 빨리 떨어짐':'Free fall: greater gravity means a faster fall',W);
+      ctx.fillStyle=data[world].c;
+      ctx.fillRect(0,H-70,W,70);
+      ctx.strokeStyle=P.muted;
+      ctx.lineWidth=3;
+      for(let m=0;m<=maxHeight;m++){
+        const y=groundY-m*pxPerM;
+        ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(120,y);ctx.stroke();
+        ctx.fillStyle=P.text;ctx.font='700 18px sans-serif';ctx.fillText(`${m} m`,25,y+6);
+      }
+      ctx.fillStyle=P.danger;
+      ctx.beginPath();ctx.arc(ball.x,ball.y,34,0,Math.PI*2);ctx.fill();
+      drawDragHalo(ctx,ball.x,ball.y,52);
+      const height=clamp((groundY-ball.y)/pxPerM,0,maxHeight);
+      const speedNote=world==='sun'
+        ?(lang==='ko'?'태양의 중력가속도가 가장 커서 네 천체 중 가장 빠르게 떨어집니다.':'The Sun has the greatest gravity here, so the ball falls fastest.')
+        :(lang==='ko'?'모든 천체에 동일한 화면 시간 비율을 적용했습니다.':'The same display-time scale is applied to every world.');
+      setState(id,c,lang==='ko'
+        ?`높이 ${height.toFixed(1)}m, 속력 ${v.toFixed(1)}m/s, 중력가속도 ${data[world].g}m/s². ${speedNote}`
+        :`Height ${height.toFixed(1)} m, speed ${v.toFixed(1)} m/s, gravity ${data[world].g} m/s². ${speedNote}`);
+    };
+    const fall=t=>{
+      if(!last)last=t;
+      const realDt=Math.min(.04,(t-last)/1000),dt=realDt*displayScale;
+      last=t;
+      v+=data[world].g*dt;
+      ball.y+=v*dt*pxPerM;
+      if(ball.y>=groundY){ball.y=groundY;running=false;draw();return;}
+      draw();
+      raf=requestAnimationFrame(fall);
+    };
+    installPointer(
+      c,
+      p=>distance(p,ball)<65,
+      p=>{running=false;cancelAnimationFrame(raf);ball.x=clamp(p.x,150,750);ball.y=clamp(p.y,topY,groundY);v=0;draw();},
+      ()=>{if(ball.y<groundY-1){running=true;last=0;raf=requestAnimationFrame(fall);}}
+    );
+    bindChoices(id,'world',v2=>{
+      world=v2;running=false;cancelAnimationFrame(raf);ball={x:450,y:topY};v=0;draw();
+    });
+    $(`#${id}-reset`).addEventListener('click',()=>{
+      running=false;cancelAnimationFrame(raf);ball={x:450,y:topY};v=0;draw();
+    });
+    draw();
   }
   function initFriction(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let block={x:220,y:330},temp=20,oil=false,last={x:220,y:330},lastT=0,glide=0,raf=0,coolRaf=0,lastCool=performance.now();
@@ -1515,26 +1656,29 @@
 
   function initBottle(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let level=360,phase=0,raf=0,toneOsc=null,toneGain=null,continuous=false;
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'병 속 파란 물 표면을 위아래로 움직이세요. 한 번 듣거나 연속음을 켜서 물높이에 따른 음높이 변화를 바로 들을 수 있습니다.':'Move the blue water surface up and down. Play one tone or turn on continuous sound to hear pitch change immediately.',`<button class="action-btn primary" id="${id}-play">${tr('playTone')}</button><button class="action-btn" id="${id}-continuous" aria-pressed="false">▶ ${lang==='ko'?'소리 계속 듣기':'Continuous sound'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'병 속 파란 물 표면을 위아래로 움직이세요. 병 입구는 항상 배, 물 표면은 항상 마디이며, 높은 음 구간에서는 고조파 예시의 내부 마디가 늘어납니다.':'Move the blue water surface. The opening stays an antinode and the water surface stays a node; higher-pitch ranges show higher-harmonic examples with more internal nodes.',`<button class="action-btn primary" id="${id}-play">${tr('playTone')}</button><button class="action-btn" id="${id}-continuous" aria-pressed="false">▶ ${lang==='ko'?'소리 계속 듣기':'Continuous sound'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 파형은 한쪽이 열린 관의 1·3·5차 공명 모드를 단순화한 그림입니다. 실제 병 소리는 병목과 몸통 때문에 헬름홀츠 공명 성질도 나타납니다.':'※ The waveform is a simplified open–closed tube showing the 1st, 3rd, and 5th resonance modes. A real bottle can also behave as a Helmholtz resonator because of its neck and body.'}</p>`);
     const freq=()=>Math.round(250+(420-level)/(420-185)*450);
+    const modeInfo=()=>{const f=freq(),order=f<400?1:f<550?3:5;return{order,internalNodes:(order-1)/2,totalNodes:(order+1)/2};};
     const updateContinuous=()=>{if(toneOsc&&audioCtx){toneOsc.frequency.setTargetAtTime(freq(),audioCtx.currentTime,.025);}};
     const setContinuousButton=()=>{const b=$(`#${id}-continuous`);if(!b)return;b.setAttribute('aria-pressed',continuous);b.textContent=continuous?(lang==='ko'?'■ 연속음 끄기':'■ Stop continuous sound'):(lang==='ko'?'▶ 소리 계속 듣기':'▶ Continuous sound');};
     const startContinuous=async()=>{try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){announce(tr('notSupported'));return;}audioCtx||=new AC();if(audioCtx.state==='suspended')await audioCtx.resume();const now=audioCtx.currentTime;toneOsc=audioCtx.createOscillator();toneGain=audioCtx.createGain();toneOsc.type='sine';toneOsc.frequency.setValueAtTime(freq(),now);toneGain.gain.setValueAtTime(.0001,now);toneGain.gain.exponentialRampToValueAtTime(.075,now+.04);toneOsc.connect(toneGain).connect(audioCtx.destination);toneOsc.start(now);continuous=true;setContinuousButton();}catch(e){announce(tr('notSupported'));}};
     const stopContinuous=()=>{continuous=false;setContinuousButton();if(toneOsc&&toneGain&&audioCtx){const now=audioCtx.currentTime,osc=toneOsc,g=toneGain;try{g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(Math.max(.0001,g.gain.value),now);g.gain.exponentialRampToValueAtTime(.0001,now+.06);osc.stop(now+.08);}catch(e){}toneOsc=null;toneGain=null;}};
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'물높이↑ → 공기 공간↓ → 음높이↑ (250~700Hz)':'Water level ↑ → air space ↓ → pitch ↑ (250–700 Hz)',W);ctx.strokeStyle=P.line;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(360,80);ctx.lineTo(360,135);ctx.quadraticCurveTo(290,165,300,420);ctx.quadraticCurveTo(450,500,600,420);ctx.quadraticCurveTo(610,165,540,135);ctx.lineTo(540,80);ctx.closePath();ctx.stroke();ctx.save();ctx.beginPath();ctx.moveTo(310,160);ctx.lineTo(590,160);ctx.lineTo(590,420);ctx.quadraticCurveTo(450,485,310,420);ctx.closePath();ctx.clip();ctx.fillStyle='rgba(55,155,255,.60)';ctx.fillRect(300,level,310,500-level);ctx.restore();ctx.strokeStyle=P.primary;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(320,level);ctx.lineTo(580,level);ctx.stroke();drawDragHalo(ctx,450,level,48);
-      const top=96,bottom=level-8,L=Math.max(50,bottom-top),time=Math.sin(phase);ctx.save();ctx.setLineDash([7,7]);ctx.lineWidth=2.5;ctx.strokeStyle='rgba(244,183,64,.30)';[-1,1].forEach(side=>{ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.cos(Math.PI*u/2)*47,x=450+side*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();});ctx.restore();ctx.strokeStyle=P.accent;ctx.lineWidth=6;ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.cos(Math.PI*u/2)*47,x=450+time*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?'배':'antinode',505,top+18);ctx.fillText(lang==='ko'?'마디':'node',500,bottom-10);ctx.fillText(`${freq()} Hz`,65,160);updateContinuous();setState(id,c,lang==='ko'?`현재 ${freq()}Hz입니다. 병 입구는 공기 진동이 가장 큰 배, 물 표면은 진동이 작은 마디로 단순화해 표시했습니다. ${continuous?'연속음이 켜져 있어 물높이를 움직이면 음높이가 바로 변합니다.':'소리 계속 듣기를 켜면 물높이 변화에 따른 음높이를 연속해서 들을 수 있습니다.'}`:`Current pitch ${freq()} Hz. The bottle opening is shown as a displacement antinode and the water surface as a node in this simplified model. ${continuous?'Continuous sound is on, so pitch changes as the water moves.':'Turn on continuous sound to hear pitch change while moving the water.'}`);};
+    const drawMarker=(ctx,x,y,label,color,side=1)=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();ctx.fillStyle=color;ctx.font='800 16px sans-serif';ctx.fillText(label,x+13*side-(side<0?58:0),y+5);};
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),mode=modeInfo();drawSceneTitle(ctx,lang==='ko'?'물높이↑ → 공기 공간↓ → 음높이↑ · 높은 공명 모드일수록 마디 증가':'Water level ↑ → air space ↓ → pitch ↑ · higher resonant modes have more nodes',W);ctx.strokeStyle=P.line;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(360,80);ctx.lineTo(360,135);ctx.quadraticCurveTo(290,165,300,420);ctx.quadraticCurveTo(450,500,600,420);ctx.quadraticCurveTo(610,165,540,135);ctx.lineTo(540,80);ctx.closePath();ctx.stroke();ctx.save();ctx.beginPath();ctx.moveTo(310,160);ctx.lineTo(590,160);ctx.lineTo(590,420);ctx.quadraticCurveTo(450,485,310,420);ctx.closePath();ctx.clip();ctx.fillStyle='rgba(55,155,255,.60)';ctx.fillRect(300,level,310,500-level);ctx.restore();ctx.strokeStyle=P.primary;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(320,level);ctx.lineTo(580,level);ctx.stroke();drawDragHalo(ctx,450,level,48);
+      const top=96,bottom=level-8,L=Math.max(50,bottom-top),time=Math.sin(phase),order=mode.order;ctx.save();ctx.setLineDash([7,7]);ctx.lineWidth=2.5;ctx.strokeStyle='rgba(244,183,64,.30)';[-1,1].forEach(side=>{ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.abs(Math.cos(order*Math.PI*u/2))*47,x=450+side*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();});ctx.restore();ctx.strokeStyle=P.accent;ctx.lineWidth=6;ctx.beginPath();for(let y=top;y<=bottom;y+=3){const u=(y-top)/L,amp=Math.cos(order*Math.PI*u/2)*47,x=450+time*amp;y===top?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      for(let j=0;j<=mode.internalNodes;j++){const u=(1+2*j)/order,y=top+u*L;drawMarker(ctx,450,y,lang==='ko'?'마디':'node',P.primary,j%2?1:-1);}for(let j=0;j<=mode.internalNodes;j++){const u=2*j/order,y=top+u*L;drawMarker(ctx,450,y,lang==='ko'?'배':'antinode',P.accent,j%2?-1:1);}ctx.fillStyle=P.text;ctx.font='900 18px sans-serif';ctx.fillText(lang==='ko'?'병 입구':'opening',352,72);ctx.fillText(lang==='ko'?'물 표면':'water surface',585,level+6);ctx.font='900 24px sans-serif';ctx.fillText(`${freq()} Hz`,65,160);ctx.font='800 18px sans-serif';ctx.fillText(lang==='ko'?`${order}차 공명 모드 예시`:`${order}${order===1?'st':order===3?'rd':'th'}-mode example`,65,195);updateContinuous();setState(id,c,lang==='ko'?`현재 ${freq()}Hz, ${order}차 공명 모드 예시입니다. 병 입구는 항상 배이고 물 표면은 항상 마디이며, 화면에는 총 ${mode.totalNodes}개의 마디가 표시됩니다. 마디 수 증가는 고조파 비교를 위한 표현입니다.`:`Current pitch ${freq()} Hz, shown with a ${order}${order===1?'st':order===3?'rd':'th'}-mode example. The opening remains an antinode and the water surface remains a node; ${mode.totalNodes} nodes are displayed. The added nodes represent higher harmonics.`);};
     installPointer(c,p=>Math.abs(p.y-level)<60&&p.x>300&&p.x<600,p=>{level=clamp(p.y,185,420);draw();});$(`#${id}-play`).addEventListener('click',()=>safeTone(freq(),.85,.14,'sine'));$(`#${id}-continuous`).addEventListener('click',()=>continuous?stopContinuous():startContinuous());$(`#${id}-reset`).addEventListener('click',()=>{level=360;draw();});const loop=()=>{phase+=.11;draw();raf=requestAnimationFrame(loop)};animations.push(()=>{cancelAnimationFrame(raf);stopContinuous();});loop();
   }
   function initShadow(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let light={x:105,y:285},obj={x:430,y:285},screenX=700,shape='circle';
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'흰 손전등·물체·화면을 직접 움직여 그림자의 크기와 가장자리 변화를 비교하세요.':'Move the white light, object, and screen to compare shadow size and edge softness.',choiceButtons(id,'shape',[['circle',lang==='ko'?'원':'Circle'],['square',lang==='ko'?'사각형':'Square'],['star',lang==='ko'?'별':'Star']],shape)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
-    const screenW=170;
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'흰 손전등·물체·화면을 직접 움직이세요. 물체가 벽에 가까워지면 그림자는 물체와 거의 같은 크기가 되고 가장자리도 선명해집니다.':'Move the white light, object, and screen. As the object approaches the wall, its shadow approaches the same size and becomes sharper.',choiceButtons(id,'shape',[['circle',lang==='ko'?'원':'Circle'],['square',lang==='ko'?'사각형':'Square'],['star',lang==='ko'?'별':'Star']],shape)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const screenW=170,objectSize=42;
     const drawShape=(ctx,x,y,size,color)=>{ctx.fillStyle=color;if(shape==='circle'){ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();}else if(shape==='square')ctx.fillRect(x-size,y-size,size*2,size*2);else drawStar(ctx,x,y,size,color);};
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'광원에 가까울수록 크게 확대되고 가장자리가 흐려짐':'Closer to the source makes a larger, softer-edged shadow',W);drawFlashlight(ctx,light.x,light.y,obj.x,obj.y,P);drawDragHalo(ctx,light.x,light.y,55);ctx.fillStyle='#f7f4e9';roundedRect(ctx,screenX,95,screenW,380,18);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();drawDragHalo(ctx,screenX+screenW/2,285,54);const denom=Math.max(65,obj.x-light.x),mag=(screenX-light.x)/denom,sy=light.y+(obj.y-light.y)*mag,ss=clamp(28*mag,16,78);ctx.globalAlpha=.13;ctx.fillStyle='#ffd447';ctx.beginPath();ctx.moveTo(light.x,light.y);ctx.lineTo(screenX,sy-ss);ctx.lineTo(screenX,sy+ss);ctx.closePath();ctx.fill();ctx.globalAlpha=1;drawShape(ctx,obj.x,obj.y,42,P.text);drawDragHalo(ctx,obj.x,obj.y,62);
-      const separation=obj.x-light.x,closeness=clamp(1-(separation-85)/280,0,1),blur=3+closeness*20,alpha=.86-closeness*.28,shadowX=screenX+screenW/2,shadowY=clamp(sy,178,392);
-      ctx.save();ctx.globalAlpha=alpha;ctx.shadowColor='rgba(24,32,48,.72)';ctx.shadowBlur=blur;drawShape(ctx,shadowX,shadowY,ss,'rgba(24,32,48,.88)');ctx.restore();
-      setState(id,c,lang==='ko'?`그림자 확대 비율 약 ${mag.toFixed(2)}배. 물체가 손전등에 가까울수록 모든 모양이 크게 확대되고 테두리가 더 희미해집니다.`:`Shadow magnification about ${mag.toFixed(2)}×. Moving any shape closer to the flashlight enlarges it and softens its edge.`);};
-    installPointer(c,p=>distance(p,obj)<70?'obj':distance(p,light)<72?'light':(p.x>screenX-25&&p.x<screenX+screenW+25&&p.y>80&&p.y<490)?'screen':false,(p,e,phase,t)=>{if(t==='obj'){obj.x=clamp(p.x,light.x+85,screenX-75);obj.y=clamp(p.y,135,435);}else if(t==='light'){light.x=clamp(p.x,55,obj.x-85);light.y=clamp(p.y,120,445);}else screenX=clamp(p.x-screenW/2,obj.x+80,720);draw();});bindChoices(id,'shape',v=>{shape=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:105,y:285};obj={x:430,y:285};screenX=700;draw();});draw();
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'벽에 가까우면 같은 크기·선명, 광원에 가까우면 크고 흐림':'Near the wall: same size and sharp; near the light: larger and softer',W);drawFlashlight(ctx,light.x,light.y,obj.x,obj.y,P);drawDragHalo(ctx,light.x,light.y,55);ctx.fillStyle='#f7f4e9';roundedRect(ctx,screenX,95,screenW,380,18);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();drawDragHalo(ctx,screenX+screenW/2,285,54);
+      const sourceToObject=Math.max(55,obj.x-light.x),objectToScreen=Math.max(0,screenX-obj.x),rawMag=(screenX-light.x)/sourceToObject,nearWall=objectToScreen<=28,mag=nearWall?1:Math.max(1,rawMag),sy=light.y+(obj.y-light.y)*mag,ss=clamp(objectSize*mag,objectSize,150);ctx.globalAlpha=.13;ctx.fillStyle='#ffd447';ctx.beginPath();ctx.moveTo(light.x,light.y);ctx.lineTo(screenX,sy-ss);ctx.lineTo(screenX,sy+ss);ctx.closePath();ctx.fill();ctx.globalAlpha=1;drawShape(ctx,obj.x,obj.y,objectSize,P.text);drawDragHalo(ctx,obj.x,obj.y,62);
+      const penumbra=55*objectToScreen/sourceToObject,blur=clamp(1+penumbra*.48,1,30),alpha=clamp(.92-blur*.012,.56,.92),shadowX=screenX+screenW/2,shadowY=clamp(sy,165,405);ctx.save();roundedRect(ctx,screenX+3,98,screenW-6,374,15);ctx.clip();ctx.globalAlpha=alpha;ctx.shadowColor='rgba(24,32,48,.72)';ctx.shadowBlur=blur;drawShape(ctx,shadowX,shadowY,ss,'rgba(24,32,48,.90)');ctx.restore();
+      const relation=nearWall?(lang==='ko'?'물체가 벽에 닿아 그림자와 물체의 크기를 같게 표시합니다.':'The object is at the wall, so the shadow is shown at the same size.'):(lang==='ko'?`그림자 확대 비율 약 ${mag.toFixed(2)}배입니다.`:`Shadow magnification is about ${mag.toFixed(2)}×.`);setState(id,c,lang==='ko'?`${relation} 물체–벽 거리가 짧을수록 반그림자 폭이 줄어 테두리가 선명해지고, 광원 가까이에서는 커지고 흐려집니다.`:`${relation} A shorter object–wall gap reduces the penumbra and sharpens the edge; near the light the shadow grows and softens.`);};
+    installPointer(c,p=>distance(p,obj)<70?'obj':distance(p,light)<72?'light':(p.x>screenX-25&&p.x<screenX+screenW+25&&p.y>80&&p.y<490)?'screen':false,(p,e,phase,t)=>{if(t==='obj'){obj.x=clamp(p.x,light.x+70,screenX-10);obj.y=clamp(p.y,135,435);}else if(t==='light'){light.x=clamp(p.x,55,obj.x-70);light.y=clamp(p.y,120,445);}else{screenX=clamp(p.x-screenW/2,obj.x+10,720);}draw();});bindChoices(id,'shape',v=>{shape=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{light={x:105,y:285};obj={x:430,y:285};screenX=700;draw();});draw();
   }
   function initShadowColor(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let obj={x:470,y:285},lights=[{x:105,y:175,on:true,c:'#ff334d',rgb:[255,0,0],name:{ko:'빨강',en:'Red'}},{x:105,y:285,on:true,c:'#00c853',rgb:[0,255,0],name:{ko:'초록',en:'Green'}},{x:105,y:395,on:true,c:'#2979ff',rgb:[0,0,255],name:{ko:'파랑',en:'Blue'}}];
@@ -1550,7 +1694,7 @@
   }
   function initKaleidoscope(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let segments=6,dots=[{x:720,y:225,c:'#ef476f'},{x:755,y:285,c:'#3a86ff'},{x:700,y:340,c:'#f4b740'}];
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'오른쪽 거울 다각형 안의 색 점을 움직이고 거울 수를 바꾸세요. 원 밖과 옆 도형의 변 수도 함께 바뀝니다.':'Move the colored dots inside the mirror polygon and change the mirror count. The outer frame and side polygon change together.',`<button class="action-btn" id="${id}-less">− ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-more">＋ ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'오른쪽 다각형 거울 배열 안의 색 점을 움직이고 거울 수를 바꾸세요. 여러 거울을 다각형으로 배치한 개념 모형입니다.':'Move the colored dots inside the polygonal mirror array and change the mirror count. This is a conceptual model with mirrors arranged as a polygon.',`<button class="action-btn" id="${id}-less">− ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-more">＋ ${lang==='ko'?'거울':'Mirrors'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
     const polygon=(ctx,cx,cy,R,n,rot=-Math.PI/2)=>{ctx.beginPath();for(let i=0;i<n;i++){const a=rot+i*Math.PI*2/n,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();};
     const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),cx=270,cy=285,R=180,right={x:720,y:285,r:130};drawSceneTitle(ctx,lang==='ko'?'거울 수가 늘면 반사 조각과 다각형의 변 수도 증가':'More mirrors create more reflected sectors and polygon sides',W);
       ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.clip();for(let k=0;k<segments;k++){ctx.save();ctx.translate(cx,cy);ctx.rotate(k*Math.PI*2/segments);if(k%2)ctx.scale(1,-1);dots.forEach(d=>{const rx=(d.x-right.x)*.70,ry=(d.y-right.y)*.70;ctx.fillStyle=d.c;ctx.beginPath();ctx.arc(88+rx,ry,15,0,Math.PI*2);ctx.fill();});ctx.restore();}ctx.restore();ctx.strokeStyle=P.line;ctx.lineWidth=7;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();ctx.strokeStyle=P.primary;ctx.lineWidth=4;polygon(ctx,cx,cy,R+24,segments);ctx.stroke();for(let k=0;k<segments;k++){const a=k*Math.PI*2/segments;ctx.strokeStyle='rgba(49,94,231,.32)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();}
@@ -1559,25 +1703,252 @@
   }
 
   function initBalloon(id,type){
-    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let heat=.42,balloonY=300,vy=0,raf=0;
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'열기구 입구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 불꽃이 약하면 내려가고 강하면 올라갑니다.':'Drag the flame inside the balloon mouth up or down to change burner power. Low power descends; high power rises.',`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
-    const flamePoint=()=>({x:470,y:balloonY+132-heat*55});
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'내부 버너 화력 → 공기 온도 → 상승·하강':'Internal burner power → air temperature → rise or fall',W);ctx.fillStyle='#8ecae6';ctx.fillRect(0,90,W,H-90);for(let i=0;i<5;i++){ctx.fillStyle='rgba(255,255,255,.72)';ctx.beginPath();ctx.ellipse(115+i*185,135+(i%2)*55,70,24,0,0,Math.PI*2);ctx.fill();}
-      ctx.fillStyle='#f4b740';ctx.beginPath();ctx.ellipse(470,balloonY,112,140,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d58c20';ctx.lineWidth=5;ctx.stroke();ctx.strokeStyle='#8b5e34';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(405,balloonY+105);ctx.lineTo(438,balloonY+170);ctx.moveTo(535,balloonY+105);ctx.lineTo(502,balloonY+170);ctx.stroke();ctx.fillStyle='#8b5e34';ctx.fillRect(432,balloonY+165,76,45);
-      // burner assembly and flame inside the mouth
-      ctx.fillStyle='#4b5563';roundedRect(ctx,447,balloonY+116,46,40,8);ctx.fill();const fp=flamePoint(),fh=22+heat*52;ctx.fillStyle='#ff7a00';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh);ctx.quadraticCurveTo(fp.x-30,fp.y-12,fp.x,fp.y+8);ctx.quadraticCurveTo(fp.x+30,fp.y-12,fp.x,fp.y-fh);ctx.fill();ctx.fillStyle='#ffd447';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh*.72);ctx.quadraticCurveTo(fp.x-13,fp.y-5,fp.x,fp.y+4);ctx.quadraticCurveTo(fp.x+13,fp.y-5,fp.x,fp.y-fh*.72);ctx.fill();drawDragHalo(ctx,fp.x,fp.y-fh*.40,40);
-      ctx.fillStyle=P.panel;roundedRect(ctx,700,170,145,210,20);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?'화력':'POWER',742,205);ctx.fillStyle='#d9e3ef';ctx.fillRect(755,225,28,125);ctx.fillStyle='#ff7a00';ctx.fillRect(755,350-heat*125,28,heat*125);ctx.fillStyle=P.text;ctx.font='900 25px sans-serif';ctx.fillText(`${Math.round(heat*100)}%`,740,415);
-      const lift=(heat-.45)*100;setState(id,c,lang==='ko'?`버너 화력 ${Math.round(heat*100)}%, 상대 순부력 ${lift.toFixed(0)}. ${lift>4?'열기구가 올라갑니다.':lift<-4?'열기구가 내려갑니다.':'높이를 거의 유지합니다.'}`:`Burner power ${Math.round(heat*100)}%, relative net lift ${lift.toFixed(0)}. ${lift>4?'The balloon rises.':lift<-4?'The balloon descends.':'It nearly holds altitude.'}`);};
-    installPointer(c,p=>distance(p,flamePoint())<90,p=>{heat=clamp((balloonY+170-p.y)/115,0,1);draw();});$(`#${id}-reset`).addEventListener('click',()=>{heat=.42;balloonY=300;vy=0;draw();});const loop=()=>{const acc=(.45-heat)*.075;vy=clamp(vy+acc,-2.4,2.4);vy*=.985;balloonY=clamp(balloonY+vy,205,345);if((balloonY<=205&&vy<0)||(balloonY>=345&&vy>0))vy=0;draw();raf=requestAnimationFrame(loop)};animations.push(()=>cancelAnimationFrame(raf));loop();
-  }
+    const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);
+    // 열기구는 화면 중앙에 고정하고, 배경과 고도 표시만 움직여 상승·하강을 표현합니다.
+    let heat=0,sceneAltitude=0,sceneVelocity=0,cloudDrift=0,raf=0;
+    const bx=450,balloonY=318,rx=68,ry=82;
 
+    controls.innerHTML=interactionPanel(
+      id,
+      lang==='ko'
+        ?'열기구 안의 불꽃을 위아래로 드래그해 화력을 조절하세요. 화력 70% 초과에서는 상승하고, 50~70%에서는 현재 고도를 유지하며, 50% 미만에서는 하강합니다. 열기구는 화면에 고정되고 주변 풍경과 고도 아이콘이 움직입니다.'
+        :'Drag the flame inside the balloon to adjust burner power. Above 70% it rises, from 50% to 70% it holds its current altitude, and below 50% it descends. The balloon stays fixed while the scenery and altitude icon move.',
+      `<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
+    );
+
+    const visualPower=()=>clamp(heat*2,0,1); // 실제 0~50%를 화면 0~100%로 표시
+    const flamePoint=()=>({x:bx,y:balloonY+ry+31-visualPower()*34});
+    const wrap=(v,min,max)=>{
+      const range=max-min;
+      return ((v-min)%range+range)%range+min;
+    };
+
+    const drawCloud=(ctx,x,y,s=1,a=.78)=>{
+      ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#fff';
+      ctx.beginPath();ctx.ellipse(x,y,48*s,17*s,0,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.ellipse(x-25*s,y-7*s,30*s,20*s,0,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.ellipse(x+20*s,y-11*s,36*s,24*s,0,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    };
+
+    const drawBackground=(ctx,W,H,altitude)=>{
+      // 매우 높은 고도까지 올라가는 느낌을 위해 하늘의 색 변화 범위를 크게 잡습니다.
+      const sky=ctx.createLinearGradient(0,90,0,H);
+      sky.addColorStop(0,altitude>.82?'#123f82':altitude>.52?'#2d73bd':'#72c1f2');
+      sky.addColorStop(.45,altitude>.82?'#4f94cf':altitude>.52?'#78b9e8':'#a9dbf7');
+      sky.addColorStop(1,altitude>.82?'#b8ddf4':'#edf8ff');
+      ctx.fillStyle=sky;ctx.fillRect(0,90,W,H-90);
+
+      // 높은 고도에서는 아주 옅은 대기층을 추가합니다.
+      if(altitude>.58){
+        ctx.save();
+        ctx.globalAlpha=clamp((altitude-.58)/.42,0,1)*.34;
+        ctx.fillStyle='#d8efff';
+        for(let i=0;i<4;i++){
+          ctx.fillRect(0,120+i*72,W,2);
+        }
+        ctx.restore();
+      }
+
+      // 태양은 멀리 있는 기준점으로 화면에 고정합니다.
+      ctx.save();ctx.globalAlpha=.9;
+      const sunGlow=ctx.createRadialGradient(790,145,8,790,145,58);
+      sunGlow.addColorStop(0,'rgba(255,238,142,.95)');
+      sunGlow.addColorStop(1,'rgba(255,238,142,0)');
+      ctx.fillStyle=sunGlow;ctx.beginPath();ctx.arc(790,145,58,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#ffd75c';ctx.beginPath();ctx.arc(790,145,24,0,Math.PI*2);ctx.fill();ctx.restore();
+
+      // 구름은 고도 변화에 따라 아래로 지나가고, 동시에 천천히 좌우로 흘러갑니다.
+      const driftNear=cloudDrift*1.25;
+      const driftFar=cloudDrift*.62;
+      const cloudLayers=[
+        {x:120,y:145,s:.88,a:.78,v:1.00,drift:driftNear},
+        {x:330,y:220,s:.70,a:.62,v:.90,drift:driftNear},
+        {x:610,y:150,s:.94,a:.76,v:1.05,drift:driftNear},
+        {x:820,y:245,s:.62,a:.58,v:.82,drift:driftNear},
+        {x:220,y:100,s:.48,a:.50,v:.52,drift:driftFar},
+        {x:690,y:108,s:.43,a:.46,v:.47,drift:driftFar},
+        {x:430,y:72,s:.36,a:.38,v:.34,drift:driftFar},
+        {x:870,y:92,s:.32,a:.34,v:.30,drift:driftFar}
+      ];
+      cloudLayers.forEach((cl,i)=>{
+        const x=wrap(cl.x+cl.drift*(i%2?-.8:1),-100,W+100);
+        // 고도가 커질수록 구름이 더 긴 거리를 아래로 흐르며, 화면 밖으로 나가면 위에서 다시 나타납니다.
+        const travel=altitude*1180*cl.v;
+        const y=wrap(cl.y+travel,75,H+130);
+        drawCloud(ctx,x,y,cl.s,cl.a);
+      });
+
+      // 지상 풍경은 훨씬 긴 거리로 아래로 내려가 높은 하늘까지 올라간 느낌을 줍니다.
+      const groundShift=altitude*980;
+      const horizonY=392+groundShift;
+
+      // 먼 산
+      ctx.fillStyle='#91b993';ctx.beginPath();
+      ctx.moveTo(0,horizonY+6);ctx.lineTo(125,horizonY-78);ctx.lineTo(235,horizonY+2);
+      ctx.lineTo(380,horizonY-105);ctx.lineTo(515,horizonY+4);
+      ctx.lineTo(660,horizonY-72);ctx.lineTo(790,horizonY+6);
+      ctx.lineTo(W,horizonY-45);ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();
+
+      // 가까운 언덕과 지면
+      ctx.fillStyle='#78ad65';ctx.beginPath();ctx.moveTo(0,horizonY+18);
+      ctx.quadraticCurveTo(150,horizonY-24,300,horizonY+19);
+      ctx.quadraticCurveTo(480,horizonY-36,630,horizonY+17);
+      ctx.quadraticCurveTo(790,horizonY-22,W,horizonY+12);
+      ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#5f914f';ctx.fillRect(0,horizonY+32,W,Math.max(0,H-horizonY-32));
+
+      // 지면 가까이에서만 집·나무·황토색 도로가 보입니다.
+      if(horizonY < H+110){
+        ctx.fillStyle='#d6c39b';ctx.beginPath();ctx.moveTo(0,horizonY+78);ctx.lineTo(W,horizonY+45);ctx.lineTo(W,horizonY+79);ctx.lineTo(0,horizonY+111);ctx.closePath();ctx.fill();
+
+        const houseX=150,houseY=horizonY-28;
+        ctx.fillStyle='#e88b64';roundedRect(ctx,houseX,houseY,68,48,7);ctx.fill();
+        ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.moveTo(houseX-8,houseY);ctx.lineTo(houseX+34,houseY-34);ctx.lineTo(houseX+76,houseY);ctx.closePath();ctx.fill();
+        ctx.fillStyle='#fff4d9';ctx.fillRect(houseX+12,houseY+13,15,15);ctx.fillRect(houseX+42,houseY+13,15,15);
+        ctx.fillStyle='#815a3b';ctx.fillRect(houseX+28,houseY+23,14,25);
+
+        const tree=(x,y,s=1)=>{
+          ctx.fillStyle='#76533a';ctx.fillRect(x-5*s,y,10*s,34*s);
+          ctx.fillStyle='#3f9452';ctx.beginPath();ctx.arc(x,y-8*s,25*s,0,Math.PI*2);ctx.fill();
+          ctx.fillStyle='#54a95f';ctx.beginPath();ctx.arc(x-12*s,y-13*s,17*s,0,Math.PI*2);ctx.fill();
+        };
+        tree(285,horizonY-20,.9);tree(690,horizonY-17,1.05);tree(750,horizonY-10,.72);
+      }
+
+      // 착륙 상태에서는 황토색 도로 위에 그림자를 표시합니다.
+      if(altitude<.03){
+        const roadTopAtBalloon=horizonY+78+(45-78)*(bx/W);
+        ctx.save();
+        ctx.strokeStyle='rgba(86,67,39,.38)';ctx.lineWidth=7;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(bx-58,roadTopAtBalloon+4);ctx.lineTo(bx+58,roadTopAtBalloon+4);ctx.stroke();
+        ctx.restore();
+      }
+    };
+
+    const drawAltitudeIcon=(ctx,P)=>{
+      const x=104;
+      const topY=145,bottomY=427;
+      const y=bottomY-sceneAltitude*(bottomY-topY);
+      // 현재 고도를 나타내는 작은 열기구 아이콘
+      ctx.save();
+      ctx.shadowColor='rgba(0,0,0,.22)';ctx.shadowBlur=8;
+      ctx.fillStyle='#f4b740';ctx.beginPath();ctx.ellipse(x,y-7,12,15,0,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#c97f1c';ctx.lineWidth=2;ctx.stroke();
+      ctx.shadowBlur=0;
+      ctx.strokeStyle='#825631';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(x-7,y+3);ctx.lineTo(x-5,y+12);ctx.moveTo(x+7,y+3);ctx.lineTo(x+5,y+12);ctx.stroke();
+      ctx.fillStyle='#8b5e34';roundedRect(ctx,x-8,y+11,16,9,3);ctx.fill();
+      ctx.fillStyle=P.panel;roundedRect(ctx,x+18,y-15,58,26,8);ctx.fill();
+      ctx.strokeStyle=P.border;ctx.lineWidth=1.5;ctx.stroke();
+      ctx.fillStyle=P.text;ctx.font='800 13px sans-serif';
+      ctx.fillText(`${Math.round(sceneAltitude*100)}%`,x+28,y+3);
+      ctx.restore();
+    };
+
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'열기구는 고정되고 주변 풍경과 고도 표시가 움직입니다':'The balloon stays fixed while the scenery and altitude indicator move',W);
+
+      drawBackground(ctx,W,H,sceneAltitude);
+
+      // 상승·하강 안내 눈금
+      ctx.strokeStyle='rgba(28,68,120,.38)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(104,145);ctx.lineTo(104,427);ctx.stroke();
+      ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(104,128);ctx.lineTo(91,153);ctx.lineTo(117,153);ctx.closePath();ctx.fill();
+      ctx.fillStyle=P.danger;ctx.beginPath();ctx.moveTo(104,444);ctx.lineTo(91,419);ctx.lineTo(117,419);ctx.closePath();ctx.fill();
+      ctx.fillStyle=P.text;ctx.font='800 18px sans-serif';ctx.fillText(lang==='ko'?'하늘':'SKY',65,123);ctx.fillText(lang==='ko'?'지면':'GROUND',49,468);
+      drawAltitudeIcon(ctx,P);
+
+      // 열기구는 항상 같은 위치에 고정합니다.
+      ctx.fillStyle='#f4b740';ctx.beginPath();ctx.ellipse(bx,balloonY,rx,ry,0,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#c97f1c';ctx.lineWidth=5;ctx.stroke();
+      ctx.strokeStyle='rgba(145,77,20,.58)';ctx.lineWidth=3;
+      for(const off of [-32,0,32]){
+        ctx.beginPath();ctx.moveTo(bx+off*.45,balloonY-ry+12);
+        ctx.quadraticCurveTo(bx+off,balloonY,bx+off*.45,balloonY+ry-12);ctx.stroke();
+      }
+      ctx.strokeStyle='#825631';ctx.lineWidth=4;ctx.beginPath();
+      ctx.moveTo(bx-40,balloonY+60);ctx.lineTo(bx-23,balloonY+107);
+      ctx.moveTo(bx+40,balloonY+60);ctx.lineTo(bx+23,balloonY+107);ctx.stroke();
+      ctx.fillStyle='#8b5e34';roundedRect(ctx,bx-33,balloonY+104,66,32,7);ctx.fill();
+      ctx.fillStyle='#4b5563';roundedRect(ctx,bx-19,balloonY+75,38,26,7);ctx.fill();
+
+      // 화력 조절 불꽃
+      const displayPower=visualPower();
+      const fp=flamePoint(),fh=17+displayPower*42;
+      ctx.fillStyle='#ff6f00';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh);
+      ctx.quadraticCurveTo(fp.x-21,fp.y-8,fp.x,fp.y+6);
+      ctx.quadraticCurveTo(fp.x+21,fp.y-8,fp.x,fp.y-fh);ctx.fill();
+      ctx.fillStyle='#ffe15a';ctx.beginPath();ctx.moveTo(fp.x,fp.y-fh*.72);
+      ctx.quadraticCurveTo(fp.x-10,fp.y-3,fp.x,fp.y+3);
+      ctx.quadraticCurveTo(fp.x+10,fp.y-3,fp.x,fp.y-fh*.72);ctx.fill();
+      drawDragHalo(ctx,fp.x,fp.y-fh*.35,36);
+
+      // 화력 표시기
+      ctx.fillStyle=P.panel;roundedRect(ctx,700,165,145,220,20);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.stroke();
+      ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?'화력':'POWER',742,202);
+      ctx.fillStyle='#d9e3ef';ctx.fillRect(755,225,28,125);
+      ctx.fillStyle='#ff7a00';ctx.fillRect(755,350-displayPower*125,28,displayPower*125);
+      ctx.fillStyle=P.text;ctx.font='900 25px sans-serif';ctx.fillText(`${Math.round(displayPower*100)}%`,740,415);
+
+      const powerPct=displayPower*100,altitudeLabel=Math.round(sceneAltitude*100);
+      const motion=powerPct>70
+        ?(lang==='ko'?'화력이 70%를 넘어 배경이 아래로 이동하며 상승합니다.':'Power is above 70%, so the scenery moves downward to represent ascent.')
+        :powerPct>=50
+          ?(lang==='ko'?'화력이 50~70% 범위여서 현재 고도를 유지합니다.':'Power is between 50% and 70%, so the balloon holds its current altitude.')
+          :(lang==='ko'?'화력이 50% 미만이어서 배경이 위로 돌아오며 하강합니다.':'Power is below 50%, so the scenery returns upward to represent descent.');
+      setState(id,c,lang==='ko'
+        ?`버너 화력 ${Math.round(powerPct)}%. 70% 초과 상승, 50~70% 고도 유지, 50% 미만 하강. 표현 고도 ${altitudeLabel}%. ${motion}`
+        :`Burner power ${Math.round(powerPct)}%. Above 70% rises, 50–70% holds altitude, below 50% descends. Represented altitude ${altitudeLabel}%. ${motion}`);
+    };
+
+    installPointer(c,p=>distance(p,flamePoint())<78,p=>{
+      heat=clamp((balloonY+ry+68-p.y)/100,0,1)*.5;draw();
+    });
+    $(`#${id}-reset`).addEventListener('click',()=>{
+      heat=0;sceneAltitude=0;sceneVelocity=0;cloudDrift=0;draw();
+    });
+
+    const loop=()=>{
+      const power=visualPower();
+      // 70% 초과는 상승, 50~70%는 고도 유지, 50% 미만은 하강합니다.
+      if(power>.70){
+        const strength=(power-.70)/.30;
+        sceneVelocity=clamp((sceneVelocity+strength*.0035)*.985,-.024,.024);
+      }else if(power<.50){
+        const strength=(.50-power)/.50;
+        sceneVelocity=clamp((sceneVelocity-strength*.0035)*.985,-.024,.024);
+      }else{
+        // 50~70% 구간에서는 현재 고도를 즉시 유지합니다.
+        sceneVelocity=0;
+      }
+      sceneAltitude=clamp(sceneAltitude+sceneVelocity,0,1);
+      if((sceneAltitude<=0&&sceneVelocity<0)||(sceneAltitude>=1&&sceneVelocity>0))sceneVelocity=0;
+
+      // 구름은 화력과 관계없이 계속 천천히 움직입니다.
+      cloudDrift=(cloudDrift+.22)%2000;
+
+      draw();raf=requestAnimationFrame(loop);
+    };
+    animations.push(()=>cancelAnimationFrame(raf));loop();
+  }
   function initLever(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let left={x:270,m:5},right={x:650,m:5};
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'두 추를 지렛대 위에서 좌우로 드래그해 균형을 맞추세요.':'Drag both weights along the lever to balance it.',`<button class="action-btn" id="${id}-leftMass">${lang==='ko'?'왼쪽 추 +1':'Left +1'}</button><button class="action-btn" id="${id}-rightMass">${lang==='ko'?'오른쪽 추 +1':'Right +1'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),pivot=450,lt=left.m*(pivot-left.x),rt=right.m*(right.x-pivot),ang=clamp((rt-lt)/18000,-.22,.22);drawSceneTitle(ctx,lang==='ko'?'돌림힘 = 힘 × 받침점에서의 거리':'Torque = force × distance from pivot',W);ctx.save();ctx.translate(pivot,320);ctx.rotate(ang);ctx.strokeStyle='#7b5739';ctx.lineWidth=25;ctx.beginPath();ctx.moveTo(-350,0);ctx.lineTo(350,0);ctx.stroke();const drawWeight=(o,col)=>{const x=o.x-pivot;ctx.fillStyle=col;roundedRect(ctx,x-42,-95,84,85,12);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 25px sans-serif';ctx.fillText(`${o.m}`,x-8,-45);drawDragHalo(ctx,x,-55,55)};drawWeight(left,P.danger);drawWeight(right,P.primary);ctx.restore();ctx.fillStyle=P.accent;ctx.beginPath();ctx.moveTo(pivot,325);ctx.lineTo(pivot-65,455);ctx.lineTo(pivot+65,455);ctx.closePath();ctx.fill();const result=Math.abs(lt-rt)<800?(lang==='ko'?'균형입니다.':'Balanced.'):lt>rt?(lang==='ko'?'왼쪽이 내려갑니다.':'Left side goes down.'):(lang==='ko'?'오른쪽이 내려갑니다.':'Right side goes down.');setState(id,c,lang==='ko'?`왼쪽 돌림힘 ${Math.round(lt)}, 오른쪽 ${Math.round(rt)}. ${result}`:`Left torque ${Math.round(lt)}, right ${Math.round(rt)}. ${result}`);};
-    installPointer(c,p=>distance(p,{x:left.x,y:265})<70?'left':distance(p,{x:right.x,y:265})<70?'right':false,(p,e,phase,t)=>{if(t==='left')left.x=clamp(p.x,110,410);else right.x=clamp(p.x,490,790);draw();});$(`#${id}-leftMass`).addEventListener('click',()=>{left.m=left.m%9+1;draw();});$(`#${id}-rightMass`).addEventListener('click',()=>{right.m=right.m%9+1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{left={x:270,m:5};right={x:650,m:5};draw();});draw();
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'두 추를 좌우로 드래그해 균형을 맞추세요. 버튼에는 현재 질량과 다음에 바뀔 질량이 함께 표시됩니다.':'Drag both weights to balance the lever. Each button shows the current mass and the next value in the cycle.',`<button class="action-btn" id="${id}-leftMass"></button><button class="action-btn" id="${id}-rightMass"></button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    const nextMass=m=>m===9?1:m+1;
+    const updateMassButtons=()=>{
+      const lb=$(`#${id}-leftMass`),rb=$(`#${id}-rightMass`);
+      lb.textContent=lang==='ko'?`왼쪽 추: ${left.m} → ${nextMass(left.m)}`:`Left mass: ${left.m} → ${nextMass(left.m)}`;
+      rb.textContent=lang==='ko'?`오른쪽 추: ${right.m} → ${nextMass(right.m)}`:`Right mass: ${right.m} → ${nextMass(right.m)}`;
+      lb.setAttribute('aria-label',lang==='ko'?`왼쪽 추를 ${left.m}에서 ${nextMass(left.m)}로 변경`:`Change left mass from ${left.m} to ${nextMass(left.m)}`);
+      rb.setAttribute('aria-label',lang==='ko'?`오른쪽 추를 ${right.m}에서 ${nextMass(right.m)}로 변경`:`Change right mass from ${right.m} to ${nextMass(right.m)}`);
+    };
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),pivot=450,lt=left.m*(pivot-left.x),rt=right.m*(right.x-pivot),ang=clamp((rt-lt)/18000,-.22,.22);drawSceneTitle(ctx,lang==='ko'?'돌림힘 = 힘 × 받침점에서의 거리':'Torque = force × distance from pivot',W);ctx.save();ctx.translate(pivot,320);ctx.rotate(ang);ctx.strokeStyle='#7b5739';ctx.lineWidth=25;ctx.beginPath();ctx.moveTo(-350,0);ctx.lineTo(350,0);ctx.stroke();const drawWeight=(o,col)=>{const x=o.x-pivot;ctx.fillStyle=col;roundedRect(ctx,x-42,-95,84,85,12);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 25px sans-serif';ctx.fillText(`${o.m}`,x-8,-45);drawDragHalo(ctx,x,-55,55)};drawWeight(left,P.danger);drawWeight(right,P.primary);ctx.restore();ctx.fillStyle=P.accent;ctx.beginPath();ctx.moveTo(pivot,325);ctx.lineTo(pivot-65,455);ctx.lineTo(pivot+65,455);ctx.closePath();ctx.fill();const result=Math.abs(lt-rt)<800?(lang==='ko'?'균형입니다.':'Balanced.'):lt>rt?(lang==='ko'?'왼쪽이 내려갑니다.':'Left side goes down.'):(lang==='ko'?'오른쪽이 내려갑니다.':'Right side goes down.');setState(id,c,lang==='ko'?`왼쪽 돌림힘 ${Math.round(lt)}, 오른쪽 ${Math.round(rt)}. ${result}`:`Left torque ${Math.round(lt)}, right ${Math.round(rt)}. ${result}`);updateMassButtons();};
+    installPointer(c,p=>distance(p,{x:left.x,y:265})<70?'left':distance(p,{x:right.x,y:265})<70?'right':false,(p,e,phase,t)=>{if(t==='left')left.x=clamp(p.x,110,410);else right.x=clamp(p.x,490,790);draw();});
+    $(`#${id}-leftMass`).addEventListener('click',()=>{left.m=nextMass(left.m);draw();});
+    $(`#${id}-rightMass`).addEventListener('click',()=>{right.m=nextMass(right.m);draw();});
+    $(`#${id}-reset`).addEventListener('click',()=>{left={x:270,m:5};right={x:650,m:5};draw();});draw();
   }
-
   function initAirCannon(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let membrane=155,ring={x:330,v:0,r:55,active:false,alpha:1},raf=0,opening=1;
     controls.innerHTML=interactionPanel(id,lang==='ko'?'공기대포 뒤쪽의 파란 막을 왼쪽으로 당겼다가 놓으세요. 소용돌이 고리는 오른쪽 화면 밖으로 나가면 사라집니다.':'Pull the blue rear membrane left and release it. The vortex ring disappears after leaving the right edge.',`<button class="action-btn" id="${id}-opening">${lang==='ko'?'구멍 크기 바꾸기':'Change opening'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
@@ -1587,11 +1958,15 @@
 
   function initLens(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let lensType='convex',obj={x:190,h:100},lensX=470,screenX=820;
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'물체, 렌즈, 화면을 좌우로 직접 드래그하세요.':'Drag the object, lens, and screen left or right.',choiceButtons(id,'lens',[['convex',lang==='ko'?'볼록렌즈':'Convex'],['concave',lang==='ko'?'오목렌즈':'Concave']],lensType)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'물체, 렌즈, 화면을 좌우로 직접 드래그하세요. 실상만 화면에 맺히며, 가상상은 점선 연장선으로 표시됩니다.':'Drag the object, lens, and screen. Only a real image can be projected on the screen; virtual images are shown using dashed back-traced rays.',choiceButtons(id,'lens',[['convex',lang==='ko'?'볼록렌즈':'Convex'],['concave',lang==='ko'?'오목렌즈':'Concave']],lensType)+`<button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
     const f=()=>lensType==='convex'?115:-115;
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),axis=310,doVal=(lensX-obj.x),di=1/(1/f()-1/doVal),imageX=lensX+di,m=-di/doVal;drawSceneTitle(ctx,lang==='ko'?'위치를 움직이며 상이 맺히는 곳 찾기':'Move parts to find where the image forms',W);ctx.strokeStyle=P.line;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(40,axis);ctx.lineTo(860,axis);ctx.stroke();drawArrow(ctx,obj.x,axis,obj.h,P.danger);drawDragHalo(ctx,obj.x,axis-obj.h/2,55);drawLens(ctx,lensX,axis,lensType,P);drawDragHalo(ctx,lensX,axis,70);ctx.fillStyle='#f5f1e8';ctx.fillRect(screenX,100,22,380);ctx.strokeStyle=P.line;ctx.strokeRect(screenX,100,22,380);drawDragHalo(ctx,screenX+11,axis,55);
-      const topY=axis-obj.h;ctx.strokeStyle=P.accent;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,topY);const ray1y=topY+(screenX-lensX)*(lensType==='convex'?obj.h/f():-obj.h/Math.abs(f()));ctx.lineTo(screenX,ray1y);ctx.stroke();ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,axis);ctx.lineTo(screenX,axis+(screenX-lensX)*(obj.h/doVal));ctx.stroke();if(Number.isFinite(imageX)&&imageX>40&&imageX<875)drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);const focusDiff=Math.abs(screenX-imageX),focus=focusDiff<28?(lang==='ko'?'화면에 선명한 상':'sharp image on screen'):(lang==='ko'?'화면과 상 위치가 다름':'screen is away from image plane');setState(id,c,lang==='ko'?`${lensType==='convex'?'볼록':'오목'}렌즈. 계산된 상 위치 ${Number.isFinite(imageX)?Math.round(imageX):'∞'}, ${focus}`:`${lensType==='convex'?'Convex':'Concave'} lens. Calculated image position ${Number.isFinite(imageX)?Math.round(imageX):'∞'}, ${focus}`);};
-    installPointer(c,p=>Math.abs(p.x-obj.x)<60&&p.y>150&&p.y<330?'obj':Math.abs(p.x-lensX)<60?'lens':Math.abs(p.x-screenX)<55?'screen':false,(p,e,phase,t)=>{if(t==='obj')obj.x=clamp(p.x,80,lensX-80);else if(t==='lens')lensX=clamp(p.x,obj.x+80,screenX-90);else screenX=clamp(p.x,lensX+90,860);draw();});bindChoices(id,'lens',v=>{lensType=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{obj={x:190,h:100};lensX=470;screenX=820;draw();});draw();
+    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette(),axis=310,doVal=lensX-obj.x,fVal=f(),den=1/fVal-1/doVal,di=Math.abs(den)<1e-5?Infinity:1/den,imageX=lensX+di,m=Number.isFinite(di)?-di/doVal:Infinity,topY=axis-obj.h;drawSceneTitle(ctx,lang==='ko'?'볼록렌즈의 실상과 가상상, 오목렌즈의 가상상':'Real and virtual images with convex and concave lenses',W);ctx.strokeStyle=P.line;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(40,axis);ctx.lineTo(860,axis);ctx.stroke();drawArrow(ctx,obj.x,axis,obj.h,P.danger);drawDragHalo(ctx,obj.x,axis-obj.h/2,55);drawLens(ctx,lensX,axis,lensType,P);drawDragHalo(ctx,lensX,axis,70);ctx.fillStyle='#f5f1e8';ctx.fillRect(screenX,100,22,380);ctx.strokeStyle=P.line;ctx.strokeRect(screenX,100,22,380);drawDragHalo(ctx,screenX+11,axis,55);
+      ctx.fillStyle=P.muted;ctx.font='800 15px sans-serif';ctx.fillText('F',lensX+fVal-5,axis+24);ctx.beginPath();ctx.arc(lensX+fVal,axis,5,0,Math.PI*2);ctx.fill();ctx.fillText('F',lensX-fVal-5,axis+24);ctx.beginPath();ctx.arc(lensX-fVal,axis,5,0,Math.PI*2);ctx.fill();
+      const rightX=865,centralSlope=(axis-topY)/doVal;ctx.strokeStyle=P.accent;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,axis);ctx.lineTo(rightX,axis+centralSlope*(rightX-lensX));ctx.stroke();ctx.beginPath();ctx.moveTo(obj.x,topY);ctx.lineTo(lensX,topY);if(lensType==='convex'){const slope=(axis-topY)/fVal;ctx.lineTo(rightX,topY+slope*(rightX-lensX));}else{const nearFocus=lensX+fVal,slope=(topY-axis)/(lensX-nearFocus);ctx.lineTo(rightX,topY+slope*(rightX-lensX));ctx.stroke();ctx.save();ctx.setLineDash([9,7]);ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(lensX,topY);ctx.lineTo(nearFocus,axis);ctx.stroke();ctx.restore();}
+      if(lensType==='convex')ctx.stroke();
+      const real=Number.isFinite(di)&&di>0,virtual=Number.isFinite(di)&&di<0;if(real&&imageX>40&&imageX<875){drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);}else if(virtual&&imageX>40&&imageX<875){ctx.save();ctx.setLineDash([9,7]);ctx.globalAlpha=.72;drawArrow(ctx,imageX,axis,obj.h*m,P.success,true);ctx.restore();ctx.save();ctx.strokeStyle=P.success;ctx.lineWidth=3;ctx.setLineDash([9,7]);ctx.beginPath();ctx.moveTo(lensX,topY);ctx.lineTo(imageX,axis-obj.h*m);ctx.moveTo(lensX,axis);ctx.lineTo(imageX,axis-obj.h*m);ctx.stroke();ctx.restore();}
+      let msg;if(!Number.isFinite(di)){msg=lang==='ko'?'물체가 초점 부근에 있어 굴절광이 거의 평행하며 상은 매우 멀리 형성됩니다.':'The object is near the focal point, so outgoing rays are nearly parallel and the image is very far away.';}else if(real){const focusDiff=Math.abs(screenX-imageX),focus=focusDiff<28?(lang==='ko'?'화면에 선명한 실상이 맺힙니다.':'A sharp real image forms on the screen.'):(lang==='ko'?'실상 위치와 화면 위치가 달라 화면에는 흐리게 보입니다.':'The screen is away from the real-image plane, so the projection is blurred.');msg=lang==='ko'?`볼록렌즈의 도립 실상입니다. 배율 ${Math.abs(m).toFixed(2)}배. ${focus}`:`This is an inverted real image from a convex lens, magnification ${Math.abs(m).toFixed(2)}×. ${focus}`;}else{msg=lang==='ko'?`${lensType==='convex'?'초점 안쪽의 볼록렌즈':'오목렌즈'}가 만든 정립 가상상입니다. 가상상은 화면에 직접 맺히지 않습니다.`:`This is an upright virtual image made by ${lensType==='convex'?'a convex lens with the object inside the focal length':'a concave lens'}. A virtual image cannot be projected directly onto the screen.`;}setState(id,c,msg);};
+    installPointer(c,p=>Math.abs(p.x-obj.x)<60&&p.y>150&&p.y<330?'obj':Math.abs(p.x-lensX)<60?'lens':Math.abs(p.x-screenX)<55?'screen':false,(p,e,phase,t)=>{if(t==='obj')obj.x=clamp(p.x,80,lensX-45);else if(t==='lens')lensX=clamp(p.x,obj.x+45,screenX-90);else screenX=clamp(p.x,lensX+90,860);draw();});bindChoices(id,'lens',v=>{lensType=v;draw();});$(`#${id}-reset`).addEventListener('click',()=>{obj={x:190,h:100};lensX=470;screenX=820;draw();});draw();
   }
 
   function initQuantum(id,type){
@@ -1606,18 +1981,26 @@
   }
   function initEntanglement(id,type){
     const c=canvasStage(id,simText[type].title[lang]),controls=$(`#${id}-controls`);let pair=Math.random()<.5?0:1,revealed=false,opened=-1;
-    controls.innerHTML=interactionPanel(id,lang==='ko'?'두 상자 중 하나를 누르세요. 선택한 상자만 선명하게 열리고, 짝의 상태는 반투명하게 표시됩니다. 누를 때마다 모양의 좌우 순서가 무작위로 바뀝니다.':'Tap either box. Only the selected box opens clearly; the partner state appears faded. The left–right order is randomized on every tap.',`<button class="action-btn primary" id="${id}-shuffle">${lang==='ko'?'새 쌍 숨기기':'Hide a new pair'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 선택하지 않은 쪽은 직접 연 것이 아니라 짝 관계로 알게 된 상태를 흐리게 표시합니다. 이 상자 비유는 실제 양자 얽힘과 같지는 않습니다.':'※ The unselected side is not opened directly; its inferred partner state is shown faded. This box analogy is not the same as real quantum entanglement.'}</p>`);
-    const boxes=[{x:260,y:285},{x:640,y:285}],stateFor=i=>(pair===0?(i===0?'circle':'square'):(i===0?'square':'circle'));
+    controls.innerHTML=interactionPanel(id,lang==='ko'?'위 안내에는 이 한 쌍에 원 하나와 사각형 하나가 있다는 사실만 미리 표시됩니다. 어느 상자에 무엇이 있는지는 상자를 누르기 전까지 숨겨집니다.':'The guide above shows only that the pair contains one circle and one square. Which box contains which state remains hidden until you tap a box.',`<button class="action-btn primary" id="${id}-shuffle">${lang==='ko'?'새 쌍 숨기기':'Hide a new pair'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button><p class="mini-note">${lang==='ko'?'※ 선택하지 않은 쪽은 직접 연 것이 아니라 짝 관계로 알게 된 상태를 흐리게 표시합니다. 이 상자 비유는 실제 양자 얽힘과 같지는 않습니다.':'※ The unselected side is not opened directly; its inferred partner state is shown faded. This box analogy is not the same as real quantum entanglement.'}</p>`);
+    const boxes=[{x:260,y:300},{x:640,y:300}],stateFor=i=>(pair===0?(i===0?'circle':'square'):(i===0?'square':'circle'));
     const stateColor=s=>s==='circle'?'#ef476f':'#3a86ff';
-    const drawSymbol=(ctx,s,x,y,alpha=1)=>{ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=stateColor(s);if(s==='circle'){ctx.beginPath();ctx.arc(x,y,48,0,Math.PI*2);ctx.fill();}else{ctx.fillRect(x-45,y-45,90,90);}ctx.restore();};
-    const drawBox=(ctx,b,i,P)=>{const selected=revealed&&i===opened,partner=revealed&&i!==opened;ctx.save();ctx.globalAlpha=partner?.62:1;ctx.fillStyle=selected?P.panel:partner?'#dce4f0':'#6d7890';roundedRect(ctx,b.x-105,b.y-105,210,210,28);ctx.fill();ctx.strokeStyle=selected?P.primary:P.line;ctx.lineWidth=selected?8:6;if(partner)ctx.setLineDash([10,8]);ctx.stroke();ctx.setLineDash([]);if(!revealed){ctx.fillStyle='#fff';ctx.font='900 54px sans-serif';ctx.fillText('?',b.x-18,b.y+18);drawDragHalo(ctx,b.x,b.y,118);}else{drawSymbol(ctx,stateFor(i),b.x,b.y,selected?1:.42);ctx.fillStyle=selected?P.text:P.muted;ctx.font='800 18px sans-serif';ctx.fillText(selected?(lang==='ko'?'직접 확인':'observed'):(lang==='ko'?'짝으로 알게 됨':'inferred'),b.x-47,b.y+82);}ctx.restore();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?`상자 ${i+1}`:`Box ${i+1}`,b.x-34,b.y+145);};
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'한쪽은 직접 확인하고, 다른 쪽은 짝 관계로 알게 됨':'Observe one side directly and infer the partner from the pair',W);ctx.strokeStyle=P.cyan;ctx.lineWidth=7;ctx.setLineDash([14,10]);ctx.beginPath();ctx.moveTo(365,285);ctx.lineTo(535,285);ctx.stroke();ctx.setLineDash([]);boxes.forEach((b,i)=>drawBox(ctx,b,i,P));if(revealed){ctx.fillStyle=P.panel;roundedRect(ctx,250,430,400,52,15);ctx.fill();ctx.strokeStyle=P.border;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 19px sans-serif';ctx.fillText(lang==='ko'?`상자 ${opened+1}은 선명하게 관찰, 짝은 흐리게 표시`:`Box ${opened+1} observed clearly; partner shown faded`,285,463);}setState(id,c,revealed?(lang==='ko'?`이번에는 상자 ${opened+1}을 직접 확인했습니다. 다른 상자는 동시에 연 것이 아니라, 한 쌍에 원과 사각형이 하나씩 있다는 관계로 상태를 알게 되어 반투명하게 표시했습니다. 다시 누르면 좌우 순서가 무작위로 바뀝니다.`:`This time Box ${opened+1} was observed directly. The other box was not opened at the same time; its state is shown faded because the pair contains one circle and one square. Tap again to randomize the order.`):(lang==='ko'?'두 상자의 상태는 숨겨져 있습니다. 하나를 눌러 한쪽만 직접 확인하세요.':'Both states are hidden. Tap one box to observe only that side directly.'));};
-    installPointer(c,p=>distance(p,boxes[0])<120?0:distance(p,boxes[1])<120?1:false,(p,e,phase,i)=>{pair=Math.random()<.5?0:1;opened=i;revealed=true;draw();const s=stateFor(i);announce(s==='circle'?(lang==='ko'?'선택한 상자는 원, 짝은 사각형입니다.':'Selected box is a circle; partner is a square.'):(lang==='ko'?'선택한 상자는 사각형, 짝은 원입니다.':'Selected box is a square; partner is a circle.'));});$(`#${id}-shuffle`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});draw();
+    const drawSymbol=(ctx,s,x,y,alpha=1,size=48)=>{ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=stateColor(s);if(s==='circle'){ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();}else{ctx.fillRect(x-size*.94,y-size*.94,size*1.88,size*1.88);}ctx.restore();};
+    const drawBox=(ctx,b,i,P)=>{const selected=revealed&&i===opened,partner=revealed&&i!==opened;ctx.save();ctx.globalAlpha=partner?.62:1;ctx.fillStyle=selected?P.panel:partner?'#dce4f0':'#6d7890';roundedRect(ctx,b.x-100,b.y-95,200,190,26);ctx.fill();ctx.strokeStyle=selected?P.primary:P.line;ctx.lineWidth=selected?8:6;if(partner)ctx.setLineDash([10,8]);ctx.stroke();ctx.setLineDash([]);if(!revealed){ctx.fillStyle='#fff';ctx.font='900 54px sans-serif';ctx.fillText('?',b.x-18,b.y+18);drawDragHalo(ctx,b.x,b.y,110);}else{drawSymbol(ctx,stateFor(i),b.x,b.y-4,selected?1:.42,44);ctx.fillStyle=selected?P.text:P.muted;ctx.font='800 18px sans-serif';ctx.fillText(selected?(lang==='ko'?'직접 확인':'observed'):(lang==='ko'?'짝으로 알게 됨':'inferred'),b.x-47,b.y+72);}ctx.restore();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(lang==='ko'?`상자 ${i+1}`:`Box ${i+1}`,b.x-34,b.y+130);};
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();drawSceneTitle(ctx,lang==='ko'?'한 쌍에는 원 1개와 사각형 1개가 들어 있습니다':'The pair contains one circle and one square',W);
+      // Show both possible states before either box is opened, without assigning either state to a box.
+      ctx.fillStyle=P.panel;roundedRect(ctx,245,82,410,82,18);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=3;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 18px sans-serif';ctx.fillText(lang==='ko'?'미리 알고 있는 한 쌍의 구성':'Known composition of the pair',270,112);drawSymbol(ctx,'circle',515,128,1,20);ctx.fillStyle=P.text;ctx.font='900 26px sans-serif';ctx.fillText('+',548,137);drawSymbol(ctx,'square',590,128,1,20);ctx.font='800 17px sans-serif';ctx.fillText(lang==='ko'?'각 1개':'one each',615,136);
+      ctx.strokeStyle=P.cyan;ctx.lineWidth=7;ctx.setLineDash([14,10]);ctx.beginPath();ctx.moveTo(360,300);ctx.lineTo(540,300);ctx.stroke();ctx.setLineDash([]);boxes.forEach((b,i)=>drawBox(ctx,b,i,P));
+      if(revealed){ctx.fillStyle=P.panel;roundedRect(ctx,250,445,400,48,15);ctx.fill();ctx.strokeStyle=P.border;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 18px sans-serif';ctx.fillText(lang==='ko'?`상자 ${opened+1}은 직접 확인, 다른 상자는 짝으로 추론`:`Box ${opened+1} observed; partner inferred`,285,476);}
+      setState(id,c,revealed?(lang==='ko'?`상자 ${opened+1}을 직접 확인했습니다. 위에서 원 하나와 사각형 하나가 한 쌍이라는 것을 미리 알고 있으므로, 열지 않은 상자의 상태를 짝 관계로 알 수 있습니다. 흐린 표시는 직접 관찰하지 않았다는 뜻입니다.`:`Box ${opened+1} was observed directly. Because the guide already states that the pair contains one circle and one square, the unopened partner can be inferred. The faded symbol means it was not directly observed.`):(lang==='ko'?'원 하나와 사각형 하나가 한 쌍이라는 사실만 공개되어 있습니다. 어느 상자에 어떤 모양이 있는지는 아직 숨겨져 있습니다.':'Only the fact that the pair contains one circle and one square is public. Their assignment to the boxes is still hidden.'));
+    };
+    installPointer(c,p=>distance(p,boxes[0])<115?0:distance(p,boxes[1])<115?1:false,(p,e,phase,i)=>{pair=Math.random()<.5?0:1;opened=i;revealed=true;draw();const s=stateFor(i);announce(s==='circle'?(lang==='ko'?'선택한 상자는 원, 짝은 사각형입니다.':'Selected box is a circle; partner is a square.'):(lang==='ko'?'선택한 상자는 사각형, 짝은 원입니다.':'Selected box is a square; partner is a circle.'));});
+    $(`#${id}-shuffle`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});$(`#${id}-reset`).addEventListener('click',()=>{pair=Math.random()<.5?0:1;revealed=false;opened=-1;draw();});draw();
   }
   function speakCurrent(){
     if (!('speechSynthesis' in window)) { announce(tr('notSupported')); return; }
     speechSynthesis.cancel();
-    const parts=[`${current.year}. ${fmt(tr('round'),{n:current.round})}. ${current.title[lang]}.`];
+    const parts=[`${current.year}. ${editionAnniversary(current)}. ${current.title[lang]}.`];
     if(current.summary) parts.push(current.summary[level][lang]);
     if(current.keywords[lang].length) parts.push(`${tr('keywords')}: ${current.keywords[lang].join(', ')}.`);
     else parts.push(current.preparing?tr('preparingText'):tr('noKeywordText'));
@@ -1650,7 +2033,7 @@
       setTimeout(()=>introScreen.remove(),560);
     };
     const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.addEventListener('load',()=>setTimeout(closeIntro,reduced?180:1750),{once:true});
+    window.addEventListener('load',()=>setTimeout(closeIntro,reduced?450:3500),{once:true});
     introScreen.addEventListener('pointerdown',closeIntro,{once:true});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' ')closeIntro();},{once:true});
   }
