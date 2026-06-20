@@ -1123,7 +1123,11 @@
   const simText = {
     phone:{
       title:{ko:'마이크와 스피커',en:'Microphone and speaker'},
-      desc:{easy:{ko:'목소리의 높이와 크기를 바꾸어 파형을 살펴보세요.',en:'Change pitch and loudness to see the waveform.'},basic:{ko:'진동수와 진폭을 조절하고, 같은 신호가 소리로 바뀌는 과정을 확인하세요.',en:'Adjust frequency and amplitude and see how the signal becomes sound.'},deep:{ko:'사인파의 진동수는 음높이, 진폭은 음압의 상대적 크기를 나타냅니다.',en:'The sinusoid frequency represents pitch and amplitude represents relative sound pressure.'}},
+      desc:{
+        easy:{ko:'마이크 진동판을 좌우로 반복해서 떨고, 기록된 파형이 스피커에서 같은 모양으로 재생되는지 확인하세요.',en:'Move the microphone diaphragm back and forth repeatedly, then check that the speaker replays the same recorded waveform shape.'},
+        basic:{ko:'진동판의 위치를 시간에 따라 기록합니다. 크게 왕복할수록 소리가 커지고, 빠르게 왕복할수록 음높이가 높아집니다.',en:'The diaphragm position is recorded over time. Wider repeated motion makes a louder sound, and faster repeated motion makes a higher pitch.'},
+        deep:{ko:'손가락 움직임은 실제 소리 진동보다 느리므로 기록한 한 주기의 파형 모양은 유지하고 시간축만 빠르게 압축해 가청음으로 재생합니다. 반복 떨림이 없으면 소리가 만들어지지 않습니다.',en:'Finger motion is much slower than an audible vibration, so the recorded one-cycle waveform shape is preserved while only the time axis is compressed for playback. No sound is produced without repeated oscillation.'}
+      },
       controls:{freq:{ko:'진동수',en:'Frequency'},amp:{ko:'진폭',en:'Amplitude'}}},
     induction:{
       title:{ko:'자석을 움직여 전기 만들기',en:'Generate electricity by moving a magnet'},
@@ -1383,29 +1387,276 @@
 
   function initPhone(id,type){
     const c=canvasStage(id,simText[type].title[lang]), controls=$(`#${id}-controls`);
-    controls.innerHTML=interactionPanel(id, lang==='ko'?'마이크의 파란 진동판을 좌우로 여러 번 움직여 신호를 만든 뒤, 움직임에서 추정한 단순한 음을 들어 보세요.':'Move the blue microphone diaphragm several times, then hear a simple tone estimated from the gesture.',
-      `<button class="action-btn primary" id="${id}-play">${lang==='ko'?'만든 소리 듣기':'Hear the signal'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`);
-    let diaphragm=0,speaker=0,signal=0,lastT=0,wave=Array(120).fill(0),raf=0;
-    let capturedEnergy=.35,capturedPitch=330,motionChanges=0,lastDirection=0;
-    const draw=()=>{const {ctx,W,H}=prepCanvas(c),P=scenePalette();
-      drawSceneTitle(ctx,lang==='ko'?'떨림 → 전기 신호 → 스피커의 떨림':'Vibration → electrical signal → speaker vibration',W);
+    controls.innerHTML=interactionPanel(
+      id,
+      lang==='ko'
+        ?'파란 진동판을 중심을 지나 좌우로 2회 이상 왕복해 떨게 하세요. 기록한 파형의 모양을 그대로 사용해 소리를 만듭니다.'
+        :'Move the blue diaphragm back and forth across the center at least twice. Playback is made directly from the recorded waveform shape.',
+      `<button class="action-btn primary" id="${id}-play" disabled>${lang==='ko'?'기록한 파형 듣기':'Play recorded waveform'}</button><button class="action-btn" id="${id}-reset">${tr('reset')}</button>`
+    );
+
+    const SPEED_UP=110;
+    const CAPTURE_RATE=120;
+    const DISPLAY_SAMPLES=150;
+    let diaphragm=0,speaker=0,raf=0,playRaf=0,activeSource=null;
+    let captureStart=0,points=[],displayWave=Array(DISPLAY_SAMPLES).fill(0),cycleWave=[];
+    let capturedEnergy=0,capturedPitch=0,capturedDuration=0,isCapturing=false,isPlaying=false;
+
+    const playButton=()=> $(`#${id}-play`);
+
+    const stopPlayback=()=>{
+      if(playRaf){cancelAnimationFrame(playRaf);playRaf=0;}
+      if(activeSource){try{activeSource.stop();}catch(e){}activeSource=null;}
+      isPlaying=false;speaker=0;
+    };
+    animations.push(stopPlayback);
+
+    const interpolateToLength=(arr,length)=>{
+      if(!arr.length)return Array(length).fill(0);
+      if(arr.length===1)return Array(length).fill(arr[0]);
+      const out=[];
+      for(let i=0;i<length;i++){
+        const pos=i*(arr.length-1)/(length-1),a=Math.floor(pos),b=Math.min(arr.length-1,a+1),f=pos-a;
+        out.push(arr[a]*(1-f)+arr[b]*f);
+      }
+      return out;
+    };
+
+    const toUniformSamples=(raw,rate=CAPTURE_RATE)=>{
+      if(raw.length<2)return [];
+      const duration=raw[raw.length-1].t;
+      if(duration<=0)return [];
+      const count=Math.max(2,Math.floor(duration*rate)+1),out=[];
+      let j=0;
+      for(let i=0;i<count;i++){
+        const t=Math.min(duration,i/rate);
+        while(j<raw.length-2&&raw[j+1].t<t)j++;
+        const a=raw[j],b=raw[Math.min(j+1,raw.length-1)],span=Math.max(.000001,b.t-a.t),f=clamp((t-a.t)/span,0,1);
+        out.push(a.x*(1-f)+b.x*f);
+      }
+      return out;
+    };
+
+    const smoothSamples=arr=>arr.map((v,i)=>{
+      let sum=0,weight=0;
+      for(let k=-2;k<=2;k++){
+        const idx=clamp(i+k,0,arr.length-1),w=3-Math.abs(k);
+        sum+=arr[idx]*w;weight+=w;
+      }
+      return sum/weight;
+    });
+
+    const analyzeCapture=()=>{
+      const uniform=toUniformSamples(points);
+      capturedDuration=points.length?points[points.length-1].t:0;
+      displayWave=interpolateToLength(uniform,DISPLAY_SAMPLES);
+      cycleWave=[];capturedEnergy=0;capturedPitch=0;
+
+      if(uniform.length<18||capturedDuration<.22){
+        playButton().disabled=true;
+        return;
+      }
+
+      const smooth=smoothSamples(uniform);
+      const mean=smooth.reduce((a,b)=>a+b,0)/smooth.length;
+      const centered=smooth.map(v=>v-mean);
+      const peak=Math.max(...centered.map(Math.abs));
+      const peakToPeak=Math.max(...centered)-Math.min(...centered);
+      if(peak<7||peakToPeak<15){
+        playButton().disabled=true;
+        return;
+      }
+
+      const rising=[],falling=[];
+      for(let i=1;i<centered.length;i++){
+        const prev=centered[i-1],cur=centered[i],slope=cur-prev;
+        if(prev<=0&&cur>0&&slope>.35)rising.push(i);
+        if(prev>=0&&cur<0&&slope<-.35)falling.push(i);
+      }
+      const candidates=rising.length>=2?rising:falling;
+      if(candidates.length<2){
+        playButton().disabled=true;
+        return;
+      }
+
+      let start=-1,end=-1;
+      for(let i=candidates.length-1;i>0;i--){
+        const gap=candidates[i]-candidates[i-1];
+        if(gap>=Math.round(CAPTURE_RATE*.11)&&gap<=Math.round(CAPTURE_RATE*1.6)){
+          start=candidates[i-1];end=candidates[i];break;
+        }
+      }
+      if(start<0||end-start<8){
+        playButton().disabled=true;
+        return;
+      }
+
+      let segment=centered.slice(start,end+1);
+      const segmentMean=segment.reduce((a,b)=>a+b,0)/segment.length;
+      segment=segment.map(v=>v-segmentMean);
+      const segmentPeak=Math.max(...segment.map(Math.abs));
+      if(segmentPeak<7){
+        playButton().disabled=true;
+        return;
+      }
+
+      // The cycle begins and ends at the same type of zero crossing. Remove the tiny endpoint
+      // difference so looping the recorded waveform does not create an artificial click.
+      const first=segment[0],last=segment[segment.length-1];
+      segment=segment.map((v,i)=>v-(first+(last-first)*i/(segment.length-1)));
+      const normalizedPeak=Math.max(...segment.map(Math.abs))||1;
+      cycleWave=segment.map(v=>clamp(v/normalizedPeak,-1,1));
+
+      const period=(end-start)/CAPTURE_RATE;
+      const gestureFrequency=1/period;
+      capturedPitch=clamp(gestureFrequency*SPEED_UP,70,900);
+      capturedEnergy=clamp((peakToPeak/2)/72,0,1);
+      if(capturedEnergy<.09||!Number.isFinite(capturedPitch)){
+        cycleWave=[];capturedEnergy=0;capturedPitch=0;playButton().disabled=true;return;
+      }
+      playButton().disabled=false;
+    };
+
+    const draw=()=>{
+      const {ctx,W,H}=prepCanvas(c),P=scenePalette();
+      drawSceneTitle(ctx,lang==='ko'?'진동판 위치 기록 → 같은 파형으로 스피커 재생':'Record diaphragm position → replay the same waveform',W);
+
       ctx.fillStyle=P.panel;roundedRect(ctx,40,120,270,300,30);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();
       ctx.fillStyle=P.text;ctx.font='800 25px sans-serif';ctx.fillText(lang==='ko'?'마이크':'MIC',70,166);
       ctx.strokeStyle=P.muted;ctx.lineWidth=4;for(let y=205;y<350;y+=30){ctx.beginPath();ctx.moveTo(85,y);ctx.lineTo(150,y);ctx.stroke();}
+      ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(185,178);ctx.lineTo(185,365);ctx.stroke();
       ctx.fillStyle=P.primary;roundedRect(ctx,170+diaphragm,185,30,170,14);ctx.fill();drawDragHalo(ctx,185+diaphragm,270,50);
+
       ctx.fillStyle=P.panel;roundedRect(ctx,620,120,240,300,30);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=4;ctx.stroke();
       ctx.fillStyle=P.text;ctx.fillText(lang==='ko'?'스피커':'SPEAKER',650,166);
       ctx.strokeStyle=P.accent;ctx.lineWidth=14;ctx.beginPath();ctx.moveTo(690,H/2-70);ctx.lineTo(690,H/2+70);ctx.stroke();
       ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(705,H/2-88-speaker*.13);ctx.lineTo(820,H/2-132-speaker*.20);ctx.lineTo(820,H/2+132+speaker*.20);ctx.lineTo(705,H/2+88+speaker*.13);ctx.closePath();ctx.fill();
-      ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(310,H/2);ctx.lineTo(350,H/2);ctx.moveTo(590,H/2);ctx.lineTo(620,H/2);ctx.stroke();
-      ctx.strokeStyle=P.cyan;ctx.lineWidth=5;ctx.beginPath();wave.forEach((v,i)=>{const x=350+i*2,y=H/2+v*.62;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
-      const txt=lang==='ko'?`저장된 움직임 세기 ${Math.round(capturedEnergy*100)}%, 예상 음높이 ${Math.round(capturedPitch)}Hz. 듣기 버튼은 휴대기기 음량을 사용합니다.`:`Saved motion level ${Math.round(capturedEnergy*100)}%, estimated pitch ${Math.round(capturedPitch)} Hz. The play button uses your device volume.`;setState(id,c,txt);
+
+      ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(310,H/2);ctx.lineTo(345,H/2);ctx.moveTo(595,H/2);ctx.lineTo(620,H/2);ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,.72)';roundedRect(ctx,342,175,255,190,16);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.stroke();
+      ctx.strokeStyle=P.muted;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(352,H/2);ctx.lineTo(587,H/2);ctx.stroke();
+      ctx.fillStyle=P.muted;ctx.font='750 15px sans-serif';ctx.fillText(lang==='ko'?'진동판 위치 파형':'Diaphragm position waveform',360,202);
+      ctx.strokeStyle=P.cyan;ctx.lineWidth=4;ctx.beginPath();
+      displayWave.forEach((v,i)=>{const x=354+i*230/(DISPLAY_SAMPLES-1),y=H/2-v*.82;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+
+      ctx.fillStyle=P.text;ctx.font='850 18px sans-serif';
+      ctx.fillText(`${lang==='ko'?'세기':'Level'} ${Math.round(capturedEnergy*100)}%`,360,395);
+      ctx.fillText(`${lang==='ko'?'음높이':'Pitch'} ${Math.round(capturedPitch)} Hz`,495,395);
+
+      let txt;
+      if(isCapturing){
+        txt=lang==='ko'?'진동판의 시간별 위치를 기록하고 있습니다. 중심을 지나 좌우로 반복해서 움직여 주세요.':'Recording diaphragm position over time. Keep moving repeatedly across the center.';
+      }else if(!cycleWave.length){
+        txt=lang==='ko'?'기록된 떨림 세기 0%, 음높이 0Hz입니다. 한쪽으로만 이동하거나 멈춰 있으면 반복 파형이 아니므로 소리가 나지 않습니다.':'Recorded vibration level is 0% and pitch is 0 Hz. A one-way move or a held position is not a repeating waveform, so no sound is produced.';
+      }else{
+        txt=lang==='ko'
+          ?`기록된 떨림 세기 ${Math.round(capturedEnergy*100)}%, 파형에서 계산한 음높이 ${Math.round(capturedPitch)}Hz입니다. 그래프의 한 주기 모양을 유지하고 시간축만 빠르게 재생합니다.`
+          :`Recorded vibration level ${Math.round(capturedEnergy*100)}%, pitch calculated from the waveform ${Math.round(capturedPitch)} Hz. Playback preserves one recorded cycle and only speeds up its time axis.`;
+      }
+      setState(id,c,txt);
     };
-    installPointer(c,p=>Math.abs(p.x-(185+diaphragm))<78&&Math.abs(p.y-270)<135,
-      (p,e,phase)=>{if(phase==='start'){lastT=performance.now();return;}const now=performance.now(),dt=Math.max(12,now-lastT),old=diaphragm;diaphragm=clamp(p.x-185,-72,72);const velocity=(diaphragm-old)/dt*1000;signal=clamp(velocity*.17,-100,100);speaker=signal;wave.push(signal);wave.shift();capturedEnergy=clamp(capturedEnergy*.82+Math.abs(signal)/100*.18,.08,1);const direction=Math.sign(velocity);if(direction&&lastDirection&&direction!==lastDirection)motionChanges++;if(direction)lastDirection=direction;capturedPitch=clamp(190+motionChanges*28+Math.abs(velocity)*.035,180,760);lastT=now;draw();},
-      ()=>{cancelAnimationFrame(raf);const decay=()=>{diaphragm*=.80;speaker*=.80;signal*=.80;wave.push(signal);wave.shift();draw();if(Math.abs(signal)>.5)raf=requestAnimationFrame(decay);};decay();});
-    $(`#${id}-play`).addEventListener('click',async e=>{e.currentTarget.disabled=true;const ok=await safeTone(capturedPitch,.95,.08+capturedEnergy*.16,'sine');e.currentTarget.disabled=false;if(ok)announce(lang==='ko'?`약 ${Math.round(capturedPitch)}헤르츠 소리를 재생합니다.`:`Playing a tone near ${Math.round(capturedPitch)} hertz.`);});
-    $(`#${id}-reset`).addEventListener('click',()=>{diaphragm=speaker=signal=0;wave=Array(120).fill(0);capturedEnergy=.35;capturedPitch=330;motionChanges=0;lastDirection=0;draw();});draw();
+
+    const beginCapture=(p)=>{
+      stopPlayback();
+      cancelAnimationFrame(raf);
+      isCapturing=true;captureStart=performance.now();points=[];displayWave=Array(DISPLAY_SAMPLES).fill(0);
+      cycleWave=[];capturedEnergy=0;capturedPitch=0;capturedDuration=0;playButton().disabled=true;
+      diaphragm=clamp(p.x-185,-72,72);speaker=diaphragm;
+      points.push({t:0,x:diaphragm});draw();
+    };
+
+    const recordPoint=p=>{
+      const now=performance.now();
+      diaphragm=clamp(p.x-185,-72,72);speaker=diaphragm;
+      const t=Math.max(0,(now-captureStart)/1000);
+      const last=points[points.length-1];
+      if(!last||t-last.t>=1/180)points.push({t,x:diaphragm});
+      const recent=points.slice(-DISPLAY_SAMPLES).map(v=>v.x);
+      displayWave=Array(Math.max(0,DISPLAY_SAMPLES-recent.length)).fill(0).concat(recent);
+      draw();
+    };
+
+    const finishCapture=p=>{
+      if(!isCapturing)return;
+      const t=Math.max(0,(performance.now()-captureStart)/1000);
+      diaphragm=clamp(p.x-185,-72,72);points.push({t,x:diaphragm});
+      isCapturing=false;analyzeCapture();draw();
+      cancelAnimationFrame(raf);
+      const returnToCenter=()=>{
+        diaphragm*=.78;speaker*=.78;draw();
+        if(Math.abs(diaphragm)>.35||Math.abs(speaker)>.35)raf=requestAnimationFrame(returnToCenter);
+        else{diaphragm=0;speaker=0;draw();}
+      };
+      returnToCenter();
+    };
+
+    installPointer(
+      c,
+      p=>Math.abs(p.x-(185+diaphragm))<82&&Math.abs(p.y-270)<140,
+      (p,e,phase)=>{if(phase==='start')beginCapture(p);else recordPoint(p);},
+      p=>finishCapture(p)
+    );
+
+    const playRecordedWaveform=async()=>{
+      if(!cycleWave.length||capturedEnergy<=0||capturedPitch<=0){
+        announce(lang==='ko'?'반복해서 기록된 파형이 없어 소리를 재생하지 않습니다.':'There is no recorded repeating waveform to play.');
+        return false;
+      }
+      try{
+        const AC=window.AudioContext||window.webkitAudioContext;
+        if(!AC){announce(tr('notSupported'));return false;}
+        audioCtx||=new AC();
+        if(audioCtx.state==='suspended')await audioCtx.resume();
+        stopPlayback();
+
+        const duration=1.05,sampleRate=audioCtx.sampleRate,total=Math.ceil(duration*sampleRate);
+        const periodFrames=Math.max(24,Math.round(sampleRate/capturedPitch));
+        const buffer=audioCtx.createBuffer(1,total,sampleRate),data=buffer.getChannelData(0);
+        const sampleCycle=phase=>{
+          const pos=phase*(cycleWave.length-1),a=Math.floor(pos),b=Math.min(cycleWave.length-1,a+1),f=pos-a;
+          return cycleWave[a]*(1-f)+cycleWave[b]*f;
+        };
+        const fadeFrames=Math.max(1,Math.round(sampleRate*.025));
+        for(let i=0;i<total;i++){
+          const phase=(i%periodFrames)/periodFrames;
+          let envelope=1;
+          if(i<fadeFrames)envelope=i/fadeFrames;
+          else if(i>total-fadeFrames)envelope=(total-i)/fadeFrames;
+          data[i]=sampleCycle(phase)*clamp(envelope,0,1);
+        }
+
+        const source=audioCtx.createBufferSource(),gain=audioCtx.createGain(),compressor=audioCtx.createDynamicsCompressor();
+        source.buffer=buffer;
+        gain.gain.value=.035+capturedEnergy*.16;
+        source.connect(gain).connect(compressor).connect(audioCtx.destination);
+        activeSource=source;isPlaying=true;
+        const started=performance.now();
+        const animateSpeaker=()=>{
+          if(!isPlaying)return;
+          const elapsed=(performance.now()-started)/1000,phase=(elapsed*capturedPitch)%1;
+          const pos=phase*(cycleWave.length-1),a=Math.floor(pos),b=Math.min(cycleWave.length-1,a+1),f=pos-a;
+          speaker=(cycleWave[a]*(1-f)+cycleWave[b]*f)*capturedEnergy*85;
+          draw();playRaf=requestAnimationFrame(animateSpeaker);
+        };
+        source.onended=()=>{isPlaying=false;activeSource=null;if(playRaf)cancelAnimationFrame(playRaf);playRaf=0;speaker=0;draw();};
+        source.start();animateSpeaker();
+        announce(lang==='ko'?`기록한 파형을 약 ${Math.round(capturedPitch)}헤르츠로 재생합니다.`:`Playing the recorded waveform at about ${Math.round(capturedPitch)} hertz.`);
+        return true;
+      }catch(e){announce(tr('notSupported'));return false;}
+    };
+
+    playButton().addEventListener('click',async e=>{
+      e.currentTarget.disabled=true;
+      await playRecordedWaveform();
+      if(cycleWave.length)e.currentTarget.disabled=false;
+    });
+
+    $(`#${id}-reset`).addEventListener('click',()=>{
+      stopPlayback();cancelAnimationFrame(raf);
+      diaphragm=0;speaker=0;points=[];displayWave=Array(DISPLAY_SAMPLES).fill(0);cycleWave=[];
+      capturedEnergy=0;capturedPitch=0;capturedDuration=0;isCapturing=false;playButton().disabled=true;draw();
+    });
+    draw();
   }
 
   function initInduction(id,type){
