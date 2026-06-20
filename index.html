@@ -905,6 +905,14 @@
     .state-box .state-text { min-width: 0; flex: 1 1 auto; }
     .action-btn[aria-pressed="true"] { color:#fff; border-color:var(--primary); background:var(--primary); }
     .mini-note { margin:0; color:var(--muted); font-size:.82rem; line-height:1.5; }
+    .sim-level-badge {
+      display:inline-flex; align-items:center; gap:7px; margin:0 0 8px; padding:5px 10px;
+      border:1px solid #c9d7f3; border-radius:999px; color:#294269; background:#f3f7ff;
+      font-size:.75rem; font-weight:900; letter-spacing:.01em;
+    }
+    .sim-level-badge::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--primary); }
+    body.high-contrast .sim-level-badge { color:#fff; border-color:#fff; background:#000; }
+    body.high-contrast .sim-level-badge::before { background:#00ffff; }
     @media (max-width: 520px) {
       .state-box { padding: 12px 13px; font-size: .88rem; word-break: normal; }
       .state-box::before { margin-top: .32em; }
@@ -955,11 +963,11 @@
       <button class="tool-btn" id="textUp" type="button" aria-label="글자 크게">A+</button>
       <button class="tool-btn" id="stopSpeech" type="button" data-i18n="stopVoice">음성 중지</button>
       <span class="spacer"></span>
-      <label for="levelSelect" data-i18n="levelLabel">설명 수준</label>
+      <label for="levelSelect" data-i18n="levelLabel">탐구 단계</label>
       <select id="levelSelect">
-        <option value="easy" data-i18n="levelEasy">쉬움</option>
-        <option value="basic" selected data-i18n="levelBasic">기본</option>
-        <option value="deep" data-i18n="levelDeep">깊이 보기</option>
+        <option value="easy" data-i18n="levelEasy">첫걸음</option>
+        <option value="basic" selected data-i18n="levelBasic">발맞추기</option>
+        <option value="deep" data-i18n="levelDeep">더 내딛기</option>
       </select>
     </nav>
   </header>
@@ -995,7 +1003,7 @@
       archiveIntro: '해마다 이어진 과학 공연의 주제와 원리를 한곳에서 만나고, 직접 움직이며 탐구하는 접근성 중심 과학 아카이브입니다.',
       featureLanguage: '한국어·English', featureVoice: '음성 안내', featureAccess: '모두를 위한 접근성',
       anniversaryUnit: '주년', yearsRecord: '주년 과학 기록', easyMode: '쉬운 화면', contrast: '고대비', stopVoice: '음성 중지',
-      levelLabel: '설명 수준', levelEasy: '쉬움', levelBasic: '기본', levelDeep: '깊이 보기',
+      levelLabel: '탐구 단계', levelEasy: '첫걸음', levelBasic: '발맞추기', levelDeep: '더 내딛기',
       chooseYear: '연도·회차를 선택하세요', chooseHint: '키보드의 Tab과 Enter로도 선택할 수 있습니다.',
       footerTitle: '희망의 과학싹잔치 과학 아카이브', footerText: '색상만으로 정보를 구분하지 않으며, 모든 조작에는 글자 설명과 음성 안내를 함께 제공합니다. 음성 기능은 브라우저의 Web Speech API를 사용합니다.',
       round: '제{n}회', keywords: '과학 키워드', simulations: '가상 실험', listen: '이 페이지 듣기',
@@ -1010,7 +1018,7 @@
       archiveIntro: 'An accessibility-first science archive where everyone can explore yearly performance themes, scientific ideas, and interactive experiments.',
       featureLanguage: 'Korean · English', featureVoice: 'Voice guidance', featureAccess: 'Accessible for everyone',
       anniversaryUnit: 'th', yearsRecord: 'th anniversary archive', easyMode: 'Simple screen', contrast: 'High contrast', stopVoice: 'Stop voice',
-      levelLabel: 'Explanation level', levelEasy: 'Easy', levelBasic: 'Standard', levelDeep: 'Explore deeper',
+      levelLabel: 'Exploration level', levelEasy: 'First Steps', levelBasic: 'Explore Together', levelDeep: 'Go Further',
       chooseYear: 'Choose a year and edition', chooseHint: 'You can also use Tab and Enter on a keyboard.',
       footerTitle: 'Hope Science Sprout Festival archive', footerText: 'Information is never conveyed by color alone. Every interaction includes text feedback and optional speech. Voice uses the browser Web Speech API.',
       round: 'Edition {n}', keywords: 'Science keywords', simulations: 'Virtual experiments', listen: 'Read this page aloud',
@@ -1277,6 +1285,66 @@
     announce(`${current.year}, ${current.title[lang]}`);
   }
 
+  function simLevelName(){
+    const key = level==='easy' ? 'levelEasy' : level==='deep' ? 'levelDeep' : 'levelBasic';
+    return tr(key);
+  }
+
+  function simplifyExperimentText(text){
+    let out=String(text||'');
+    if(lang==='ko'){
+      const pairs=[
+        ['직접 ', ''], ['실시간으로 ', ''], ['정성적으로 ', ''], ['상대적으로 ', ''],
+        ['관찰하세요', '살펴보세요'], ['확인하세요', '살펴보세요'], ['비교하세요', '서로 살펴보세요'],
+        ['조절하세요', '바꾸어 보세요'], ['이동하세요', '옮겨 보세요'], ['드래그하세요', '끌어 보세요'],
+        ['표시됩니다', '보입니다'], ['표시합니다', '보여 줍니다'], ['나타납니다', '보입니다'],
+        ['발생합니다', '생깁니다'], ['이동합니다', '움직입니다'], ['감소합니다', '줄어듭니다'],
+        ['증가합니다', '늘어납니다'], ['유지합니다', '그대로 있습니다'], ['현재 ', '지금 '],
+        ['약 ', '대략 '], ['~에 비례하도록', '~에 따라'], ['관계로', '이어짐으로']
+      ];
+      for(const [a,b] of pairs) out=out.split(a).join(b);
+    }else{
+      const pairs=[
+        ['directly ', ''], ['in real time', 'right away'], ['qualitatively ', ''],
+        ['observe', 'watch'], ['adjust', 'change'], ['indicates', 'shows'], ['displayed', 'shown'],
+        ['approximately', 'about'], ['currently', 'now'], ['decreases', 'gets smaller'],
+        ['increases', 'gets larger'], ['remains', 'stays'], ['is generated', 'appears']
+      ];
+      for(const [a,b] of pairs) out=out.split(a).join(b);
+    }
+    return out;
+  }
+
+  function deepenExperimentText(text,kind){
+    const base=String(text||'');
+    if(!base) return base;
+    if(kind==='scene') return base;
+    if(lang==='ko'){
+      if(kind==='guide') return `${base} 조작한 변수와 나타난 결과의 관계도 함께 해석해 보세요.`;
+      if(kind==='note') return `${base} 이 비유나 모형이 실제 현상을 어디까지 설명하는지도 생각해 보세요.`;
+      if(kind==='state') return `${base} 표시값의 변화가 어떤 원인에서 생겼는지 연결해 보세요.`;
+    }else{
+      if(kind==='guide') return `${base} Also interpret how the variable you changed is related to the result.`;
+      if(kind==='note') return `${base} Consider both what this analogy explains and where the model has limits.`;
+      if(kind==='state') return `${base} Connect the change in the displayed value to its cause.`;
+    }
+    return base;
+  }
+
+  function experimentText(text,kind='general'){
+    if(level==='easy') return simplifyExperimentText(text);
+    if(level==='deep') return deepenExperimentText(text,kind);
+    return String(text||'');
+  }
+
+  function adaptExperimentNotes(id){
+    $$(`#${id}-controls .mini-note`).forEach(note=>{
+      const base=note.dataset.levelBase || note.textContent;
+      note.dataset.levelBase=base;
+      note.textContent=experimentText(base,'note');
+    });
+  }
+
   function renderDetail(){
     const d = $('#detail');
     const keywords = current.keywords[lang] || [];
@@ -1307,7 +1375,7 @@
   function simCard(type, idx){
     const info = simText[type];
     return `<section class="sim-card" id="sim-${idx}-card" aria-labelledby="sim-${idx}-title">
-      <div class="sim-top"><span class="sim-number" aria-hidden="true">${String(idx+1).padStart(2,'0')}</span><h3 id="sim-${idx}-title">${escapeHtml(info.title[lang])}</h3><p>${escapeHtml(info.desc[level][lang])}</p></div>
+      <div class="sim-top"><span class="sim-number" aria-hidden="true">${String(idx+1).padStart(2,'0')}</span><span class="sim-level-badge">${escapeHtml(simLevelName())}</span><h3 id="sim-${idx}-title">${escapeHtml(info.title[lang])}</h3><p>${escapeHtml(info.desc[level][lang])}</p></div>
       <div class="sim-stage" id="sim-${idx}-stage"></div>
       <div class="controls" id="sim-${idx}-controls"></div>
     </section>`;
@@ -1315,7 +1383,8 @@
 
   function canvasStage(id, label){
     const stage = $(`#${id}-stage`);
-    const instruction = lang==='ko'?'화면 속 빛이나 사물을 손가락 또는 마우스로 끌어 움직일 수 있습니다.':'Drag objects or light in the scene with a finger or mouse.';
+    const baseInstruction = lang==='ko'?'화면 속 빛이나 사물을 손가락 또는 마우스로 끌어 움직일 수 있습니다.':'Drag objects or light in the scene with a finger or mouse.';
+    const instruction = experimentText(baseInstruction,'guide');
     stage.innerHTML = `<canvas width="900" height="540" tabindex="0" role="application" aria-label="${escapeHtml(label)}. ${escapeHtml(instruction)}"></canvas>`;
     return $('canvas', stage);
   }
@@ -1325,8 +1394,8 @@
     return `<div class="control-row"><label for="${id}-${key.name}">${escapeHtml(label)}</label><input id="${id}-${key.name}" type="range" min="${min}" max="${max}" value="${value}" step="${step}"><output id="${id}-${key.name}-out" for="${id}-${key.name}">${value}${unit}</output></div>`;
   }
 
-  function stateBox(id, text){ return `<div class="state-box" id="${id}-state" aria-live="polite"><span class="sr-only">${tr('experimentState')}: </span><span class="state-text">${escapeHtml(text)}</span></div>`; }
-  function interactionPanel(id,hint,buttons=''){return `<div class="interaction-guide"><span class="gesture-mark" aria-hidden="true">☝</span><span>${escapeHtml(hint)}</span></div><div class="button-row experiment-actions">${buttons}</div>${stateBox(id,'')}`;}
+  function stateBox(id, text){ const shown=experimentText(text,'state'); return `<div class="state-box" id="${id}-state" aria-live="polite"><span class="sr-only">${tr('experimentState')}: </span><span class="state-text">${escapeHtml(shown)}</span></div>`; }
+  function interactionPanel(id,hint,buttons=''){const shown=experimentText(hint,'guide');return `<div class="interaction-guide"><span class="gesture-mark" aria-hidden="true">☝</span><span>${escapeHtml(shown)}</span></div><div class="button-row experiment-actions">${buttons}</div>${stateBox(id,'')}`;}
   function choiceButtons(id,name,items,current){return `<div class="choice-group" role="group">${items.map(([v,l])=>`<button type="button" class="choice-btn" data-choice="${name}" data-value="${v}" aria-pressed="${v===current}">${escapeHtml(l)}</button>`).join('')}</div>`;}
   function bindChoices(id,name,handler){$$(`#${id}-controls [data-choice="${name}"]`).forEach(btn=>btn.addEventListener('click',()=>{$$(`#${id}-controls [data-choice="${name}"]`).forEach(b=>b.setAttribute('aria-pressed','false'));btn.setAttribute('aria-pressed','true');handler(btn.dataset.value);}));}
 
@@ -1335,7 +1404,10 @@
       gravity:initGravity, friction:initFriction, density:initDensity, soundMedium:initSoundMedium, soundTools:initSoundTools,
       bottleWave:initBottle, shadow:initShadow, shadowColor:initShadowColor, kaleidoscope:initKaleidoscope, balloon:initBalloon, lever:initLever,
       airCannon:initAirCannon, lens:initLens, superposition:initSuperposition, quantum:initQuantum, entanglement:initEntanglement};
-    if (map[type]) map[type](id,type);
+    if (map[type]) {
+      map[type](id,type);
+      adaptExperimentNotes(id);
+    }
   }
 
   function prepCanvas(canvas){
@@ -1349,10 +1421,10 @@
   function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
   function pointerPoint(c,e){const r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};}
   function installPointer(c,hit,move,end,start){let active=false,token=null;c.style.touchAction='none';c.addEventListener('pointerdown',e=>{const p=pointerPoint(c,e),h=hit(p,e);if(h===false||h===null||h===undefined)return;active=true;token=h;c.setPointerCapture?.(e.pointerId);e.preventDefault();start?.(p,e,token);move?.(p,e,'start',token);});c.addEventListener('pointermove',e=>{if(!active)return;e.preventDefault();move?.(pointerPoint(c,e),e,'move',token);});const finish=e=>{if(!active)return;active=false;e.preventDefault();end?.(pointerPoint(c,e),e,token);token=null;};c.addEventListener('pointerup',finish);c.addEventListener('pointercancel',finish);}
-  function setState(id,c,text){const el=$(`#${id}-state .state-text`)||$(`#${id}-state`);if(el)el.textContent=text;c.setAttribute('aria-label',text);}
+  function setState(id,c,text){const shown=experimentText(text,'state');const el=$(`#${id}-state .state-text`)||$(`#${id}-state`);if(el)el.textContent=shown;c.setAttribute('aria-label',shown);}
   function roundedRect(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
   function drawDragHalo(ctx,x,y,r){const P=scenePalette();ctx.save();ctx.strokeStyle=P.primary;ctx.globalAlpha=.28;ctx.lineWidth=4;ctx.setLineDash([7,8]);ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.fillStyle=P.primary;ctx.beginPath();ctx.arc(x+r*.72,y-r*.72,13,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 15px sans-serif';ctx.fillText('↕',x+r*.72-6,y-r*.72+5);ctx.restore();}
-  function drawSceneTitle(ctx,text,W){const P=scenePalette();ctx.fillStyle=P.panel;roundedRect(ctx,24,20,Math.min(W-48,560),46,15);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(text,42,50);}
+  function drawSceneTitle(ctx,text,W){const shown=experimentText(text,'scene'),P=scenePalette();ctx.fillStyle=P.panel;roundedRect(ctx,24,20,Math.min(W-48,560),46,15);ctx.fill();ctx.strokeStyle=P.border;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=P.text;ctx.font='800 20px sans-serif';ctx.fillText(shown,42,50);}
   function drawFlashlight(ctx,x,y,tx,ty,P){const a=Math.atan2(ty-y,tx-x);ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.primary;roundedRect(ctx,-48,-25,82,50,14);ctx.fill();ctx.fillStyle=P.accent;ctx.beginPath();ctx.moveTo(30,-35);ctx.lineTo(68,-22);ctx.lineTo(68,22);ctx.lineTo(30,35);ctx.closePath();ctx.fill();ctx.restore();}
   function drawBarMagnet(ctx,x,y,w,h,a,P){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.danger;ctx.fillRect(-w/2,-h/2,w/2,h);ctx.fillStyle=P.primary;ctx.fillRect(0,-h/2,w/2,h);ctx.fillStyle='#fff';ctx.font='900 27px sans-serif';ctx.fillText('N',-w*.28,9);ctx.fillText('S',w*.22,9);ctx.restore();}
   function drawCompass(ctx,x,y,a,P){ctx.fillStyle=P.panel;ctx.beginPath();ctx.arc(x,y,85,0,Math.PI*2);ctx.fill();ctx.strokeStyle=P.line;ctx.lineWidth=6;ctx.stroke();ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=P.danger;ctx.beginPath();ctx.moveTo(70,0);ctx.lineTo(0,-13);ctx.lineTo(0,13);ctx.closePath();ctx.fill();ctx.fillStyle=P.primary;ctx.beginPath();ctx.moveTo(-70,0);ctx.lineTo(0,-13);ctx.lineTo(0,13);ctx.closePath();ctx.fill();ctx.restore();ctx.fillStyle=P.text;ctx.font='800 18px sans-serif';ctx.fillText('N',x-7,y-97);}
