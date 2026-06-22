@@ -884,6 +884,102 @@
     }
 
 
+    /* Year archive resources: pamphlet, synopsis, video */
+    .archive-resource-actions {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 4px;
+    }
+    .archive-resource-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      border: 1px solid #b7c7ee;
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: #23418f;
+      background: linear-gradient(135deg, #ffffff, #eef4ff);
+      box-shadow: 0 10px 22px rgba(36, 68, 150, .08);
+      font-size: .94rem;
+      font-weight: 900;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    .archive-resource-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 15px 28px rgba(36,68,150,.14); background: #eaf1ff; }
+    .archive-resource-btn:disabled {
+      cursor: not-allowed;
+      color: #8a96a8;
+      border-color: #d8e0ec;
+      background: #f4f6fa;
+      box-shadow: none;
+      opacity: .74;
+    }
+    .archive-resource-btn .resource-icon { font-size: 1.15rem; line-height: 1; }
+    .archive-resource-viewer {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      box-shadow: 0 14px 32px rgba(20,35,64,.08);
+    }
+    .archive-resource-viewer[hidden] { display: none; }
+    .archive-resource-viewer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.78);
+    }
+    .archive-resource-viewer-head strong { font-size: 1rem; letter-spacing: -.015em; }
+    .archive-resource-close {
+      min-height: 38px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 7px 11px;
+      color: var(--muted);
+      background: #fff;
+      font-size: .82rem;
+      font-weight: 850;
+    }
+    .archive-resource-body { padding: 18px; }
+    .archive-resource-body img {
+      display: block;
+      max-width: 100%;
+      max-height: min(72vh, 760px);
+      margin: 0 auto;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      object-fit: contain;
+    }
+    .archive-resource-story {
+      margin: 0;
+      white-space: pre-wrap;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+    body.high-contrast .archive-resource-btn,
+    body.high-contrast .archive-resource-viewer,
+    body.high-contrast .archive-resource-viewer-head,
+    body.high-contrast .archive-resource-close { color:#fff; border-color:#fff; background:#000; box-shadow:none; }
+    body.high-contrast .archive-resource-btn:disabled { color:#aaa; opacity:.9; }
+    @media (max-width: 720px) {
+      .archive-resource-actions { grid-template-columns: 1fr; gap: 9px; }
+      .archive-resource-btn { justify-content: flex-start; min-height: 50px; }
+      .archive-resource-body { padding: 14px; }
+    }
+
+
     /* Refined mobile result panel: prevent icon/text overlap */
     .state-box {
       display: flex;
@@ -1011,7 +1107,10 @@
       preparingTitle: '다음 회차 주제 준비 중', preparingText: '다음 회차의 행사 제목과 과학 키워드는 추후 추가할 수 있습니다.',
       notSupported: '이 브라우저에서는 음성 읽기를 지원하지 않습니다.', experimentState: '현재 상태', scientists: '함께 알아볼 과학자',
       start: '시작', stop: '정지', reset: '처음으로', playTone: '소리 듣기', observe: '관찰하기', release: '놓기',
-      simCount: '{n}개의 가상 실험', noSim: '가상 실험 없음'
+      simCount: '{n}개의 가상 실험', noSim: '가상 실험 없음',
+      resourcePamphlet: '팜플렛 이미지', resourceStory: '줄거리', resourceVideo: '영상시청',
+      resourceDisabled: '자료가 아직 등록되지 않았습니다.', resourceClose: '닫기',
+      resourceStoryTitle: '줄거리', resourcePamphletTitle: '팜플렛 이미지', resourceVideoOpening: '영상 링크를 새 창으로 엽니다.'
     },
     en: {
       archiveEyebrow: '2006–2026 · Editions 1–21 · 20th anniversary', archiveTitle: 'Hope Science Sprout Festival',
@@ -1026,7 +1125,10 @@
       preparingTitle: 'The next edition is being prepared', preparingText: 'The next edition can be added when its title and science keywords are available.',
       notSupported: 'Speech synthesis is not supported in this browser.', experimentState: 'Current state', scientists: 'Scientists to meet',
       start: 'Start', stop: 'Stop', reset: 'Reset', playTone: 'Play sound', observe: 'Observe', release: 'Release',
-      simCount: '{n} virtual experiments', noSim: 'No simulation'
+      simCount: '{n} virtual experiments', noSim: 'No simulation',
+      resourcePamphlet: 'Pamphlet image', resourceStory: 'Story', resourceVideo: 'Watch video',
+      resourceDisabled: 'This resource has not been added yet.', resourceClose: 'Close',
+      resourceStoryTitle: 'Story', resourcePamphletTitle: 'Pamphlet image', resourceVideoOpening: 'Opening the video link in a new tab.'
     }
   };
 
@@ -1127,6 +1229,38 @@
     {year:2026, round:21, title:{ko:'20주년 주제 준비 중', en:'20th Anniversary Theme in Preparation'},
       keywords:{ko:[], en:[]}, preparing:true, sims:[]}
   ];
+
+
+  // 연도별 팜플렛·줄거리·영상 자료는 HTML 안이 아니라 같은 폴더의 archive-resources.json에서 불러옵니다.
+  // HTML과 archive-resources.json을 같은 폴더에 두고, JSON 파일만 수정하면 됩니다.
+  const ARCHIVE_RESOURCES_URL = './archive-resources.json';
+  const emptyArchiveResources = Object.fromEntries(Array.from({length:21},(_,i)=>[String(2006+i),{}]));
+  let archiveResources = {...emptyArchiveResources};
+
+  function normalizeArchiveResources(data){
+    const source = data && typeof data === 'object' && data.resources && typeof data.resources === 'object' ? data.resources : data;
+    const next = {...emptyArchiveResources};
+    if(source && typeof source === 'object'){
+      Object.keys(source).forEach(year=>{
+        if(/^\d{4}$/.test(String(year)) && source[year] && typeof source[year] === 'object'){
+          next[String(year)] = source[year];
+        }
+      });
+    }
+    return next;
+  }
+
+  async function loadArchiveResources(){
+    try{
+      const response = await fetch(ARCHIVE_RESOURCES_URL,{cache:'no-store'});
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      archiveResources = normalizeArchiveResources(await response.json());
+      renderDetail();
+    }catch(err){
+      console.warn('archive-resources.json을 불러오지 못했습니다. 자료 버튼은 비활성화 상태로 표시됩니다.', err);
+      archiveResources = {...emptyArchiveResources};
+    }
+  }
 
   const simText = {
     phone:{
@@ -1354,6 +1488,7 @@
       <h2 id="detailTitle">${escapeHtml(current.title[lang])}</h2>
       ${summary ? `<p class="detail-summary">${escapeHtml(summary)}</p>` : ''}
       </div><button type="button" class="speak-btn" id="speakPage">🔊 ${tr('listen')}</button></div>`;
+    html += archiveResourceActions(current);
 
     if (keywords.length){
       html += `<h3>${tr('keywords')}</h3><ul class="keyword-list">${keywords.map(k=>`<li>${escapeHtml(k)}</li>`).join('')}</ul>`;
@@ -1366,10 +1501,78 @@
     }
     d.innerHTML = html;
     $('#speakPage').addEventListener('click', speakCurrent);
+    bindArchiveResourceActions();
     if (current.sims.length) {
       current.sims.forEach((type, idx) => $('#simGrid').insertAdjacentHTML('beforeend', simCard(type, idx)));
       current.sims.forEach((type, idx) => initSim(type, `sim-${idx}`));
     }
+  }
+
+
+  function archiveResourceFor(year){
+    return archiveResources[year] || {};
+  }
+  function localizedResourceText(value){
+    if(!value) return '';
+    if(typeof value === 'string') return value;
+    return value[lang] || value.ko || value.en || '';
+  }
+  function isResourceReady(type,res){
+    if(type === 'pamphlet') return !!(res.pamphlet && (typeof res.pamphlet === 'string' || res.pamphlet.src));
+    if(type === 'story') return !!localizedResourceText(res.story).trim();
+    if(type === 'video') return !!localizedResourceText(res.video).trim();
+    return false;
+  }
+  function archiveResourceActions(topic){
+    const res = archiveResourceFor(topic.year);
+    const items = [
+      ['pamphlet','🖼️',tr('resourcePamphlet')],
+      ['story','📖',tr('resourceStory')],
+      ['video','▶️',tr('resourceVideo')]
+    ];
+    const buttons = items.map(([type,icon,label])=>{
+      const ready = isResourceReady(type,res);
+      return `<button type="button" class="archive-resource-btn" data-resource-type="${type}" ${ready?'':`disabled aria-disabled="true" title="${escapeHtml(tr('resourceDisabled'))}"`}><span class="resource-icon" aria-hidden="true">${icon}</span><span>${escapeHtml(label)}</span></button>`;
+    }).join('');
+    return `<div class="archive-resource-actions" aria-label="${escapeHtml(lang==='ko'?'연도별 추가 자료':'Year resources')}">${buttons}</div><section class="archive-resource-viewer" id="archiveResourceViewer" hidden aria-live="polite"></section>`;
+  }
+  function bindArchiveResourceActions(){
+    $$('.archive-resource-btn[data-resource-type]').forEach(btn=>{
+      if(btn.disabled) return;
+      btn.addEventListener('click',()=>openArchiveResource(btn.dataset.resourceType));
+    });
+  }
+  function closeArchiveResource(){
+    const box = $('#archiveResourceViewer');
+    if(!box) return;
+    box.hidden = true;
+    box.innerHTML = '';
+  }
+  function openArchiveResource(type){
+    const res = archiveResourceFor(current.year);
+    if(!isResourceReady(type,res)){announce(tr('resourceDisabled'));return;}
+    if(type === 'video'){
+      const url = localizedResourceText(res.video).trim();
+      window.open(url, '_blank', 'noopener,noreferrer');
+      announce(tr('resourceVideoOpening'));
+      return;
+    }
+    const box = $('#archiveResourceViewer');
+    if(!box) return;
+    let title = type === 'pamphlet' ? tr('resourcePamphletTitle') : tr('resourceStoryTitle');
+    let body = '';
+    if(type === 'pamphlet'){
+      const data = res.pamphlet;
+      const src = typeof data === 'string' ? data : data.src;
+      const alt = typeof data === 'string' ? title : localizedResourceText(data.alt) || title;
+      body = `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${escapeHtml(tr('resourceDisabled'))}'))">`;
+    }else if(type === 'story'){
+      body = `<p class="archive-resource-story">${escapeHtml(localizedResourceText(res.story))}</p>`;
+    }
+    box.innerHTML = `<div class="archive-resource-viewer-head"><strong>${escapeHtml(title)}</strong><button type="button" class="archive-resource-close" id="archiveResourceClose">${escapeHtml(tr('resourceClose'))}</button></div><div class="archive-resource-body">${body}</div>`;
+    box.hidden = false;
+    $('#archiveResourceClose')?.addEventListener('click',closeArchiveResource);
+    box.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'nearest'});
   }
 
   function simCard(type, idx){
@@ -2778,7 +2981,7 @@
     document.addEventListener('keydown',e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' ')closeIntro();},{once:true});
   }
 
-  applyStaticTranslations();renderYears();renderDetail();
+  applyStaticTranslations();renderYears();renderDetail();loadArchiveResources();
 })();
 </script>
 </body>
