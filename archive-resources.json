@@ -237,12 +237,19 @@
   },
   "2013": {
     "pamphlet": {
-      "src": "",
-      "alt": {
-        "ko": "2013년 팜플렛",
-        "en": "2013 pamphlet"
-      }
+      "src": ["image/2013.png",
+      "image/2013a.png"],
+      "alt": [
+    {
+      "ko": "2013년 팜플렛 1",
+      "en": "2013 pamphlet 1"
     },
+    {
+      "ko": "2013년 팜플렛 2",
+      "en": "2013 pamphlet 2"
+    }
+  ]
+      },
     "story": {
       "ko": "",
       "en": ""
@@ -279,12 +286,19 @@
   },
   "2016": {
     "pamphlet": {
-      "src": "",
-      "alt": {
-        "ko": "2016년 팜플렛",
-        "en": "2016 pamphlet"
-      }
+      "src": ["image/2016.png",
+      "image/2016a.png"],
+      "alt": [
+    {
+      "ko": "2016년 팜플렛 1",
+      "en": "2016 pamphlet 1"
     },
+    {
+      "ko": "2016년 팜플렛 2",
+      "en": "2016 pamphlet 2"
+    }
+  ]
+      },
     "story": {
       "ko": "",
       "en": ""
@@ -363,12 +377,19 @@
   },
   "2022": {
     "pamphlet": {
-      "src": "",
-      "alt": {
-        "ko": "2022년 팜플렛",
-        "en": "2022 pamphlet"
-      }
+      "src": ["image/2022.png",
+      "image/2022a.png"],
+      "alt": [
+    {
+      "ko": "2022년 팜플렛 1",
+      "en": "2022 pamphlet 1"
     },
+    {
+      "ko": "2022년 팜플렛 2",
+      "en": "2022 pamphlet 2"
+    }
+  ]
+      },
     "story": {
       "ko": "",
       "en": ""
@@ -377,7 +398,7 @@
   },
   "2023": {
     "pamphlet": {
-      "src": "",
+      "src": "image/2023.png",
       "alt": {
         "ko": "2023년 팜플렛",
         "en": "2023 pamphlet"
