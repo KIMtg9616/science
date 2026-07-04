@@ -961,6 +961,50 @@
       background: #fff;
       object-fit: contain;
     }
+    .archive-resource-gallery {
+      display: grid;
+      gap: 14px;
+    }
+    .archive-resource-gallery-frame {
+      display: grid;
+      place-items: center;
+      min-height: 240px;
+      padding: 4px;
+    }
+    .archive-resource-gallery-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .archive-resource-gallery-btn {
+      min-width: 84px;
+      min-height: 42px;
+      border: 1px solid #b7c7ee;
+      border-radius: 12px;
+      padding: 8px 14px;
+      color: #23418f;
+      background: linear-gradient(135deg, #ffffff, #eef4ff);
+      font-size: .9rem;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(36, 68, 150, .08);
+    }
+    .archive-resource-gallery-btn:disabled {
+      cursor: not-allowed;
+      color: #8a96a8;
+      border-color: #d8e0ec;
+      background: #f4f6fa;
+      box-shadow: none;
+      opacity: .74;
+    }
+    .archive-resource-gallery-count {
+      min-width: 88px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .92rem;
+      font-weight: 800;
+    }
     .archive-resource-story {
       margin: 0;
       white-space: pre-wrap;
@@ -974,12 +1018,16 @@
     body.high-contrast .archive-resource-btn,
     body.high-contrast .archive-resource-viewer,
     body.high-contrast .archive-resource-viewer-head,
-    body.high-contrast .archive-resource-close { color:#fff; border-color:#fff; background:#000; box-shadow:none; }
-    body.high-contrast .archive-resource-btn:disabled { color:#aaa; opacity:.9; }
+    body.high-contrast .archive-resource-close,
+    body.high-contrast .archive-resource-gallery-btn { color:#fff; border-color:#fff; background:#000; box-shadow:none; }
+    body.high-contrast .archive-resource-btn:disabled,
+    body.high-contrast .archive-resource-gallery-btn:disabled { color:#aaa; opacity:.9; }
     @media (max-width: 720px) {
       .archive-resource-actions { grid-template-columns: 1fr; gap: 9px; }
       .archive-resource-btn { justify-content: flex-start; min-height: 50px; }
       .archive-resource-body { padding: 14px; }
+      .archive-resource-gallery-nav { gap: 8px; }
+      .archive-resource-gallery-btn { flex: 1 1 120px; }
     }
 
 
@@ -1113,7 +1161,8 @@
       simCount: '{n}개의 가상 실험', noSim: '가상 실험 없음',
       resourcePamphlet: '팜플렛 이미지', resourceStory: '줄거리', resourceVideo: '영상시청',
       resourceDisabled: '자료가 아직 등록되지 않았습니다.', resourceClose: '닫기',
-      resourceStoryTitle: '줄거리', resourcePamphletTitle: '팜플렛 이미지', resourceVideoOpening: '영상 링크를 새 창으로 엽니다.'
+      resourceStoryTitle: '줄거리', resourcePamphletTitle: '팜플렛 이미지', resourceVideoOpening: '영상 링크를 새 창으로 엽니다.',
+      resourcePrev: '이전', resourceNext: '다음', resourcePage: '{current} / {total}'
     },
     en: {
       archiveEyebrow: '2006–2026 · Editions 1–21 · 20th anniversary', archiveTitle: 'Hope Science Sprout Festival',
@@ -1131,7 +1180,8 @@
       simCount: '{n} virtual experiments', noSim: 'No simulation',
       resourcePamphlet: 'Pamphlet image', resourceStory: 'Story', resourceVideo: 'Watch video',
       resourceDisabled: 'This resource has not been added yet.', resourceClose: 'Close',
-      resourceStoryTitle: 'Story', resourcePamphletTitle: 'Pamphlet image', resourceVideoOpening: 'Opening the video link in a new tab.'
+      resourceStoryTitle: 'Story', resourcePamphletTitle: 'Pamphlet image', resourceVideoOpening: 'Opening the video link in a new tab.',
+      resourcePrev: 'Previous', resourceNext: 'Next', resourcePage: '{current} / {total}'
     }
   };
 
@@ -1561,13 +1611,62 @@
   function localizedResourceText(value){
     return resourceTextToString(value, lang);
   }
-  function isResourceReady(type,res){
-    if(type === 'pamphlet'){
-      const data = res.pamphlet;
-      if(!data) return false;
-      const src = typeof data === 'string' ? data : localizedResourceText(data.src);
-      return !!String(src || '').trim();
+  function getPamphletItems(resource){
+    const data = resource?.pamphlet;
+    if(!data) return [];
+
+    const makeItem = (srcValue, altValue='')=>{
+      const src = resourceTextToString(srcValue, lang).trim();
+      const alt = resourceTextToString(altValue, lang).trim();
+      return src ? {src, alt} : null;
+    };
+
+    if(typeof data === 'string'){
+      return makeItem(data, tr('resourcePamphletTitle')) ? [makeItem(data, tr('resourcePamphletTitle'))] : [];
     }
+
+    if(Array.isArray(data)){
+      return data.map(item=>{
+        if(typeof item === 'string') return makeItem(item, tr('resourcePamphletTitle'));
+        if(item && typeof item === 'object') return makeItem(item.src, item.alt || tr('resourcePamphletTitle'));
+        return null;
+      }).filter(Boolean);
+    }
+
+    const srcSource = data.src;
+    const altSource = data.alt;
+    const srcList = Array.isArray(srcSource) ? srcSource : [srcSource];
+    return srcList.map((srcValue, index)=>{
+      let altValue = altSource;
+      if(Array.isArray(altSource)) altValue = altSource[index] ?? altSource[0] ?? '';
+      return makeItem(srcValue, altValue || tr('resourcePamphletTitle'));
+    }).filter(Boolean);
+  }
+  let activePamphletItems = [];
+  let activePamphletIndex = 0;
+  function updatePamphletViewer(){
+    const box = $('#archiveResourceViewer');
+    if(!box) return;
+    const img = $('#archivePamphletImage', box);
+    const count = $('#archivePamphletCount', box);
+    const prevBtn = $('#archivePamphletPrev', box);
+    const nextBtn = $('#archivePamphletNext', box);
+    if(!img || !count || !prevBtn || !nextBtn || !activePamphletItems.length) return;
+    activePamphletIndex = Math.max(0, Math.min(activePamphletIndex, activePamphletItems.length - 1));
+    const item = activePamphletItems[activePamphletIndex];
+    img.src = item.src;
+    img.alt = item.alt || tr('resourcePamphletTitle');
+    count.textContent = tr('resourcePage', {current: activePamphletIndex + 1, total: activePamphletItems.length});
+    prevBtn.disabled = activePamphletIndex <= 0;
+    nextBtn.disabled = activePamphletIndex >= activePamphletItems.length - 1;
+  }
+  function movePamphlet(step){
+    if(!activePamphletItems.length) return;
+    activePamphletIndex += step;
+    updatePamphletViewer();
+  }
+  function isResourceReady(type,res){
+    if(type === 'pamphlet') return getPamphletItems(res).length > 0;
     if(type === 'story') return !!localizedResourceText(res.story).trim();
     if(type === 'video') return !!localizedResourceText(res.video).trim();
     return false;
@@ -1596,6 +1695,8 @@
     if(!box) return;
     box.hidden = true;
     box.innerHTML = '';
+    activePamphletItems = [];
+    activePamphletIndex = 0;
   }
   function openArchiveResource(type){
     const res = archiveResourceFor(current.year);
@@ -1610,17 +1711,31 @@
     if(!box) return;
     let title = type === 'pamphlet' ? tr('resourcePamphletTitle') : tr('resourceStoryTitle');
     let body = '';
+    activePamphletItems = [];
+    activePamphletIndex = 0;
     if(type === 'pamphlet'){
-      const data = res.pamphlet;
-      const src = typeof data === 'string' ? data : localizedResourceText(data.src);
-      const alt = typeof data === 'string' ? title : localizedResourceText(data.alt) || title;
-      body = `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${escapeHtml(tr('resourceDisabled'))}'))">`;
+      activePamphletItems = getPamphletItems(res);
+      body = `<div class="archive-resource-gallery">
+        <div class="archive-resource-gallery-frame">
+          <img id="archivePamphletImage" src="" alt="${escapeHtml(title)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${escapeHtml(tr('resourceDisabled'))}'))">
+        </div>
+        <div class="archive-resource-gallery-nav">
+          <button type="button" class="archive-resource-gallery-btn" id="archivePamphletPrev">${escapeHtml(tr('resourcePrev'))}</button>
+          <div class="archive-resource-gallery-count" id="archivePamphletCount" aria-live="polite"></div>
+          <button type="button" class="archive-resource-gallery-btn" id="archivePamphletNext">${escapeHtml(tr('resourceNext'))}</button>
+        </div>
+      </div>`;
     }else if(type === 'story'){
       body = `<div class="archive-resource-story">${escapeHtml(localizedResourceText(res.story))}</div>`;
     }
     box.innerHTML = `<div class="archive-resource-viewer-head"><strong>${escapeHtml(title)}</strong><button type="button" class="archive-resource-close" id="archiveResourceClose">${escapeHtml(tr('resourceClose'))}</button></div><div class="archive-resource-body">${body}</div>`;
     box.hidden = false;
     $('#archiveResourceClose')?.addEventListener('click',closeArchiveResource);
+    if(type === 'pamphlet'){
+      $('#archivePamphletPrev')?.addEventListener('click',()=>movePamphlet(-1));
+      $('#archivePamphletNext')?.addEventListener('click',()=>movePamphlet(1));
+      updatePamphletViewer();
+    }
     box.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'nearest'});
   }
 
