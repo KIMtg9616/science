@@ -1162,7 +1162,7 @@
       resourcePamphlet: '팜플렛 이미지', resourceStory: '줄거리', resourceVideo: '영상시청',
       resourceDisabled: '자료가 아직 등록되지 않았습니다.', resourceClose: '닫기',
       resourceStoryTitle: '줄거리', resourcePamphletTitle: '팜플렛 이미지', resourceVideoOpening: '영상 링크를 새 창으로 엽니다.',
-      resourcePrev: '이전', resourceNext: '다음', resourcePage: '{current} / {total}'
+      resourcePrev: '이전', resourceNext: '다음', resourcePage: '{current}/{total}'
     },
     en: {
       archiveEyebrow: '2006–2026 · Editions 1–21 · 20th anniversary', archiveTitle: 'Hope Science Sprout Festival',
@@ -1181,7 +1181,7 @@
       resourcePamphlet: 'Pamphlet image', resourceStory: 'Story', resourceVideo: 'Watch video',
       resourceDisabled: 'This resource has not been added yet.', resourceClose: 'Close',
       resourceStoryTitle: 'Story', resourcePamphletTitle: 'Pamphlet image', resourceVideoOpening: 'Opening the video link in a new tab.',
-      resourcePrev: 'Previous', resourceNext: 'Next', resourcePage: '{current} / {total}'
+      resourcePrev: 'Previous', resourceNext: 'Next', resourcePage: '{current}/{total}'
     }
   };
 
@@ -1656,7 +1656,7 @@
     const item = activePamphletItems[activePamphletIndex];
     img.src = item.src;
     img.alt = item.alt || tr('resourcePamphletTitle');
-    count.textContent = tr('resourcePage', {current: activePamphletIndex + 1, total: activePamphletItems.length});
+    count.textContent = `${activePamphletIndex + 1}/${activePamphletItems.length}`;
     prevBtn.disabled = activePamphletIndex <= 0;
     nextBtn.disabled = activePamphletIndex >= activePamphletItems.length - 1;
   }
