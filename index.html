@@ -1253,15 +1253,36 @@
     return next;
   }
 
+  function parseArchiveResourcesText(text){
+    const raw = String(text || '').replace(/^\uFEFF/, '').trim();
+    if(!raw) return {};
+    try{
+      return JSON.parse(raw);
+    }catch(firstError){
+      // 사용자가 마지막 항목 뒤에 쉼표를 남기는 경우가 많아, 그 경우만 자동 보정합니다.
+      const repaired = raw.replace(/,\s*([}\]])/g, '$1');
+      if(repaired !== raw){
+        try{
+          return JSON.parse(repaired);
+        }catch(secondError){
+          console.warn('archive-resources.json 자동 보정 실패:', secondError);
+        }
+      }
+      throw firstError;
+    }
+  }
+
   async function loadArchiveResources(){
     try{
       const response = await fetch(ARCHIVE_RESOURCES_URL,{cache:'no-store'});
       if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      archiveResources = normalizeArchiveResources(await response.json());
+      const text = await response.text();
+      archiveResources = normalizeArchiveResources(parseArchiveResourcesText(text));
       renderDetail();
     }catch(err){
-      console.warn('archive-resources.json을 불러오지 못했습니다. 자료 버튼은 비활성화 상태로 표시됩니다.', err);
+      console.warn('archive-resources.json을 불러오지 못했습니다. 자료 버튼은 비활성화 상태로 표시됩니다. JSON 문법과 파일 위치를 확인하세요.', err);
       archiveResources = {...emptyArchiveResources};
+      renderDetail();
     }
   }
 
@@ -1515,28 +1536,38 @@
   function archiveResourceFor(year){
     return archiveResources[year] || {};
   }
-  function resourceTextToString(value){
+  function resourceTextToString(value, preferredLang=lang){
     if(value === null || value === undefined) return '';
-    if(Array.isArray(value)) return value.map(item => resourceTextToString(item)).join('\n');
+    if(Array.isArray(value)) return value.map(item => resourceTextToString(item, preferredLang)).join('\n');
     if(typeof value === 'string') return value;
     if(typeof value === 'number' || typeof value === 'boolean') return String(value);
     if(typeof value === 'object'){
-      if(value[lang] !== undefined) return resourceTextToString(value[lang]);
-      if(value.ko !== undefined) return resourceTextToString(value.ko);
-      if(value.en !== undefined) return resourceTextToString(value.en);
-      if(Array.isArray(value.lines)) return resourceTextToString(value.lines);
-      const title = value.title ? resourceTextToString(value.title) : '';
-      const body = value.body ? resourceTextToString(value.body) : '';
+      // 현재 언어의 내용이 비어 있으면 다른 언어 내용으로도 버튼이 활성화되게 합니다.
+      const languageKeys = [...new Set([preferredLang, preferredLang === 'ko' ? 'en' : 'ko', 'ko', 'en'])];
+      for(const key of languageKeys){
+        if(Object.prototype.hasOwnProperty.call(value, key)){
+          const text = resourceTextToString(value[key], preferredLang);
+          if(text.trim()) return text;
+        }
+      }
+      if(Array.isArray(value.lines)) return resourceTextToString(value.lines, preferredLang);
+      const title = value.title ? resourceTextToString(value.title, preferredLang) : '';
+      const body = value.body ? resourceTextToString(value.body, preferredLang) : '';
       if(title || body) return [title, body].filter(Boolean).join('\n');
-      return Object.values(value).map(item => resourceTextToString(item)).filter(Boolean).join('\n');
+      return Object.values(value).map(item => resourceTextToString(item, preferredLang)).filter(Boolean).join('\n');
     }
     return '';
   }
   function localizedResourceText(value){
-    return resourceTextToString(value);
+    return resourceTextToString(value, lang);
   }
   function isResourceReady(type,res){
-    if(type === 'pamphlet') return !!(res.pamphlet && (typeof res.pamphlet === 'string' || res.pamphlet.src));
+    if(type === 'pamphlet'){
+      const data = res.pamphlet;
+      if(!data) return false;
+      const src = typeof data === 'string' ? data : localizedResourceText(data.src);
+      return !!String(src || '').trim();
+    }
     if(type === 'story') return !!localizedResourceText(res.story).trim();
     if(type === 'video') return !!localizedResourceText(res.video).trim();
     return false;
