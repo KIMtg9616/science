@@ -412,7 +412,7 @@
   },
   "2024": {
     "pamphlet": {
-      "src": "",
+      "src": "image/2024.png",
       "alt": {
         "ko": "2024년 팜플렛",
         "en": "2024 pamphlet"
@@ -426,7 +426,7 @@
   },
   "2025": {
     "pamphlet": {
-      "src": "",
+      "src": "image/2025.png",
       "alt": {
         "ko": "2025년 팜플렛",
         "en": "2025 pamphlet"
