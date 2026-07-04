@@ -967,6 +967,9 @@
       color: var(--text);
       font-size: 1rem;
       line-height: 1.85;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      tab-size: 2;
     }
     body.high-contrast .archive-resource-btn,
     body.high-contrast .archive-resource-viewer,
@@ -1512,10 +1515,25 @@
   function archiveResourceFor(year){
     return archiveResources[year] || {};
   }
-  function localizedResourceText(value){
-    if(!value) return '';
+  function resourceTextToString(value){
+    if(value === null || value === undefined) return '';
+    if(Array.isArray(value)) return value.map(item => resourceTextToString(item)).join('\n');
     if(typeof value === 'string') return value;
-    return value[lang] || value.ko || value.en || '';
+    if(typeof value === 'number' || typeof value === 'boolean') return String(value);
+    if(typeof value === 'object'){
+      if(value[lang] !== undefined) return resourceTextToString(value[lang]);
+      if(value.ko !== undefined) return resourceTextToString(value.ko);
+      if(value.en !== undefined) return resourceTextToString(value.en);
+      if(Array.isArray(value.lines)) return resourceTextToString(value.lines);
+      const title = value.title ? resourceTextToString(value.title) : '';
+      const body = value.body ? resourceTextToString(value.body) : '';
+      if(title || body) return [title, body].filter(Boolean).join('\n');
+      return Object.values(value).map(item => resourceTextToString(item)).filter(Boolean).join('\n');
+    }
+    return '';
+  }
+  function localizedResourceText(value){
+    return resourceTextToString(value);
   }
   function isResourceReady(type,res){
     if(type === 'pamphlet') return !!(res.pamphlet && (typeof res.pamphlet === 'string' || res.pamphlet.src));
@@ -1563,11 +1581,11 @@
     let body = '';
     if(type === 'pamphlet'){
       const data = res.pamphlet;
-      const src = typeof data === 'string' ? data : data.src;
+      const src = typeof data === 'string' ? data : localizedResourceText(data.src);
       const alt = typeof data === 'string' ? title : localizedResourceText(data.alt) || title;
       body = `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${escapeHtml(tr('resourceDisabled'))}'))">`;
     }else if(type === 'story'){
-      body = `<p class="archive-resource-story">${escapeHtml(localizedResourceText(res.story))}</p>`;
+      body = `<div class="archive-resource-story">${escapeHtml(localizedResourceText(res.story))}</div>`;
     }
     box.innerHTML = `<div class="archive-resource-viewer-head"><strong>${escapeHtml(title)}</strong><button type="button" class="archive-resource-close" id="archiveResourceClose">${escapeHtml(tr('resourceClose'))}</button></div><div class="archive-resource-body">${body}</div>`;
     box.hidden = false;
