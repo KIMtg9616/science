@@ -3,9 +3,16 @@
     "pamphlet": {
       "src": ["image/2006.png",
       "image/2006a.png"],
-      "alt": {
-        "ko": "2006년 팜플렛",
-        "en": "2006 pamphlet"
+      "alt": [
+    {
+      "ko": "2006년 팜플렛 1",
+      "en": "2006 pamphlet 1"
+    },
+    {
+      "ko": "2006년 팜플렛 2",
+      "en": "2006 pamphlet 2"
+    }
+  ]
       }
     },
     "story": {
