@@ -216,12 +216,19 @@
   },
   "2012": {
     "pamphlet": {
-      "src": "",
-      "alt": {
-        "ko": "2012년 팜플렛",
-        "en": "2012 pamphlet"
-      }
+      "src": ["image/2012.png",
+      "image/2012a.png"],
+      "alt": [
+    {
+      "ko": "2012년 팜플렛 1",
+      "en": "2012 pamphlet 1"
     },
+    {
+      "ko": "2012년 팜플렛 2",
+      "en": "2012 pamphlet 2"
+    }
+  ]
+      },
     "story": {
       "ko": "",
       "en": ""
@@ -286,7 +293,7 @@
   },
   "2017": {
     "pamphlet": {
-      "src": "",
+      "src": "image/2017.jpg",
       "alt": {
         "ko": "2017년 팜플렛",
         "en": "2017 pamphlet"
