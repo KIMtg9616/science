@@ -1,7 +1,8 @@
 {
   "2006": {
     "pamphlet": {
-      "src": "image/2006.png",
+      "src": ["image/2006.png",
+      "image/2006a.png"],
       "alt": {
         "ko": "2006년 팜플렛",
         "en": "2006 pamphlet"
