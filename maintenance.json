@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "title": {
     "ko": "웹사이트 점검 중입니다",
     "en": "Website Under Maintenance"
