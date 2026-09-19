@@ -1072,10 +1072,189 @@
       .state-box::before { margin-top: .32em; }
     }
 
+  
+    /* Site maintenance mode controlled by maintenance.json */
+    .site-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: grid;
+      place-items: center;
+      overflow: auto;
+      padding: 24px;
+      color: #f8fbff;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(85,223,218,.17), transparent 22rem),
+        radial-gradient(circle at 14% 105%, rgba(80,105,255,.32), transparent 34rem),
+        linear-gradient(135deg, #09142d 0%, #122653 54%, #173b6f 100%);
+    }
+    .site-gate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .23;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+    .site-gate-card {
+      position: relative;
+      z-index: 1;
+      width: min(720px, 100%);
+      padding: clamp(28px, 5vw, 54px);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 30px;
+      background: rgba(8, 20, 47, .78);
+      box-shadow: 0 34px 90px rgba(0,0,0,.30);
+      backdrop-filter: blur(22px);
+      text-align: center;
+    }
+    .site-gate-icon {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 18px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 22px;
+      background: rgba(255,255,255,.08);
+      font-size: 2rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+    }
+    .site-gate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 7px 11px;
+      border: 1px solid rgba(85,223,218,.36);
+      border-radius: 999px;
+      color: #bff9f5;
+      background: rgba(85,223,218,.09);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+    .site-gate-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #55dfda;
+      box-shadow: 0 0 0 5px rgba(85,223,218,.12);
+    }
+    .site-gate-title {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(2rem, 6vw, 3.25rem);
+      line-height: 1.14;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+    .site-gate-lead {
+      margin: 14px auto 0;
+      max-width: 560px;
+      color: #cbd9ef;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .site-gate-info {
+      display: grid;
+      gap: 12px;
+      margin-top: 26px;
+      text-align: left;
+    }
+    .site-gate-info-box {
+      padding: 16px 18px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+    }
+    .site-gate-info-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #86efe8;
+      font-size: .79rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+    .site-gate-info-value {
+      margin: 0;
+      color: #f7f9ff;
+      white-space: pre-wrap;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      line-height: 1.75;
+    }
+    .site-gate-lock-note {
+      margin: 18px 0 0;
+      color: #aebbd2;
+      font-size: .86rem;
+      line-height: 1.65;
+    }
+    .site-gate-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 22px;
+    }
+    .site-gate-btn {
+      min-height: 44px;
+      border: 1px solid rgba(255,255,255,.23);
+      border-radius: 12px;
+      padding: 9px 14px;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      font-weight: 850;
+    }
+    .site-gate-btn:hover {
+      background: rgba(255,255,255,.14);
+    }
+    .site-gate-btn.primary {
+      color: #08162f;
+      border-color: #55dfda;
+      background: #55dfda;
+    }
+    body.site-gate-pending > .intro-screen,
+    body.site-gate-pending > .skip-link,
+    body.site-gate-pending > header,
+    body.site-gate-pending > main,
+    body.site-gate-pending > footer,
+    body.maintenance-mode > .intro-screen,
+    body.maintenance-mode > .skip-link,
+    body.maintenance-mode > header,
+    body.maintenance-mode > main,
+    body.maintenance-mode > footer {
+      display: none !important;
+    }
+    body.site-gate-pending,
+    body.maintenance-mode {
+      overflow: hidden;
+    }
+    @media (max-width: 600px) {
+      .site-gate { padding: 14px; }
+      .site-gate-card { border-radius: 22px; padding: 26px 18px; }
+      .site-gate-actions { display: grid; grid-template-columns: 1fr; }
+      .site-gate-btn { width: 100%; }
+    }
+
   </style>
 
 </head>
-<body class="intro-active">
+<body class="intro-active site-gate-pending">
+
+  <section id="siteGate" class="site-gate" role="status" aria-live="polite" aria-busy="true">
+    <div class="site-gate-card">
+      <div class="site-gate-icon" aria-hidden="true">⚙️</div>
+      <div class="site-gate-badge">SITE STATUS</div>
+      <h1 class="site-gate-title" id="siteGateTitle">사이트 상태를 확인하고 있습니다</h1>
+      <p class="site-gate-lead" id="siteGateLead">잠시만 기다려 주세요.</p>
+    </div>
+  </section>
+
   <div class="intro-screen" id="introScreen" aria-hidden="true">
     <div class="intro-content">
       <div class="intro-emblem">
@@ -1295,6 +1474,7 @@
   // 연도별 팜플렛·줄거리·영상 자료는 HTML 안이 아니라 같은 폴더의 archive-resources.json에서 불러옵니다.
   // HTML과 archive-resources.json을 같은 폴더에 두고, JSON 파일만 수정하면 됩니다.
   const ARCHIVE_RESOURCES_URL = './archive-resources.json';
+  const MAINTENANCE_STATUS_URL = './maintenance.json';
   const emptyArchiveResources = Object.fromEntries(Array.from({length:21},(_,i)=>[String(2006+i),{}]));
   let archiveResources = {...emptyArchiveResources};
 
@@ -1455,6 +1635,168 @@
   const fmt = (s, vars={}) => Object.entries(vars).reduce((a,[k,v]) => a.replace(`{${k}}`,v), s);
   const localeNum = (n, digits=1) => Number(n).toLocaleString(lang==='ko'?'ko-KR':'en-US',{maximumFractionDigits:digits});
   const announce = (text) => { $('#live').textContent = ''; setTimeout(()=>$('#live').textContent=text, 30); };
+
+  function maintenanceText(value, preferredLang=lang){
+    if(value === null || value === undefined) return '';
+    if(Array.isArray(value)) return value.map(item=>maintenanceText(item, preferredLang)).filter(Boolean).join('\n');
+    if(typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value);
+    if(typeof value === 'object'){
+      const keys=[...new Set([preferredLang, preferredLang==='ko'?'en':'ko', 'ko', 'en'])];
+      for(const key of keys){
+        if(Object.prototype.hasOwnProperty.call(value,key)){
+          const text=maintenanceText(value[key], preferredLang);
+          if(text.trim()) return text;
+        }
+      }
+    }
+    return '';
+  }
+
+  function normalizeMaintenanceConfig(data){
+    const source = data && typeof data === 'object' && data.maintenance && typeof data.maintenance === 'object'
+      ? data.maintenance
+      : (data && typeof data === 'object' ? data : {});
+    return {
+      enabled: source.enabled === true,
+      title: source.title ?? '',
+      datetime: source.datetime ?? source.date ?? '',
+      message: source.message ?? source.content ?? '',
+      note: source.note ?? ''
+    };
+  }
+
+  async function fetchMaintenanceConfig(){
+    const response = await fetch(MAINTENANCE_STATUS_URL,{cache:'no-store'});
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const text = (await response.text()).replace(/^\uFEFF/,'').trim();
+    if(!text) return normalizeMaintenanceConfig({});
+    return normalizeMaintenanceConfig(JSON.parse(text));
+  }
+
+  function renderMaintenanceScreen(config){
+    stopAll();
+    if('speechSynthesis' in window) speechSynthesis.cancel();
+    document.body.classList.remove('site-gate-pending','intro-active');
+    document.body.classList.add('maintenance-mode');
+
+    const intro = $('#introScreen');
+    if(intro) intro.remove();
+
+    const gate = $('#siteGate');
+    if(!gate) return;
+    gate.setAttribute('aria-busy','false');
+
+    const title = maintenanceText(config.title) || (lang==='ko'?'웹사이트 점검 중입니다':'Website Under Maintenance');
+    const datetime = maintenanceText(config.datetime);
+    const message = maintenanceText(config.message) || (lang==='ko'
+      ?'더 안정적인 서비스를 위해 웹사이트를 점검하고 있습니다.'
+      :'The website is temporarily unavailable while maintenance is in progress.');
+    const note = maintenanceText(config.note);
+
+    const dateLabel = lang==='ko'?'점검 일시':'Maintenance period';
+    const messageLabel = lang==='ko'?'점검 내용':'Maintenance details';
+    const lockText = lang==='ko'
+      ?'점검 중에는 과학 체험, 영상 링크, 팜플렛, 줄거리 자료를 이용할 수 없습니다.'
+      :'Virtual experiments, video links, pamphlets, and story materials are unavailable during maintenance.';
+    const refreshText = lang==='ko'?'상태 다시 확인':'Check status again';
+    const languageText = lang==='ko'?'English':'한국어';
+
+    gate.innerHTML = `<div class="site-gate-card">
+      <div class="site-gate-icon" aria-hidden="true">🛠️</div>
+      <div class="site-gate-badge">${lang==='ko'?'점검 중':'MAINTENANCE'}</div>
+      <h1 class="site-gate-title">${escapeHtml(title)}</h1>
+      <p class="site-gate-lead">${escapeHtml(lang==='ko'?'현재 사이트 이용이 일시 중단되어 있습니다.':'The website is temporarily unavailable.')}</p>
+      <div class="site-gate-info">
+        ${datetime ? `<section class="site-gate-info-box"><span class="site-gate-info-label">${escapeHtml(dateLabel)}</span><p class="site-gate-info-value">${escapeHtml(datetime)}</p></section>` : ''}
+        <section class="site-gate-info-box"><span class="site-gate-info-label">${escapeHtml(messageLabel)}</span><p class="site-gate-info-value">${escapeHtml(message)}</p></section>
+        ${note ? `<section class="site-gate-info-box"><p class="site-gate-info-value">${escapeHtml(note)}</p></section>` : ''}
+      </div>
+      <p class="site-gate-lock-note">🔒 ${escapeHtml(lockText)}</p>
+      <div class="site-gate-actions">
+        <button type="button" class="site-gate-btn" id="maintenanceLangBtn">${escapeHtml(languageText)}</button>
+        <button type="button" class="site-gate-btn primary" id="maintenanceRefreshBtn">${escapeHtml(refreshText)}</button>
+      </div>
+    </div>`;
+
+    $('#maintenanceLangBtn')?.addEventListener('click',()=>{
+      lang=lang==='ko'?'en':'ko';
+      document.documentElement.lang=lang;
+      renderMaintenanceScreen(config);
+    });
+
+    $('#maintenanceRefreshBtn')?.addEventListener('click',async e=>{
+      const button=e.currentTarget;
+      button.disabled=true;
+      button.textContent=lang==='ko'?'확인 중…':'Checking…';
+      try{
+        const latest=await fetchMaintenanceConfig();
+        if(!latest.enabled){
+          location.reload();
+          return;
+        }
+        renderMaintenanceScreen(latest);
+      }catch(err){
+        console.warn('maintenance.json 상태 재확인 실패:',err);
+        button.disabled=false;
+        button.textContent=lang==='ko'?'상태 다시 확인':'Check status again';
+      }
+    });
+
+    document.title = lang==='ko'
+      ? '점검 중 · 희망의 과학싹잔치'
+      : 'Maintenance · Hope Science Sprout Festival';
+  }
+
+  function openNormalSite(){
+    const gate=$('#siteGate');
+    if(gate) gate.remove();
+    document.body.classList.remove('site-gate-pending','maintenance-mode');
+  }
+
+  function setupIntro(){
+    const introScreen=$('#introScreen');
+    if(!introScreen) return;
+
+    let introClosed=false;
+    const closeIntro=()=>{
+      if(introClosed)return;
+      introClosed=true;
+      introScreen.classList.add('is-closing');
+      document.body.classList.remove('intro-active');
+      setTimeout(()=>introScreen.remove(),560);
+    };
+    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scheduleClose=()=>setTimeout(closeIntro,reduced?450:3500);
+
+    if(document.readyState==='complete') scheduleClose();
+    else window.addEventListener('load',scheduleClose,{once:true});
+
+    introScreen.addEventListener('pointerdown',closeIntro,{once:true});
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'||e.key==='Enter'||e.key===' ') closeIntro();
+    },{once:true});
+  }
+
+  async function bootstrapSite(){
+    let maintenance={enabled:false};
+    try{
+      maintenance=await fetchMaintenanceConfig();
+    }catch(err){
+      console.warn('maintenance.json을 불러오지 못했습니다. 일반 운영 상태로 계속합니다. JSON 문법과 파일 위치를 확인하세요.',err);
+    }
+
+    if(maintenance.enabled){
+      renderMaintenanceScreen(maintenance);
+      return;
+    }
+
+    openNormalSite();
+    setupIntro();
+    applyStaticTranslations();
+    renderYears();
+    renderDetail();
+    loadArchiveResources();
+  }
 
   function applyStaticTranslations(){
     $$('[data-i18n]').forEach(el => {
@@ -3137,23 +3479,7 @@
   $('#stopSpeech').addEventListener('click',()=>{if('speechSynthesis' in window)speechSynthesis.cancel();});
   $('#levelSelect').addEventListener('change',e=>{level=e.target.value;stopAll();renderDetail();announce(e.target.options[e.target.selectedIndex].text);});
 
-  const introScreen=$('#introScreen');
-  if(introScreen){
-    let introClosed=false;
-    const closeIntro=()=>{
-      if(introClosed)return;
-      introClosed=true;
-      introScreen.classList.add('is-closing');
-      document.body.classList.remove('intro-active');
-      setTimeout(()=>introScreen.remove(),560);
-    };
-    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.addEventListener('load',()=>setTimeout(closeIntro,reduced?450:3500),{once:true});
-    introScreen.addEventListener('pointerdown',closeIntro,{once:true});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' ')closeIntro();},{once:true});
-  }
-
-  applyStaticTranslations();renderYears();renderDetail();loadArchiveResources();
+  bootstrapSite();
 })();
 </script>
 </body>
