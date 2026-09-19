@@ -21,5 +21,11 @@
   "note": {
     "ko": "점검 중에는 과학 체험, 영상 링크, 팜플렛, 줄거리 자료를 이용할 수 없습니다.",
     "en": "Virtual experiments, video links, pamphlets, and story materials are unavailable during maintenance."
+  },
+  "bypass": {
+    "enabled": true,
+    "parameter": "access",
+    "tokenHash": "5ae59c28316d5e318e1925122aa6a3189847b8ab2bbe6ef8d31bb9be332f8660",
+    "rememberSession": true
   }
 }

@@ -1656,12 +1656,19 @@
     const source = data && typeof data === 'object' && data.maintenance && typeof data.maintenance === 'object'
       ? data.maintenance
       : (data && typeof data === 'object' ? data : {});
+    const bypassSource = source.bypass && typeof source.bypass === 'object' ? source.bypass : {};
     return {
       enabled: source.enabled === true,
       title: source.title ?? '',
       datetime: source.datetime ?? source.date ?? '',
       message: source.message ?? source.content ?? '',
-      note: source.note ?? ''
+      note: source.note ?? '',
+      bypass: {
+        enabled: bypassSource.enabled === true,
+        parameter: String(bypassSource.parameter || 'access').trim() || 'access',
+        tokenHash: String(bypassSource.tokenHash || '').trim().toLowerCase(),
+        rememberSession: bypassSource.rememberSession !== false
+      }
     };
   }
 
@@ -1671,6 +1678,57 @@
     const text = (await response.text()).replace(/^\uFEFF/,'').trim();
     if(!text) return normalizeMaintenanceConfig({});
     return normalizeMaintenanceConfig(JSON.parse(text));
+  }
+
+  async function sha256Hex(value){
+    if(!window.crypto?.subtle) return '';
+    const bytes = new TextEncoder().encode(String(value));
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    return [...new Uint8Array(digest)].map(byte=>byte.toString(16).padStart(2,'0')).join('');
+  }
+
+  function maintenanceBypassSessionKey(config){
+    const marker = config?.bypass?.tokenHash ? config.bypass.tokenHash.slice(0,16) : 'none';
+    return `hope-science-maintenance-bypass:${marker}`;
+  }
+
+  function removeBypassTokenFromAddress(parameter){
+    try{
+      const url = new URL(location.href);
+      if(!url.searchParams.has(parameter)) return;
+      url.searchParams.delete(parameter);
+      const next = `${url.pathname}${url.search}${url.hash}`;
+      history.replaceState(null,'',next);
+    }catch(err){
+      console.warn('점검 우회 주소 정리 실패:',err);
+    }
+  }
+
+  async function isMaintenanceBypassed(config){
+    const bypass = config?.bypass;
+    if(!config?.enabled || !bypass?.enabled || !bypass.tokenHash) return false;
+
+    const sessionKey = maintenanceBypassSessionKey(config);
+    if(bypass.rememberSession && sessionStorage.getItem(sessionKey)==='1'){
+      return true;
+    }
+
+    let token = '';
+    try{
+      token = new URL(location.href).searchParams.get(bypass.parameter) || '';
+    }catch(err){
+      return false;
+    }
+    if(!token) return false;
+
+    const givenHash = await sha256Hex(token);
+    if(!givenHash || givenHash !== bypass.tokenHash) return false;
+
+    if(bypass.rememberSession){
+      sessionStorage.setItem(sessionKey,'1');
+    }
+    removeBypassTokenFromAddress(bypass.parameter);
+    return true;
   }
 
   function renderMaintenanceScreen(config){
@@ -1786,8 +1844,13 @@
     }
 
     if(maintenance.enabled){
-      renderMaintenanceScreen(maintenance);
-      return;
+      const bypassed = await isMaintenanceBypassed(maintenance);
+      if(!bypassed){
+        renderMaintenanceScreen(maintenance);
+        return;
+      }
+      document.documentElement.dataset.maintenanceBypass='true';
+      console.info('점검 우회 모드로 접속했습니다.');
     }
 
     openNormalSite();
