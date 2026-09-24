@@ -11,10 +11,12 @@
   "message": {
     "ko": [
       "더 안정적인 서비스를 위해 웹사이트를 점검하고 있습니다.",
+      "원활한 이용을 위해 20주년 과학 아카이브 웹 사이트 이전 작업중입니다.",
       "점검이 완료되는 대로 다시 이용할 수 있습니다."
     ],
     "en": [
       "The website is temporarily unavailable while maintenance is in progress.",
+      "We are currently migrating the 20th Anniversary Science Archive website to ensure smooth service.",
       "Service will resume as soon as the maintenance is complete."
     ]
   },
