@@ -1517,6 +1517,10 @@
   // HTML과 archive-resources.json을 같은 폴더에 두고, JSON 파일만 수정하면 됩니다.
   const ARCHIVE_RESOURCES_URL = './archive-resources.json';
   const MAINTENANCE_STATUS_URL = './maintenance.json';
+
+  // 점검 화면에서 이동할 Google Apps Script 웹앱 주소입니다.
+  // 아래 주소만 실제 배포된 /exec 주소로 교체하면 됩니다.
+  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/PASTE_YOUR_DEPLOYMENT_ID/exec';
   const emptyArchiveResources = Object.fromEntries(Array.from({length:21},(_,i)=>[String(2006+i),{}]));
   let archiveResources = {...emptyArchiveResources};
 
@@ -1877,6 +1881,7 @@
       :'Virtual experiments, video links, pamphlets, and story materials are unavailable during maintenance.';
     const refreshText = lang==='ko'?'상태 다시 확인':'Check status again';
     const languageText = lang==='ko'?'English':'한국어';
+    const gasSiteText = lang==='ko'?'새 웹페이지로 이동':'Open new website';
 
     gate.innerHTML = `<div class="site-gate-card">
       <div class="site-gate-icon" aria-hidden="true">🛠️</div>
@@ -1891,7 +1896,8 @@
       <p class="site-gate-lock-note">🔒 ${escapeHtml(lockText)}</p>
       <div class="site-gate-actions">
         <button type="button" class="site-gate-btn" id="maintenanceLangBtn">${escapeHtml(languageText)}</button>
-        <button type="button" class="site-gate-btn primary" id="maintenanceRefreshBtn">${escapeHtml(refreshText)}</button>
+        <button type="button" class="site-gate-btn primary" id="maintenanceGasBtn">${escapeHtml(gasSiteText)}</button>
+        <button type="button" class="site-gate-btn" id="maintenanceRefreshBtn">${escapeHtml(refreshText)}</button>
       </div>
     </div>`;
 
@@ -1899,6 +1905,20 @@
       lang=lang==='ko'?'en':'ko';
       document.documentElement.lang=lang;
       renderMaintenanceScreen(config);
+    });
+
+    $('#maintenanceGasBtn')?.addEventListener('click',()=>{
+      const url=String(GAS_WEB_APP_URL||'').trim();
+
+      // 주소를 아직 교체하지 않은 경우 잘못된 링크로 이동하지 않도록 안내합니다.
+      if(!url || url.includes('PASTE_YOUR_DEPLOYMENT_ID')){
+        alert(lang==='ko'
+          ? 'index.html의 GAS_WEB_APP_URL에 배포된 Google Apps Script /exec 주소를 입력해 주세요.'
+          : 'Set your deployed Google Apps Script /exec URL in GAS_WEB_APP_URL inside index.html.');
+        return;
+      }
+
+      location.href=url;
     });
 
     $('#maintenanceRefreshBtn')?.addEventListener('click',async e=>{
