@@ -10,14 +10,12 @@
   },
   "message": {
     "ko": [
-      "더 안정적인 서비스를 위해 웹사이트를 점검하고 있습니다.",
-      "원활한 이용을 위해 20주년 과학 아카이브 웹 사이트 이전 작업중입니다.",
-      "점검이 완료되는 대로 다시 이용할 수 있습니다."
+      "사이트 이전 안내",
+      "아래의 새 웹페이지로 이동 버튼을 눌러 새로 이전된 웹 사이트에 접속하세요."
     ],
     "en": [
-      "The website is temporarily unavailable while maintenance is in progress.",
-      "We are currently migrating the 20th Anniversary Science Archive website to ensure smooth service.",
-      "Service will resume as soon as the maintenance is complete."
+      "Notice Regarding Site Migration",
+      "Click the button below to go to the new webpage and access the site."
     ]
   },
   "note": {
